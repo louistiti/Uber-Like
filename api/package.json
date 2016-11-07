@@ -1,21 +1,21 @@
 {
-  "name": "u-like",
-  "version": "1.0.0",
-  "description": "Just a let's play!",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --use_strict src/index.js --exec babel-node --presets es2015",
-    "build": "babel src -d dist --presets es2015",
-    "serve": "node dist/index.js"
-  },
-  "author": "Louistiti",
-  "license": "MIT",
-  "dependencies": {
-    "express": "^4.14.0"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-preset-es2015": "^6.18.0"
-  }
+    "name": "u-like",
+    "version": "1.0.0",
+    "description": "Just a let's play!",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon --use_strict src/index.js --exec babel-node --presets es2015",
+        "build": "babel src -d dist --presets es2015",
+        "serve": "node dist/index.js"
+    },
+    "author": "Louistiti",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.14.0"
+    },
+    "devDependencies": {
+        "babel-cli": "^6.18.0",
+        "babel-preset-es2015": "^6.18.0"
+    }
 }

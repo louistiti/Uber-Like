@@ -2,6 +2,7 @@
 
 import { config, toto } from './config';
 import express from 'express';
+import firstMidd from './../middlewares/first';
 
 class Server {
     constructor() {
@@ -12,7 +13,7 @@ class Server {
         console.log(toto);
 
         // First middleware
-        this.app.use(require('./../middlewares/first'));
+        this.app.use(firstMidd);
 
         this.app.get(config.version, (req, res) => {
             let test = {toto: 42};

@@ -1,4 +1,6 @@
-module.exports = (req, res, next) => {
+'use strict';
+
+const firstMidd = (req, res, next) => {
     // Disable from the header, else it makes hacker's life easier to know more about our system
     res.removeHeader('X-Powered-By');
 
@@ -7,3 +9,5 @@ module.exports = (req, res, next) => {
     // Add next() to continue
     next();
 };
+
+export default firstMidd;
