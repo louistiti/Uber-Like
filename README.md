@@ -81,9 +81,9 @@ pourquoi pas le faire avec le dev Web
     ```
 
 Car pas de nodemon en production, donc il suffira de faire
-    ```sh
-    $ node run serve
-    ```
+```sh
+$ node run serve
+```
 
 6. ~~Editer package.json (
     "start": "nodemon src/index.js --exec babel-node --presets es2015",
