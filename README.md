@@ -2,7 +2,9 @@ Uber-Like
 ==============================
 
 Juste un projet perso' pour se familiariser avec d'autres technos en créant un petit prototype Uber, serveur et client.
+
 Ce projet fera l'objet d'une série longue sur [ma chaîne YouTube](https://www.youtube.com/c/louistitifr) j'ai nommé "Let's Play".
+
 Ci-dessous mes notes / idées permettant de structurer cette série de vidéos.
 
 ## 1- Introduction
