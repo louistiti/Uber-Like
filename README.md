@@ -37,19 +37,19 @@ pourquoi pas le faire avec le dev Web
 #### Installation
 1. Installer Node.js en allant sur : https://nodejs.org/
 
-2. Initialisation (nom du projet : u-like) :
+2. Initialisation (nom du projet : u-like)
     ```sh
     $ npm init
     ```
-3. Installation de nodemon (globalement car pas besoin de préciser un chemin dans package.json pour le start) :
+3. Installation de nodemon (globalement car pas besoin de préciser un chemin dans package.json pour le start)
     ```sh
     $ npm install -g nodemon
     ```
-4. ~~Installation de babel-cli (--save-dev transpiler du code c'est purement développement http://stackoverflow.com/questions/22891211/what-is-difference-between-save-and-save-dev) :~~
+4. ~~Installation de babel-cli (--save-dev transpiler du code c'est purement développement http://stackoverflow.com/questions/22891211/what-is-difference-between-save-and-save-dev)~~
     ```sh
     $ npm install --save-dev babel-cli
     ```
-5. ~~Installation du preset ES6 (https://github.com/babel/example-node-server) :~~
+5. ~~Installation du preset ES6 (https://github.com/babel/example-node-server)~~
     ```sh
     $ npm install --save-dev babel-preset-es2015
     ```
@@ -75,10 +75,11 @@ pourquoi pas le faire avec le dev Web
       "devDependencies": {}
     }
     ```
-Car pas de nodemon en production, donc il suffira de faire :
-```sh
-$ node run serve
-```
+
+Car pas de nodemon en production, donc il suffira de faire
+    ```sh
+    $ node run serve
+    ```
 
 6. ~~Editer package.json (
     "start": "nodemon src/index.js --exec babel-node --presets es2015",
@@ -170,16 +171,17 @@ http://ionicframework.com/docs/guide/installation.html (réindenter code)
 **angular-ui-router est déjà inclu dans Ionic, pas besoin d'injecter le module.**
 
 ## 3- Création du serveur (et début des tests)
-1. Installer Express (--save car c'est une dépendance pour faire tourner notre application) :
+1. Installer Express (--save car c'est une dépendance pour faire tourner notre application)
     ```sh
     $ npm install express --save
     ```
+
 2. Setup configs + middlewares
-3. Installer Jasmine (--save-dev car dépendance qu'on a besoin seulement en phase de dev) :
+3. Installer Jasmine (--save-dev car dépendance qu'on a besoin seulement en phase de dev)
     ```sh
     $ npm install jasmine-node --save-dev 
     ```
-4. Installer Request (exécuter des requêtes pour tester notre API avec Jasmine) :
+4. Installer Request (exécuter des requêtes pour tester notre API avec Jasmine)
     ```sh
     $ npm install request --save
     ```
@@ -229,7 +231,7 @@ http://ngcordova.com/docs/install/ (bower install ngCordova)
 # Licence
 MIT License
 
-Copyright (c) [2016] [Louistiti]
+Copyright (c) 2016 Louistiti
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
