@@ -74,7 +74,7 @@ pourquoi pas le faire avec le dev Web
       "main": "index.js",
       "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon src/index.js --use_strict",
+        "start": "nodemon --use_strict src/index.js",
         "serve": "node src/index.js"
       },
       "author": "Louistiti",
@@ -99,15 +99,13 @@ $ node run serve
 #### Configuration de l'IDE (PhpStorm)
 1. IDE Settings > languages & framework > node.js & npm > enable core module
 2. IDE Settings > languages & framework > JavaScript > ECMAScript 6
-2. mark :
+3. mark :
     - api/node_modules
     - app/node_modules
     - app/platforms
     - app/plugins
     - as exclude directory et changer en "Project Files" dans l'arbre
     (de cette façon lorsque l'on effectue une recherche, ce sera plus simple de retrouver les fichiers que l'on veut)
-
-3. ~~Seulement mettre le 'use strict'; côté client, non serveur, car c'est le moteur qui interprète le code JS. Si vous pensez qu'il faut le mettre côté serveur, dites-le moi en commentaire avec une petite explication. :)~~
 
 #### Structure
 - api/
