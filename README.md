@@ -172,9 +172,9 @@ http://ionicframework.com/docs/guide/installation.html (réindenter code)
 
 ## 3- Création du serveur (et début des tests)
 1. Installer Express (--save car c'est une dépendance pour faire tourner notre application)
-    ```sh
-    $ npm install express --save
-    ```
+```sh
+$ npm install express --save
+```
 
 2. Setup configs + middlewares
 3. Installer Jasmine (--save-dev car dépendance qu'on a besoin seulement en phase de dev)
