@@ -41,18 +41,22 @@ pourquoi pas le faire avec le dev Web
     ```sh
     $ npm init
     ```
+    
 3. Installation de nodemon (globalement car pas besoin de préciser un chemin dans package.json pour le start)
     ```sh
     $ npm install -g nodemon
     ```
+    
 4. ~~Installation de babel-cli (--save-dev transpiler du code c'est purement développement http://stackoverflow.com/questions/22891211/what-is-difference-between-save-and-save-dev)~~
     ```sh
     $ npm install --save-dev babel-cli
     ```
+    
 5. ~~Installation du preset ES6 (https://github.com/babel/example-node-server)~~
     ```sh
     $ npm install --save-dev babel-preset-es2015
     ```
+
     **Plus besoin de Babel dans les nouvelles versions de Node.js cf: http://node.green/**
 
     On aura besoin d'autres dépendances, mais pour le moment ça ira, on installera les autres au fur et à mesure que le projet avance.
