@@ -207,13 +207,13 @@ http://jasmine.github.io/
 https://karma-runner.github.io
 https://www.distelli.com/docs/tutorials/test-your-nodejs-with-jasmine
 
-# Liens utiles :
+# Liens utiles
 ## Structure
 - https://code.tutsplus.com/tutorials/build-a-complete-mvc-website-with-expressjs--net-34168
 - https://blog.risingstack.com/node-hero-node-js-project-structure-tutorial/
 - https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md
 
-# Liens plugins :
+# Liens plugins
 - ngCordova : module Cordova pour Angular pour profiter des composants natifs
 http://ngcordova.com/docs/install/ (bower install ngCordova)
 - http://ngcordova.com/docs/plugins/geolocation/ (cordova plugin add cordova-plugin-geolocation)
@@ -222,3 +222,29 @@ http://ngcordova.com/docs/install/ (bower install ngCordova)
 - expressjs : http://expressjs.com/fr/ (micro-framework)
 - Nodemon : https://github.com/remy/nodemon (recharge automatiquement application node lorsqu'un fichier est modifié)
 - ~~(babeljs : https://babeljs.io/ (transformer ES6 (ECMAScript 2015) en ES5))~~ (plus besoin dans les nouvelles versions de Node.js cf: http://node.green/)
+
+# Auteur
+**Louis Grenard** : https://www.louistiti.fr
+
+# Licence
+MIT License
+
+Copyright (c) [2016] [Louistiti]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
