@@ -69,7 +69,7 @@ pourquoi pas le faire avec le dev Web
       "name": "u-like",
       "version": "1.0.0",
       "description": "Just a let's play!",
-      "main": "index.js",
+      "main": "src/index.js",
       "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "nodemon --use_strict src/index.js --exec babel-node --presets es2015",
