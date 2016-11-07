@@ -1,8 +1,6 @@
 'use strict';
 
-import Server from './config/server';
-
-const server = new Server();
+var server = require('./config/server');
 
 server.run();
 

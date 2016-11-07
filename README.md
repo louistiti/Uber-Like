@@ -51,17 +51,15 @@ pourquoi pas le faire avec le dev Web
     $ npm install -g nodemon
     ```
     
-4. ~~Installation de babel-cli (--save-dev transpiler du code c'est purement développement http://stackoverflow.com/questions/22891211/what-is-difference-between-save-and-save-dev)~~
+4. Installation de babel-cli (--save-dev transpiler du code c'est purement développement)
     ```sh
     $ npm install --save-dev babel-cli
     ```
     
-5. ~~Installation du preset ES6 (https://github.com/babel/example-node-server)~~
+5. Installation du preset ES6
     ```sh
     $ npm install --save-dev babel-preset-es2015
     ```
-
-    **Plus besoin de Babel dans les nouvelles versions de Node.js cf: http://node.green/**
 
     On aura besoin d'autres dépendances, mais pour le moment ça ira, on installera les autres au fur et à mesure que le projet avance.
 
@@ -74,27 +72,29 @@ pourquoi pas le faire avec le dev Web
       "main": "index.js",
       "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon --use_strict src/index.js",
-        "serve": "node src/index.js"
+        "start": "nodemon --use_strict src/index.js --exec babel-node --presets es2015",
+        "build": "babel src -d dist --presets es2015",
+        "serve": "node dist/index.js"
       },
       "author": "Louistiti",
       "license": "MIT",
-      "dependencies": {},
-      "devDependencies": {}
+      "dependencies": {
+        "express": "^4.14.0"
+      },
+      "devDependencies": {
+        "babel-cli": "^6.18.0",
+        "babel-preset-es2015": "^6.18.0"
+      }
     }
     ```
 
-Car pas de nodemon en production, donc il suffira de faire
+Car pas de nodemon, ni de Babel en production, donc il suffira de faire
 ```sh
+$ node run build
 $ node run serve
 ```
 
-6. ~~Editer package.json (
-    "start": "nodemon src/index.js --exec babel-node --presets es2015",
-    "build": "babel src -d dist --presets es2015",
-    "serve": "node dist/index.js"
-    Dans le cas où on veut tout passer en production et tester notre serveur (build & serve).
-)~~
+De cette façon on transpile notre code ES6 en ES5, et on lance le serveur avec le code transpilé de la même manière que sur le serveur de production.
 
 #### Configuration de l'IDE (PhpStorm)
 1. IDE Settings > languages & framework > node.js & npm > enable core module
@@ -216,11 +216,19 @@ http://jasmine.github.io/
 https://karma-runner.github.io
 https://www.distelli.com/docs/tutorials/test-your-nodejs-with-jasmine
 
+## Dev tips
+- Utiliser "export default" lorsqu'il n'y a seulement qu'un export dans le fichier
+- Ne pas exporter des entités mutables (var, let)
+
 # Liens utiles
 ## Structure
 - https://code.tutsplus.com/tutorials/build-a-complete-mvc-website-with-expressjs--net-34168
 - https://blog.risingstack.com/node-hero-node-js-project-structure-tutorial/
 - https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md
+
+## A savoir
+- http://node.green/
+- http://stackoverflow.com/questions/22891211/what-is-difference-between-save-and-save-dev
 
 # Liens plugins
 - ngCordova : module Cordova pour Angular pour profiter des composants natifs
@@ -230,7 +238,7 @@ http://ngcordova.com/docs/install/ (bower install ngCordova)
 - Package plumber (npm install --save-dev gulp-plumber) de cette façon ça stoppera pas la tâche, mais affichera les erreurs liées à notre style
 - expressjs : http://expressjs.com/fr/ (micro-framework)
 - Nodemon : https://github.com/remy/nodemon (recharge automatiquement application node lorsqu'un fichier est modifié)
-- ~~(babeljs : https://babeljs.io/ (transformer ES6 (ECMAScript 2015) en ES5))~~ (plus besoin dans les nouvelles versions de Node.js cf: http://node.green/)
+- Babel : https://babeljs.io/ transformer ES6 (ECMAScript 2015) en ES5. Implémentation Node.js : https://github.com/babel/example-node-server
 
 # Auteur
 **Louis Grenard** : https://www.louistiti.fr
