@@ -2,7 +2,7 @@
 
 import { config, toto } from './config';
 import express from 'express';
-import firstMidd from './../middlewares/first';
+import firstMidd from '../middlewares/first';
 
 class Server {
     constructor() {

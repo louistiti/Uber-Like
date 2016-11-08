@@ -28,7 +28,7 @@ pourquoi pas le faire avec le dev Web
     - **peut-être faire schéma ?**
 - Les technologies qui seront utilisées :
     - Ionic Framework (app hybrid), donc derrière ce sera du JavaScript avec AngularJS côté front,
-    - Node.js côté back avec le micro-framework ExpressJS
+    - Node.js côté back avec le micro-framework Express
     - MongoDB pour des data nécessitant du temps réel (temporaire)
     - Socket.io pour la MàJ de la position du rider par exemple et la boucle globale d'une commande en cours (le tout saved dans MongoDB le temps de la course)
     - MySQL pour la persistence à la fin de la commande pour préserver les données
@@ -221,10 +221,16 @@ https://www.distelli.com/docs/tutorials/test-your-nodejs-with-jasmine
 - Ne pas exporter des entités mutables (var, let)
 
 # Liens utiles
-## Structure
+## Arborescence
 - https://code.tutsplus.com/tutorials/build-a-complete-mvc-website-with-expressjs--net-34168
 - https://blog.risingstack.com/node-hero-node-js-project-structure-tutorial/
 - https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md
+
+## Bases de données
+- https://www.linkedin.com/pulse/brief-introduction-mongodb-mysql-mohammadreza-faramarzi
+- http://www.theserverside.com/feature/How-NoSQL-MySQL-and-MogoDB-worked-together-to-solve-a-big-data-problem
+- https://www.quora.com/Why-does-Quora-use-MySQL-as-the-data-store-instead-of-NoSQLs-such-as-Cassandra-MongoDB-or-CouchDB
+- http://gotocon.com/dl/goto-aar-2014/slides/MartyWeiner_ScalingPinterest.pdf
 
 ## A savoir
 - http://node.green/
@@ -236,7 +242,7 @@ http://ngcordova.com/docs/install/ (bower install ngCordova)
 - http://ngcordova.com/docs/plugins/geolocation/ (cordova plugin add cordova-plugin-geolocation)
 - Utiliser Sass avec Ionic : http://ionicframework.com/docs/cli/sass.html (ionic setup sass)
 - Package plumber (npm install --save-dev gulp-plumber) de cette façon ça stoppera pas la tâche, mais affichera les erreurs liées à notre style
-- expressjs : http://expressjs.com/fr/ (micro-framework)
+- Express : http://expressjs.com/fr/ (micro-framework)
 - Nodemon : https://github.com/remy/nodemon (recharge automatiquement application node lorsqu'un fichier est modifié)
 - Babel : https://babeljs.io/ transformer ES6 (ECMAScript 2015) en ES5. Implémentation Node.js : https://github.com/babel/example-node-server
 
