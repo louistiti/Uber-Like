@@ -1,13 +1,19 @@
 'use strict';
 
-const config = {
+const api = {
     port: 1337,
     version: '/v1/'
 };
 
-const toto = `Hey I'm an example from the config module`;
+const db = {
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'uberlike',
+    port: 3306
+};
 
 export {
-    config,
-    toto
+    api,
+    db
 };

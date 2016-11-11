@@ -1,44 +1,49 @@
 'use strict';
 
-import { config, toto } from './config';
+import { api } from './config';
 import express from 'express';
 import firstMidd from '../middlewares/first';
+import riderRouter from '../users/rider.routes';
+
+const app = express();
 
 class Server {
-    constructor() {
-        this.app = express();
-    }
-
-    run() {
-        console.log(toto);
+    static init() {
+        // Global middlewares
 
         // First middleware
-        this.app.use(firstMidd);
+        app.use(firstMidd);
 
-        this.app.get(config.version, (req, res) => {
+        this.bootstrap();
+    }
+
+    static bootstrap() {
+        // Routes
+
+        app.get(api.version, (req, res) => {
             let test = {toto: 42};
             res.json(test);
         });
 
-        this.app.listen(config.port, (err) => {
+        app.use(`${api.version}riders/`, riderRouter);
+        // ... others routes components here
+
+        this.listen();
+    }
+
+    static listen() {
+        // Listen
+
+        app.listen(api.port, (err) => {
             if (err)
             {
                 return console.log('error', err);
             }
 
-            console.log(`server is listening on ${config.port}`);
+            console.log(`Hi! Server is listening on ${api.port}`);
         });
     }
 }
 
 export default Server;
-
-/*
-var hello = () => {
-    console.log(`Hi! I'm the server.`);
-};
-
-exports.hello = hello;
-*/
-
 

@@ -52,6 +52,7 @@ pourquoi pas le faire avec le dev Web
     ```
     
 4. Installation de babel-cli (--save-dev transpiler du code c'est purement développement)
+On utilise Babel ici, car actuellement (08 novembre 2016) le moteur V8 de Google (utilisé par Node.js) ne comprend pas les import de modules ES6.
     ```sh
     $ npm install --save-dev babel-cli
     ```
@@ -101,6 +102,7 @@ De cette façon on transpile notre code ES6 en ES5, et on lance le serveur avec 
 2. IDE Settings > languages & framework > JavaScript > ECMAScript 6
 3. mark :
     - api/node_modules
+    - api/dist
     - app/node_modules
     - app/platforms
     - app/plugins
@@ -108,10 +110,16 @@ De cette façon on transpile notre code ES6 en ES5, et on lance le serveur avec 
     (de cette façon lorsque l'on effectue une recherche, ce sera plus simple de retrouver les fichiers que l'on veut)
 
 #### Structure
+Ci-dessous la structure des dossiers / fichiers constituant le serveur.
+Le code transpilé (à passer en production) est dans le répertoire dist/.
+
 - api/
     - node_modules/
+    - dist/
+        - ...
     - src/
         - config/
+            - config.js
             - database.js
             - server.js
             - ...
@@ -176,29 +184,82 @@ http://ionicframework.com/docs/guide/installation.html (réindenter code)
 
 **angular-ui-router est déjà inclu dans Ionic, pas besoin d'injecter le module.**
 
-## 3- Création du serveur (et début des tests)
+## 3- Création du serveur
 1. Installer Express (--save car c'est une dépendance pour faire tourner notre application)
     ```sh
     $ npm install express --save
     ```
 
-2. Setup configs + middlewares
-3. Installer Jasmine (--save-dev car dépendance qu'on a besoin seulement en phase de dev)
+2. Setup configs + middlewares (server class, ...)
+Utilisation de import ES6 au lieu des requires, pour sélectionner la partie des modules qui nous intéresse.
+Plus performant, on a une mémoire plus libre.
+
+3. First middleware
+    ```js
+    // Disable from the header, else it makes hacker's life easier to know more about our system
+    res.removeHeader('X-Powered-By');
+    console.log('request', `${req.method} ${req.url}`);
+    ```
+
+## 4- Création et connexion à la base de données
+### Création de la base de données
+1. Vérifier que le démon (serveur) MySQL est lancé (Windows : services ; mysqld). Sinon le lancer (possible répertoire Wamp, etc.)
+2. Se connecter au serveur MySQL (vos identifiants, ici pas de password) :
+    ```sh
+    $ mysql -h localhost -u root
+    ```
+    
+3. Créer la BDD (UTF-8 Unicode)
+    ```sql
+    > CREATE DATABASE uberlike COLLATE utf8_unicode_ci;
+    > exit
+    ```
+
+### Structure
+1. Connexion via PhpStorm (ou autre database manager)
+2. Création de la table "rider" (passagers)
+    ![alt text](https://i.gyazo.com/65cdb7fc427a415ef3d7d01584288453.png "Table Rider")
+
+### Code
+1. Installer MySQL dans le projet
+    ```sh
+    $ npm install mysql --save
+    ```
+
+2. Configurer la connexion à MySQL
+A savoir que nous nous connectons qu'une fois à la base de données, au lancement du serveur.
+Ensuite le serveur attend de nouvelle requêtes (http://i.imgur.com/Hqv5LlG.gifv :D )
+
+Créer config/database.js
+
+## 5- POST /riders
+1. Ajouter middleware dans bootstrap() de config/server.js
+2. Création de l'entité "rider"
+    - users/
+        - rider.controller.js
+        - rider.model.js
+        - rider.routes.js
+3. Faire logique d'ajout en base de données. + tester requête avec Postman
+
+## 6- Tester nos endpoints
+On vient de créer notre premier endpoint, maintenant automatisons son test.
+
+1. Installer Jasmine (--save-dev car dépendance qu'on a besoin seulement en phase de dev)
     ```sh
     $ npm install jasmine-node --save-dev 
     ```
-
-4. Installer Request (exécuter des requêtes pour tester notre API avec Jasmine)
+    
+2. Installer Request (exécuter des requêtes pour tester notre API avec Jasmine)
     ```sh
-    $ npm install request --save
+    $ npm install request --save-dev
     ```
 
 SEULEMENT FAIRE TESTS POUR L'API, CAR TROP LONG EN VIDEO DE FAIRE FRONTEND EN PLUS ?
-OU FAIRE LES TESTS FRONT EN OFF
-
-[*En cours*]
+OU FAIRE LES TESTS FRONT EN OFF (faire tests après premier endpoint)
 
 https://semaphoreci.com/community/tutorials/getting-started-with-node-js-and-mocha
+
+[*En cours*]
 
 # Notes
 VOIR POUR UTILISER WEBPACK POUR ANGULARJS POUR NE PAS CHARGER PLEINS DE SCRIPT VIA L'INDEX.HTML
