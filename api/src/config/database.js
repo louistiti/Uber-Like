@@ -1,7 +1,8 @@
 'use strict';
 
-import { db } from './config';
 import mysql from 'mysql';
+
+import { db } from './config';
 
 const conn = mysql.createConnection({
     host: db.host,

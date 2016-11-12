@@ -1,7 +1,9 @@
 'use strict';
 
-import { api } from './config';
 import express from 'express';
+import bodyParser from 'body-parser';
+
+import { api } from './config';
 import firstMidd from '../middlewares/first';
 import riderRouter from '../users/rider.routes';
 
@@ -13,6 +15,13 @@ class Server {
 
         // First middleware
         app.use(firstMidd);
+
+        // Parse input values in JSON format
+        app.use(bodyParser.json());
+        // Parse from x-www-form-urlencoded, which is the universal content type
+        app.use(bodyParser.urlencoded({
+            extended: true
+        }));
 
         this.bootstrap();
     }

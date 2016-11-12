@@ -218,7 +218,7 @@ Plus performant, on a une mémoire plus libre.
 ### Structure
 1. Connexion via PhpStorm (ou autre database manager)
 2. Création de la table "rider" (passagers)
-    ![alt text](https://i.gyazo.com/65cdb7fc427a415ef3d7d01584288453.png "Table Rider")
+    ![alt text](https://i.gyazo.com/d64108029c116ddd035576b4e41718d5.png "Table Rider")
 
 ### Code
 1. Installer MySQL dans le projet
@@ -239,9 +239,42 @@ Créer config/database.js
         - rider.controller.js
         - rider.model.js
         - rider.routes.js
-3. Faire logique d'ajout en base de données. + tester requête avec Postman
+3. Travailler les paramètres sur des requêtes ayant un verb autre que GET
+    ```sh
+    npm install body-parser --save
+    ```
 
-## 6- Tester nos endpoints
+    ```js
+    // Parse input values in JSON format
+    app.use(bodyParser.json());
+    // Parse from x-www-form-urlencoded, which is the universal content type
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));
+    ```
+    
+4. On installe un package pour la validation de nos données
+    ```sh
+    npm install validator --save
+    ```
+
+5. On installe un package pour générer des uuids (pour identifier nos entités)
+    ```sh
+    npm install uuid --save
+    ```
+
+6. On va chiffrer le mot de passe
+    ```sh
+    npm install bcrypt --save
+    ```
+    
+Faire logique d'ajout en base de données + tester requête avec Postman
+
+## 6- Uniformiser nos retours JSON
+Créer structure des retours endpoints (succès et erreur).
+[*En cours*]
+
+## 7- Tester nos endpoints
 On vient de créer notre premier endpoint, maintenant automatisons son test.
 
 1. Installer Jasmine (--save-dev car dépendance qu'on a besoin seulement en phase de dev)
@@ -301,7 +334,7 @@ https://www.distelli.com/docs/tutorials/test-your-nodejs-with-jasmine
 - http://node.green/
 - http://stackoverflow.com/questions/22891211/what-is-difference-between-save-and-save-dev
 
-# Liens plugins
+# Liens plugins / packages
 - ngCordova : module Cordova pour Angular pour profiter des composants natifs
 http://ngcordova.com/docs/install/ (bower install ngCordova)
 - http://ngcordova.com/docs/plugins/geolocation/ (cordova plugin add cordova-plugin-geolocation)
@@ -310,6 +343,13 @@ http://ngcordova.com/docs/install/ (bower install ngCordova)
 - Express : http://expressjs.com/fr/ (micro-framework)
 - Nodemon : https://github.com/remy/nodemon (recharge automatiquement application node lorsqu'un fichier est modifié)
 - Babel : https://babeljs.io/ transformer ES6 (ECMAScript 2015) en ES5. Implémentation Node.js : https://github.com/babel/example-node-server
+- Package mysql : https://www.npmjs.com/package/mysql
+- Package body-parser : https://www.npmjs.com/package/body-parser
+- Package validator : https://www.npmjs.com/package/validator
+- Package uuid : https://www.npmjs.com/package/uuid
+- Package bcrypt : https://www.npmjs.com/package/bcrypt
+- Package jasmine-node : https://www.npmjs.com/package/jasmine-node
+- Package request : https://www.npmjs.com/package/request
 
 # Auteur
 **Louis Grenard** : https://www.louistiti.fr
@@ -317,7 +357,7 @@ http://ngcordova.com/docs/install/ (bower install ngCordova)
 # Licence
 MIT License
 
-Copyright (c) 2016 Louistiti
+Copyright (c) 2016 Louistiti <louis.grenard@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
