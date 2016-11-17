@@ -3,6 +3,7 @@
 ### Api
 - POST /riders
 - Universal responses created (able to manage several errors and several data)
+- Setup and setting up of ESLint with Airbnb style guide
 
 ## 0.0.2 (2016-11-11)
 

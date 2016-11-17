@@ -30,8 +30,8 @@ pourquoi pas le faire avec le dev Web
     - Ionic Framework (app hybrid), donc derrière ce sera du JavaScript avec AngularJS côté front,
     - Node.js côté back avec le micro-framework Express
     - ~~MongoDB pour des data nécessitant du temps réel (temporaire)~~
-    - Redis pour des data nécessitant du temps réel (temporaire)
-    - Socket.io pour la MàJ de la position du rider par exemple et la boucle globale d'une commande en cours (le tout saved dans MongoDB le temps de la course)
+    - Redis pour des data nécessitant du temps réel (temporaire ; queue à dépiler au fur et à mesure)
+    - Socket.io pour la MàJ de la position du rider par exemple et la boucle globale d'une commande en cours (le tout saved dans Redis le temps de la course)
     - MySQL pour la persistence à la fin de la commande pour préserver les données
     - J'ai hésité à partir sur Ionic 2 / Angular 2, mais il y a déjà Node.js à prendre en compte, donc c'est pas pour tout de suite. Ici c'est l'apprentissage de Node.js qui sera mis en avant pour ce "let's play".
 
@@ -64,24 +64,8 @@ On utilise Babel ici, car actuellement (08 novembre 2016) le moteur V8 de Google
     ```
     
 6. ESLint pour suivre des normes de développement JavaScript (ici ce sera le style guide d'Airbnb)
-   <!-- ```sh
-    $ npm install eslint --save-dev
-    $ ./node_modules/.bin/eslint --init (dans répertoire /api)
-    ```
-    
-- "Use a popular style guide"
-- "Airbnb"
-- "JSON"
-Nous n'avons pas besoin des dépendances "eslint-plugin-react" et "eslint-plugin-jsx-a11y" car nous n'utilisons pas
-React ni jsx.
-    ```sh
-    $ npm uninstall eslint-plugin-react --save-dev
-    $ npm uninstall eslint-plugin-jsx-a11y --save-dev
-    ```
-    
-Retirer les plugins "jsx-a11y" et "react" dans /api/.eslintrc.json. -->
 
-Aujourd'hui il y a un conflict entre les différentes dépendances : https://github.com/eslint/eslint/issues/7338
+7. Aujourd'hui il y a un conflict entre les différentes dépendances : https://github.com/eslint/eslint/issues/7338.
 Solution
 ```sh
 $ npm install eslint-config-airbnb --save-dev
@@ -89,47 +73,45 @@ $ npm info eslint-config-airbnb peerDependencies --json
 $ npm install --save-dev eslint@^3.9.1 eslint-plugin-jsx-a11y@^2.2.3 eslint-plugin-import@^2.1.0 eslint-plugin-react@^6.6.0
 $ ./node_modules/.bin/eslint --init
 ```
-    
+
 - "Use a popular style guide"
 - "Airbnb"
 - "JSON"
 
-Désactiver certaines règles par défaut d'ESLint via .eslintrc.json.
+8. Désactiver certaines règles par défaut d'ESLint via .eslintrc.json.
 
-Ajouter "check": "node_modules/.bin/eslint src/**/*.js" à package.json pour check toutes les sources et modifier "build"
+9. Ajouter "check": "node_modules/.bin/eslint src/**/*.js" à package.json pour check toutes les sources et modifier "build"
 
-On aura besoin d'autres dépendances, mais pour le moment ça ira, on installera les autres au fur et à mesure que le projet avance.
-
-7. Ajouter start dans scripts pour le développement ; Ajouter serve pour la production ; Le package.json devrait être similaire à :
-    ```json
-    {
-      "name": "u-like",
-      "version": "1.0.0",
-      "description": "Just a let's play!",
-      "main": "src/index.js",
-      "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon --use_strict src/index.js --exec babel-node --presets es2015",
-        "check": "node_modules/.bin/eslint src/**/*.js",
-        "build": "npm run check && babel src -d dist --presets es2015",
-        "serve": "node dist/index.js"
-      },
-      "author": "Louistiti",
-      "license": "MIT",
-      "dependencies": {
-        "express": "^4.14.0"
-      },
-      "devDependencies": {
-        "babel-cli": "^6.18.0",
-        "babel-preset-es2015": "^6.18.0",
-        "eslint": "^3.9.1",
-        "eslint-config-airbnb": "^13.0.0",
-        "eslint-plugin-import": "^2.1.0",
-        "eslint-plugin-jsx-a11y": "^2.2.3",
-        "eslint-plugin-react": "^6.6.0"
-      }
-    }
-    ```
+10. Ajouter start dans scripts pour le développement ; Ajouter serve pour la production ; Le package.json devrait être similaire à :
+```json
+{
+  "name": "u-like",
+  "version": "1.0.0",
+  "description": "Just a let's play!",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --use_strict src/index.js --exec babel-node --presets es2015",
+    "check": "node_modules/.bin/eslint src/**/*.js",
+    "build": "npm run check && babel src -d dist --presets es2015",
+    "serve": "node dist/index.js"
+  },
+  "author": "Louistiti",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.14.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-preset-es2015": "^6.18.0",
+    "eslint": "^3.9.1",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-plugin-import": "^2.1.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.6.0"
+  }
+}
+```
 
 Car pas de nodemon, ni de Babel en production, donc il suffira de faire
 ```sh
@@ -138,6 +120,8 @@ $ node run serve
 ```
 
 De cette façon on transpile notre code ES6 en ES5, et on lance le serveur avec le code transpilé de la même manière que sur le serveur de production.
+
+On aura besoin d'autres dépendances, mais pour le moment ça ira, on installera les autres au fur et à mesure que le projet avance.
 
 #### Configuration de l'IDE (PhpStorm)
 1. IDE Settings > languages & framework > node.js & npm > enable core module
