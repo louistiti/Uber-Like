@@ -9,6 +9,4 @@ const datetime = () => {
     return `${date} ${time}`;
 };
 
-export {
-    datetime
-};
+export default datetime;

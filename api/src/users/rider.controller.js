@@ -1,44 +1,104 @@
 'use strict';
 
 import uuid from 'uuid';
-import { isEmail } from 'validator';
+import { isMobilePhone, isEmail } from 'validator';
 import bcrypt from 'bcrypt';
+import EventEmitter from 'events';
 
 import Rider from './rider.model';
-import { datetime } from '../helpers/time';
+import datetime from '../helpers/time';
+import response from '../helpers/response';
 
 const riderController = {};
 
 riderController.add = (req, res) => {
     console.log('Hi! Adding a rider...');
 
-    let username = req.body.username;
-    let email = req.body.email;
-    let password = req.body.password;
+    const lastname = req.body.lastname;
+    const firstname = req.body.firstname;
+    const phone = req.body.phone;
+    const email = req.body.email;
+    const password = req.body.password;
 
-    if (username && email && password) {
-        if (isEmail(email)) {
-            // TODO Check if username or email already exists
+    // Split to avoid callbacks hell
+    const checkEvent = new EventEmitter();
 
-            // Generate password with 10 iterations for the algo
-            bcrypt.hash(password, 10, (err, hash) => {
-                req.body.password = hash;
-                req.body.uuid = uuid.v4();
-                req.body.created_at = datetime();
+    const checking = () => {
+        const errors = [];
 
-                Rider.add(req.body, () => {
-                    console.log('Hi! Rider added');
-                    // TODO http status 201 + JSON success
-                });
+        if (!lastname || !firstname || !phone ||
+            !email || !password) {
+            errors.push('missing_fields');
+        } else {
+            if (!isMobilePhone(phone, 'fr-FR')) {
+                errors.push('incorrect_phone_number');
+            } if (!isEmail(email)) {
+                errors.push('incorrect_email_address');
+            } if (password.length < 6) {
+                errors.push('password_too_short');
+            }
+
+            if (errors.length === 0) {
+                const phoneCheck = () => {
+                    Rider.doesThisExist(['phone', phone], (result) => {
+                        if (result) {
+                            errors.push('phone_number_already_taken');
+                            checkEvent.emit('error', errors);
+                        } else {
+                            checkEvent.emit('success');
+                        }
+                    });
+                };
+
+                const emailCheck = () => {
+                    Rider.doesThisExist(['email', email], (result) => {
+                        if (result) {
+                            errors.push('email_address_already_taken');
+                            checkEvent.emit('error', errors);
+                        } else {
+                            phoneCheck();
+                        }
+                    });
+                };
+
+                emailCheck();
+            }
+        }
+
+        if (errors.length > 0) {
+            checkEvent.emit('error', errors);
+        }
+    };
+
+    checkEvent.on('error', (errors) => {
+        response.error(res, 400, errors);
+    });
+
+    checking();
+
+    checkEvent.on('success', () => {
+        /**
+        * Generate password with 2^12 (4096) iterations for the algo.
+        * Safety is priority here, performance on the side in this case
+        * Become slower, but this is to "prevent" more about brute force attacks.
+        * It will take more time during matching process, then more time to reverse it
+        */
+        bcrypt.hash(password, 12, (err, hash) => {
+            const rider = {
+                lastname,
+                firstname,
+                phone,
+                email,
+                password: hash,
+                uuid: uuid.v4(),
+                created_at: datetime()
+            };
+
+            Rider.add(rider, () => {
+                response.success(res, 201, 'rider_added');
             });
-        }
-        else {
-            // TODO error incorrect email address
-        }
-    }
-    else {
-        // TODO error fields missings
-    }
+        });
+    });
 };
 
 riderController.getAll = (req, res) => {

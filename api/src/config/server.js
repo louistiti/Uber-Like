@@ -29,10 +29,10 @@ class Server {
     static bootstrap() {
         // Routes
 
-        app.get(api.version, (req, res) => {
+        /* app.get(api.version, (req, res) => {
             let test = {toto: 42};
             res.json(test);
-        });
+        }); */
 
         app.use(`${api.version}riders/`, riderRouter);
         // ... others routes components here
@@ -44,10 +44,7 @@ class Server {
         // Listen
 
         app.listen(api.port, (err) => {
-            if (err)
-            {
-                return console.log('error', err);
-            }
+            if (err) throw err;
 
             console.log(`Hi! Server is listening on ${api.port}`);
         });
