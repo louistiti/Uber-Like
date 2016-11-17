@@ -1,7 +1,9 @@
 'use strict';
 
-import { api } from './config';
 import express from 'express';
+import bodyParser from 'body-parser';
+
+import { api } from './config';
 import firstMidd from '../middlewares/first';
 import riderRouter from '../users/rider.routes';
 
@@ -14,16 +16,23 @@ class Server {
         // First middleware
         app.use(firstMidd);
 
+        // Parse input values in JSON format
+        app.use(bodyParser.json());
+        // Parse from x-www-form-urlencoded, which is the universal content type
+        app.use(bodyParser.urlencoded({
+            extended: true
+        }));
+
         this.bootstrap();
     }
 
     static bootstrap() {
         // Routes
 
-        app.get(api.version, (req, res) => {
+        /* app.get(api.version, (req, res) => {
             let test = {toto: 42};
             res.json(test);
-        });
+        }); */
 
         app.use(`${api.version}riders/`, riderRouter);
         // ... others routes components here
@@ -35,10 +44,7 @@ class Server {
         // Listen
 
         app.listen(api.port, (err) => {
-            if (err)
-            {
-                return console.log('error', err);
-            }
+            if (err) throw err;
 
             console.log(`Hi! Server is listening on ${api.port}`);
         });

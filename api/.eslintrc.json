@@ -1,0 +1,25 @@
+/**
+ * linebreak-style:off: do not care about empty spaces, depending of OS platform
+ * indent:off: do not care about indent size (how many space(s) in one tab)
+ * strict:off: do not care about strict mode is important or not (always here cause I force it)
+ * comma-dangle:off: do not care about last comma from key:value into objects, ...
+ * no-console:off: do not care about console left in files
+ * no-param-reassign:off: do not care about if a param is reassigned to another value
+ */
+
+{
+    "extends": "airbnb",
+    "plugins": [
+        "react",
+        "jsx-a11y",
+        "import"
+    ],
+    "rules": {
+        "linebreak-style": "off",
+        "indent": "off",
+        "strict": "off",
+        "comma-dangle": "off",
+        "no-console": "off",
+        "no-param-reassign": "off"
+    }
+}

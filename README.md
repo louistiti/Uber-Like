@@ -29,7 +29,8 @@ pourquoi pas le faire avec le dev Web
 - Les technologies qui seront utilisées :
     - Ionic Framework (app hybrid), donc derrière ce sera du JavaScript avec AngularJS côté front,
     - Node.js côté back avec le micro-framework Express
-    - MongoDB pour des data nécessitant du temps réel (temporaire)
+    - ~~MongoDB pour des data nécessitant du temps réel (temporaire)~~
+    - Redis pour des data nécessitant du temps réel (temporaire)
     - Socket.io pour la MàJ de la position du rider par exemple et la boucle globale d'une commande en cours (le tout saved dans MongoDB le temps de la course)
     - MySQL pour la persistence à la fin de la commande pour préserver les données
     - J'ai hésité à partir sur Ionic 2 / Angular 2, mais il y a déjà Node.js à prendre en compte, donc c'est pas pour tout de suite. Ici c'est l'apprentissage de Node.js qui sera mis en avant pour ce "let's play".
@@ -61,10 +62,45 @@ On utilise Babel ici, car actuellement (08 novembre 2016) le moteur V8 de Google
     ```sh
     $ npm install --save-dev babel-preset-es2015
     ```
+    
+6. ESLint pour suivre des normes de développement JavaScript (ici ce sera le style guide d'Airbnb)
+   <!-- ```sh
+    $ npm install eslint --save-dev
+    $ ./node_modules/.bin/eslint --init (dans répertoire /api)
+    ```
+    
+- "Use a popular style guide"
+- "Airbnb"
+- "JSON"
+Nous n'avons pas besoin des dépendances "eslint-plugin-react" et "eslint-plugin-jsx-a11y" car nous n'utilisons pas
+React ni jsx.
+    ```sh
+    $ npm uninstall eslint-plugin-react --save-dev
+    $ npm uninstall eslint-plugin-jsx-a11y --save-dev
+    ```
+    
+Retirer les plugins "jsx-a11y" et "react" dans /api/.eslintrc.json. -->
 
-    On aura besoin d'autres dépendances, mais pour le moment ça ira, on installera les autres au fur et à mesure que le projet avance.
+Aujourd'hui il y a un conflict entre les différentes dépendances : https://github.com/eslint/eslint/issues/7338
+Solution
+```sh
+$ npm install eslint-config-airbnb --save-dev
+$ npm info eslint-config-airbnb peerDependencies --json
+$ npm install --save-dev eslint@^3.9.1 eslint-plugin-jsx-a11y@^2.2.3 eslint-plugin-import@^2.1.0 eslint-plugin-react@^6.6.0
+$ ./node_modules/.bin/eslint --init
+```
+    
+- "Use a popular style guide"
+- "Airbnb"
+- "JSON"
 
-6. Ajouter start dans scripts pour le développement ; Ajouter serve pour la production ; Le package.json devrait être similaire à :
+Désactiver certaines règles par défaut d'ESLint via .eslintrc.json.
+
+Ajouter "check": "node_modules/.bin/eslint src/**/*.js" à package.json pour check toutes les sources et modifier "build"
+
+On aura besoin d'autres dépendances, mais pour le moment ça ira, on installera les autres au fur et à mesure que le projet avance.
+
+7. Ajouter start dans scripts pour le développement ; Ajouter serve pour la production ; Le package.json devrait être similaire à :
     ```json
     {
       "name": "u-like",
@@ -74,7 +110,8 @@ On utilise Babel ici, car actuellement (08 novembre 2016) le moteur V8 de Google
       "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "nodemon --use_strict src/index.js --exec babel-node --presets es2015",
-        "build": "babel src -d dist --presets es2015",
+        "check": "node_modules/.bin/eslint src/**/*.js",
+        "build": "npm run check && babel src -d dist --presets es2015",
         "serve": "node dist/index.js"
       },
       "author": "Louistiti",
@@ -84,7 +121,12 @@ On utilise Babel ici, car actuellement (08 novembre 2016) le moteur V8 de Google
       },
       "devDependencies": {
         "babel-cli": "^6.18.0",
-        "babel-preset-es2015": "^6.18.0"
+        "babel-preset-es2015": "^6.18.0",
+        "eslint": "^3.9.1",
+        "eslint-config-airbnb": "^13.0.0",
+        "eslint-plugin-import": "^2.1.0",
+        "eslint-plugin-jsx-a11y": "^2.2.3",
+        "eslint-plugin-react": "^6.6.0"
       }
     }
     ```
@@ -218,7 +260,7 @@ Plus performant, on a une mémoire plus libre.
 ### Structure
 1. Connexion via PhpStorm (ou autre database manager)
 2. Création de la table "rider" (passagers)
-    ![alt text](https://i.gyazo.com/65cdb7fc427a415ef3d7d01584288453.png "Table Rider")
+    ![alt text](https://i.gyazo.com/c4f6f2de6431b9387ea53946c7c64e4d.png "Table Rider")
 
 ### Code
 1. Installer MySQL dans le projet
@@ -239,9 +281,48 @@ Créer config/database.js
         - rider.controller.js
         - rider.model.js
         - rider.routes.js
-3. Faire logique d'ajout en base de données. + tester requête avec Postman
+3. Travailler les paramètres sur des requêtes ayant un verb autre que GET
+    ```sh
+    $ npm install body-parser --save
+    ```
 
-## 6- Tester nos endpoints
+    ```js
+    // Parse input values in JSON format
+    app.use(bodyParser.json());
+    // Parse from x-www-form-urlencoded, which is the universal content type
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));
+    ```
+    
+4. On installe un package pour la validation de nos données
+    ```sh
+    $ npm install validator --save
+    ```
+
+5. On installe un package pour générer des uuids (pour identifier nos entités)
+    ```sh
+    $ npm install uuid --save
+    ```
+
+6. On va chiffrer le mot de passe
+    ```sh
+    $ npm install bcrypt --save
+    ```
+    
+Ajouter dossier helpers avec premier helper pour les problématiques de temps (ici datetime()).
+Faire logique d'ajout en base de données + errors handling (avec EventEmitter) + tester requête avec Postman.
+
+## 6- Uniformiser nos retours JSON
+Créer structure des retours endpoints (succès et erreur) via helper "response.js"
+
+### Erreurs
+![alt text](https://i.gyazo.com/2a4ab0fe6a766c7b6b29aed628aac77c.png "Retour erreurs")
+
+### Succès
+![alt text](https://i.gyazo.com/2ad6741ae8309a1d36fca9670879f997.png "Retour succès")
+
+## 7- Tester nos endpoints
 On vient de créer notre premier endpoint, maintenant automatisons son test.
 
 1. Installer Jasmine (--save-dev car dépendance qu'on a besoin seulement en phase de dev)
@@ -292,6 +373,7 @@ https://www.distelli.com/docs/tutorials/test-your-nodejs-with-jasmine
 - http://www.theserverside.com/feature/How-NoSQL-MySQL-and-MogoDB-worked-together-to-solve-a-big-data-problem
 - https://www.quora.com/Why-does-Quora-use-MySQL-as-the-data-store-instead-of-NoSQLs-such-as-Cassandra-MongoDB-or-CouchDB
 - http://gotocon.com/dl/goto-aar-2014/slides/MartyWeiner_ScalingPinterest.pdf
+- http://stackoverflow.com/questions/7888880/what-is-redis-and-what-do-i-use-it-for
 
 ## Map
 - https://www.mapbox.com/
@@ -300,8 +382,9 @@ https://www.distelli.com/docs/tutorials/test-your-nodejs-with-jasmine
 ## A savoir
 - http://node.green/
 - http://stackoverflow.com/questions/22891211/what-is-difference-between-save-and-save-dev
+- bcrypt https://codahale.com/how-to-safely-store-a-password/
 
-# Liens plugins
+# Liens plugins / packages
 - ngCordova : module Cordova pour Angular pour profiter des composants natifs
 http://ngcordova.com/docs/install/ (bower install ngCordova)
 - http://ngcordova.com/docs/plugins/geolocation/ (cordova plugin add cordova-plugin-geolocation)
@@ -310,6 +393,18 @@ http://ngcordova.com/docs/install/ (bower install ngCordova)
 - Express : http://expressjs.com/fr/ (micro-framework)
 - Nodemon : https://github.com/remy/nodemon (recharge automatiquement application node lorsqu'un fichier est modifié)
 - Babel : https://babeljs.io/ transformer ES6 (ECMAScript 2015) en ES5. Implémentation Node.js : https://github.com/babel/example-node-server
+- ESLint : https://github.com/eslint/eslint
+- Package eslint-config-airbnb : https://www.npmjs.com/package/eslint-config-airbnb
+- Package eslint-plugin-import : https://www.npmjs.com/package/eslint-plugin-import
+- eslint-plugin-jsx-a11y : https://www.npmjs.com/package/eslint-plugin-jsx-a11y
+- eslint-plugin-react : https://www.npmjs.com/package/eslint-plugin-react
+- Package mysql : https://www.npmjs.com/package/mysql
+- Package body-parser : https://www.npmjs.com/package/body-parser
+- Package validator : https://www.npmjs.com/package/validator
+- Package uuid : https://www.npmjs.com/package/uuid
+- Package bcrypt : https://www.npmjs.com/package/bcrypt
+- Package jasmine-node : https://www.npmjs.com/package/jasmine-node
+- Package request : https://www.npmjs.com/package/request
 
 # Auteur
 **Louis Grenard** : https://www.louistiti.fr
@@ -317,7 +412,7 @@ http://ngcordova.com/docs/install/ (bower install ngCordova)
 # Licence
 MIT License
 
-Copyright (c) 2016 Louistiti
+Copyright (c) 2016 Louistiti <louis.grenard@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
