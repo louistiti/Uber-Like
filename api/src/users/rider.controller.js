@@ -95,7 +95,7 @@ riderController.add = (req, res) => {
             };
 
             Rider.add(rider, () => {
-                response.success(res, 201, 'rider_added');
+                response.successAdd(res, 201, 'rider_added', 'authenticate/login');
             });
         });
     });

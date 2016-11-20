@@ -1,8 +1,10 @@
 'use strict';
 
+import { api } from '../config/config';
+
 const response = {};
 
-response.success = (res, status = 400, code, ...data) => {
+response.success = (res, status = 200, code, ...data) => {
     let message = '';
 
     if (code === 'rider_added') message = 'Le rider a été ajouté avec succès';
@@ -23,6 +25,12 @@ response.success = (res, status = 400, code, ...data) => {
 
     res.status(status);
     res.json(success);
+};
+
+response.successAdd = (res, status = 201, code, location) => {
+    res.location(api.version + location);
+
+    response.success(res, status, code);
 };
 
 response.error = (res, status = 400, errors = []) => {
