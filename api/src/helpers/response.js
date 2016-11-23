@@ -13,9 +13,9 @@ response.success = (res, status = 200, code, ...data) => {
 
     const success = {
         success: true,
+        status,
         message,
         code,
-        status,
         data
     };
 
@@ -27,10 +27,10 @@ response.success = (res, status = 200, code, ...data) => {
     res.json(success);
 };
 
-response.successAdd = (res, status = 201, code, location) => {
-    res.location(api.version + location);
+response.successAdd = (res, code, location) => {
+    res.location(api().version + location);
 
-    response.success(res, status, code);
+    response.success(res, 201, code);
 };
 
 response.error = (res, status = 400, errors = []) => {

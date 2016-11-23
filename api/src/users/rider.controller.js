@@ -8,11 +8,12 @@ import EventEmitter from 'events';
 import Rider from './rider.model';
 import datetime from '../helpers/time';
 import response from '../helpers/response';
+import log from '../helpers/log';
 
 const riderController = {};
 
 riderController.add = (req, res) => {
-    console.log('Hi! Adding a rider...');
+    log.info('Hi! Adding a rider...');
 
     const lastname = req.body.lastname;
     const firstname = req.body.firstname;
@@ -95,7 +96,7 @@ riderController.add = (req, res) => {
             };
 
             Rider.add(rider, () => {
-                response.successAdd(res, 201, 'rider_added', 'authenticate/login');
+                response.successAdd(res, 'rider_added', '/authenticate/login');
             });
         });
     });

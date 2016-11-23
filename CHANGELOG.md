@@ -1,3 +1,10 @@
+## 0.0.4 (2016-11-23)
+
+### Api
+- Success return for POST method added
+- test, dev and prod environments added
+- Integration tests for POST /v1/riders added
+
 ## 0.0.3 (2016-11-17)
 
 ### Api
