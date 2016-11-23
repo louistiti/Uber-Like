@@ -5,10 +5,16 @@
  * comma-dangle:off: do not care about last comma from key:value into objects, ...
  * no-console:off: do not care about console left in files
  * no-param-reassign:off: do not care about if a param is reassigned to another value
+ * import/no-extraneous-dependencies:error:devDependencies:["**\/*.spec.js"]:
+ * do not care about if dev dependencies with that glob are imported (here for tests, as chai, ...)
  */
 
 {
     "extends": "airbnb",
+    "env": {
+        "node": true,
+        "mocha": true
+    },
     "plugins": [
         "react",
         "jsx-a11y",
@@ -20,6 +26,9 @@
         "strict": "off",
         "comma-dangle": "off",
         "no-console": "off",
-        "no-param-reassign": "off"
+        "no-param-reassign": "off",
+        "import/no-extraneous-dependencies": ["error", {
+            "devDependencies": ["**/*.spec.js"]
+        }]
     }
 }

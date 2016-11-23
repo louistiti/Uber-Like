@@ -30,8 +30,8 @@ pourquoi pas le faire avec le dev Web
     - Ionic Framework (app hybrid), donc derrière ce sera du JavaScript avec AngularJS côté front,
     - Node.js côté back avec le micro-framework Express
     - ~~MongoDB pour des data nécessitant du temps réel (temporaire)~~
-    - Redis pour des data nécessitant du temps réel (temporaire)
-    - Socket.io pour la MàJ de la position du rider par exemple et la boucle globale d'une commande en cours (le tout saved dans MongoDB le temps de la course)
+    - Redis pour des data nécessitant du temps réel (temporaire ; queue à dépiler au fur et à mesure)
+    - Socket.io pour la MàJ de la position du rider par exemple et la boucle globale d'une commande en cours (le tout saved dans Redis le temps de la course)
     - MySQL pour la persistence à la fin de la commande pour préserver les données
     - J'ai hésité à partir sur Ionic 2 / Angular 2, mais il y a déjà Node.js à prendre en compte, donc c'est pas pour tout de suite. Ici c'est l'apprentissage de Node.js qui sera mis en avant pour ce "let's play".
 
@@ -64,55 +64,38 @@ On utilise Babel ici, car actuellement (08 novembre 2016) le moteur V8 de Google
     ```
     
 6. ESLint pour suivre des normes de développement JavaScript (ici ce sera le style guide d'Airbnb)
-   <!-- ```sh
-    $ npm install eslint --save-dev
-    $ ./node_modules/.bin/eslint --init (dans répertoire /api)
-    ```
-    
-- "Use a popular style guide"
-- "Airbnb"
-- "JSON"
-Nous n'avons pas besoin des dépendances "eslint-plugin-react" et "eslint-plugin-jsx-a11y" car nous n'utilisons pas
-React ni jsx.
-    ```sh
-    $ npm uninstall eslint-plugin-react --save-dev
-    $ npm uninstall eslint-plugin-jsx-a11y --save-dev
-    ```
-    
-Retirer les plugins "jsx-a11y" et "react" dans /api/.eslintrc.json. -->
 
-Aujourd'hui il y a un conflict entre les différentes dépendances : https://github.com/eslint/eslint/issues/7338
+7. Aujourd'hui il y a un conflict entre les différentes dépendances : https://github.com/eslint/eslint/issues/7338.
 Solution
-```sh
-$ npm install eslint-config-airbnb --save-dev
-$ npm info eslint-config-airbnb peerDependencies --json
-$ npm install --save-dev eslint@^3.9.1 eslint-plugin-jsx-a11y@^2.2.3 eslint-plugin-import@^2.1.0 eslint-plugin-react@^6.6.0
-$ ./node_modules/.bin/eslint --init
-```
-    
+    ```sh
+    $ npm install eslint-config-airbnb --save-dev
+    $ npm info eslint-config-airbnb peerDependencies --json
+    $ npm install --save-dev eslint@^3.9.1 eslint-plugin-jsx-a11y@^2.2.3 eslint-plugin-import@^2.1.0 eslint-plugin-react@^6.6.0
+    $ ./node_modules/.bin/eslint --init
+    ```
+
 - "Use a popular style guide"
 - "Airbnb"
 - "JSON"
 
-Désactiver certaines règles par défaut d'ESLint via .eslintrc.json.
+8. Désactiver certaines règles par défaut d'ESLint via .eslintrc et ajouter env node et mocha (mocha on verra par la suite
+mais en gros ce sera l'outil nous permettant de faire nos tests)
 
-Ajouter "check": "node_modules/.bin/eslint src/**/*.js" à package.json pour check toutes les sources et modifier "build"
+9. Ajouter "check": "node_modules/.bin/eslint src/**/*.js" à package.json pour check toutes les sources et modifier "build"
 
-On aura besoin d'autres dépendances, mais pour le moment ça ira, on installera les autres au fur et à mesure que le projet avance.
-
-7. Ajouter start dans scripts pour le développement ; Ajouter serve pour la production ; Le package.json devrait être similaire à :
+10. Ajouter start dans scripts pour le développement ; Ajouter serve pour la production ; Le package.json devrait être similaire à
     ```json
     {
       "name": "u-like",
       "version": "1.0.0",
       "description": "Just a let's play!",
-      "main": "src/index.js",
+      "main": "./src/index.js",
       "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon --use_strict src/index.js --exec babel-node --presets es2015",
-        "check": "node_modules/.bin/eslint src/**/*.js",
-        "build": "npm run check && babel src -d dist --presets es2015",
-        "serve": "node dist/index.js"
+        "start": "nodemon --use_strict ./src/index.js --exec babel-node",
+        "check": "./node_modules/.bin/eslint ./src/**/*.js",
+        "build": "npm run check && babel ./src -d ./dist",
+        "serve": "node ./dist/index.js"
       },
       "author": "Louistiti",
       "license": "MIT",
@@ -131,6 +114,13 @@ On aura besoin d'autres dépendances, mais pour le moment ça ira, on installera
     }
     ```
 
+11. Fichier de configuration Babel ".babelrc", on indique que l'on utilisera le preset es2015
+```json
+{
+  "presets": ["es2015"]
+}
+```
+
 Car pas de nodemon, ni de Babel en production, donc il suffira de faire
 ```sh
 $ node run build
@@ -138,6 +128,8 @@ $ node run serve
 ```
 
 De cette façon on transpile notre code ES6 en ES5, et on lance le serveur avec le code transpilé de la même manière que sur le serveur de production.
+
+On aura besoin d'autres dépendances, mais pour le moment ça ira, on installera les autres au fur et à mesure que le projet avance.
 
 #### Configuration de l'IDE (PhpStorm)
 1. IDE Settings > languages & framework > node.js & npm > enable core module
@@ -157,6 +149,7 @@ Le code transpilé (à passer en production) est dans le répertoire dist/.
 
 - api/
     - node_modules/
+    - sql/
     - dist/
         - ...
     - src/
@@ -166,21 +159,21 @@ Le code transpilé (à passer en production) est dans le répertoire dist/.
             - server.js
             - ...
         - feature-name/
-            - index.js ??? Load models, etc.
             - ...
         - rides/
-            - index.js ??? Load models, etc.
             - ride.controller.js
             - ride.model.js
             - ride.routes.js
+            - ride.spec.js
         - users/
-            - index.js ??? Load models, etc.
-            - rider.spec.js
             - rider.controller.js
             - rider.model.js
+            - rider.routes.js
+            - rider.spec.js
             - driver.controller.js
             - driver.model.js
-            - user.routes.js
+            - driver.routes.js
+            - driver.spec.js
         - index.js
         - ...
     - package.json
@@ -322,23 +315,81 @@ Créer structure des retours endpoints (succès et erreur) via helper "response.
 ### Succès
 ![alt text](https://i.gyazo.com/2ad6741ae8309a1d36fca9670879f997.png "Retour succès")
 
-## 7- Tester nos endpoints
-On vient de créer notre premier endpoint, maintenant automatisons son test.
+## 7- Environnements
+Nous allons bientôt attaquer nos premiers tests. Pour ce faire nous allons d'abord créer nos différents environnements
+afin d'agir en conséquence. Ici nous aurons : test ; dev ; prod.
+L'env' de dev étant celui par défaut.
+1. Séparer les configs pour la connexion à la base de données et initialiser "process.env.NODE_ENV" : api/config/config.js
 
-1. Installer Jasmine (--save-dev car dépendance qu'on a besoin seulement en phase de dev)
+2. Remplacer appel de "db" qui est maintenant une fonction
+
+3. Créer dossier api/sql et ajouter le script de reset de la BDD test "reset-test-db.sql"
+
+4. Modifier les scripts du package.json pour créer une BDD dédiée aux tests en clonant la structure de la BDD dev à la volée
+    ```
+    "scripts": {
+        "clone-db-test": "mysql -h localhost -u root < ./sql/reset-test-db.sql && mysqldump --no-data uberlike -h localhost -u root > ./sql/uberlike_test.sql && mysql uberlike_test -h localhost -u root < ./sql/uberlike_test.sql",
+        "test": "set NODE_ENV=test&& npm run clone-db-test && node ./dist/index.js",
+        "start": "nodemon --use_strict ./src/index.js --exec babel-node",
+        "check": "./node_modules/.bin/eslint ./src/**/*.js",
+        "build": "npm run check && babel ./src -d ./dist && npm test",
+        "serve": "set NODE_ENV=prod&& node ./dist/index.js"
+      }
+    ```
+
+## 8- Configuration de nos tests
+On vient de prendre conscience de nos différents environnements
+et de créer notre premier endpoint,maintenant automatisons son test. En effet ces tests vont nous assurer que notre projet
+est périn dans le temps. Imaginons que demain nous ajoutons une feature Y qui impact une feature X, il est pas impossible
+que cette feature X ne fonctionne plus (effet de bord) et que nous le remarquons pas. Les tests vont nous permettre de
+répondre à cette problématique.
+
+Ici nous allons seulement faire des tests sur l'API, des tests d'intégrations qui regroupent nos petites briques 
+(qui elles devraient être testées via des tests unitaires), donc tester nos endpoints.
+Si l'on fait tests unitaires + tests d'intégrations + tests de validations ce serait trop long à tout démontrer.
+Libre à vous de les ajouter. ;)
+
+1. Installer Mocha : framework pour nos tests (--save-dev car dépendance qu'on a besoin seulement en phase de dev)
+    ```
+    $ npm install mocha --save-dev
+    ```
+
+2. Installer Chai (pour les assertions)
     ```sh
-    $ npm install jasmine-node --save-dev 
+    $ npm install chai --save-dev
     ```
     
-2. Installer Request (exécuter des requêtes pour tester notre API avec Jasmine)
+3. Installer Chai HTTP (exécuter des requêtes pour tester notre API et coupler nos assertions avec)
     ```sh
-    $ npm install request --save-dev
+    $ npm install chai-http --save-dev
     ```
 
-SEULEMENT FAIRE TESTS POUR L'API, CAR TROP LONG EN VIDEO DE FAIRE FRONTEND EN PLUS ?
-OU FAIRE LES TESTS FRONT EN OFF (faire tests après premier endpoint)
+4. Installer Chai Things (ajoute du support aux assertions sur les tableaux. Utile pour nous car nous avons un tableau d'erreurs)
+    ```sh
+    $ npm install chai-things --save-dev
+    ```
+    
+5. Modifier règle "import/no-extraneous-dependencies" dans .eslintrc seulement pour les tests
 
-https://semaphoreci.com/community/tutorials/getting-started-with-node-js-and-mocha
+6. Modifier le script de test dans "package.json" en exécutant Mocha, en précisant que l'on est sur de l'ES6 et parce qu'on aime les chats alors avoir le reporter Nyan Cat
+    ```json
+    "test": "set NODE_ENV=test&& npm run clone-db-test && mocha --compilers js:babel-register --reporter nyan ./src/**/*.spec.js",
+    ```
+
+7. Nous allons donc découper nos tests par composant, ici on va commencer par "rider.spec.js" (seulement créer le fichier)
+
+## 9- Notre premier test
+
+Utilisation d'expect() au lieu de should(), son import ES6 est plus propre à mon sens car should() doit patch les objets
+avant de pouvoir être utilisé. Après ce sont les goûts et les couleurs.
+
+1. Ajout du helper "log" pour avoir de jolies couleurs dans notre console
+
+2. Remplacer tous les console.log()
+
+3. Remplir "rider.spec.js" pour POST /v1/riders
+
+## 10- Vue d'inscription
 
 [*En cours*]
 
@@ -351,12 +402,7 @@ Rendre le serveur autonomme. Node.js corrige déjà ça ? Passer par les websock
 UTILISER LES WEBSOCKETS AVEC SOCKET.IO POUR ACTUALISER LA POSITION DU DRIVER
 cf http://stackoverflow.com/questions/31715179/differences-between-websockets-and-long-polling-for-turn-based-game-server
 
-FAIRE BARRE DE PROGRESSION ANNIME (PLUS LE DRIVER APPROCHE, PLUS LA COULEUR DEVIENT FONCE)
-
-VOIR POUR FAIRE LES TESTS AVEC JASMINE, ET UTILISER LE RUNNER KARMA
-http://jasmine.github.io/
-https://karma-runner.github.io
-https://www.distelli.com/docs/tutorials/test-your-nodejs-with-jasmine
+FAIRE BARRE DE PROGRESSION ANIME (PLUS LE DRIVER APPROCHE, PLUS LA COULEUR DEVIENT FONCE)
 
 ## Dev tips
 - Utiliser "export default" lorsqu'il n'y a seulement qu'un export dans le fichier
@@ -383,6 +429,7 @@ https://www.distelli.com/docs/tutorials/test-your-nodejs-with-jasmine
 - http://node.green/
 - http://stackoverflow.com/questions/22891211/what-is-difference-between-save-and-save-dev
 - bcrypt https://codahale.com/how-to-safely-store-a-password/
+- Utiliser chai Should dans ES6 http://chaijs.com/guide/styles/#using-should-in-es2015
 
 # Liens plugins / packages
 - ngCordova : module Cordova pour Angular pour profiter des composants natifs
@@ -403,8 +450,10 @@ http://ngcordova.com/docs/install/ (bower install ngCordova)
 - Package validator : https://www.npmjs.com/package/validator
 - Package uuid : https://www.npmjs.com/package/uuid
 - Package bcrypt : https://www.npmjs.com/package/bcrypt
-- Package jasmine-node : https://www.npmjs.com/package/jasmine-node
-- Package request : https://www.npmjs.com/package/request
+- Package mocha : https://www.npmjs.com/package/mocha
+- Package chai : https://www.npmjs.com/package/chai
+- Package chai-http : https://www.npmjs.com/package/chai-http
+- Package chai-things : https://www.npmjs.com/package/chai-things
 
 # Auteur
 **Louis Grenard** : https://www.louistiti.fr

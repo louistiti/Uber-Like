@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import { api } from './config';
 import firstMidd from '../middlewares/first';
 import riderRouter from '../users/rider.routes';
+import log from '../helpers/log';
 
 const app = express();
 
@@ -23,18 +24,16 @@ class Server {
             extended: true
         }));
 
+        log.title('Initialization');
+        log.success(`Hi! The current env is ${process.env.NODE_ENV}`);
+
         this.bootstrap();
     }
 
     static bootstrap() {
         // Routes
 
-        /* app.get(api.version, (req, res) => {
-            let test = {toto: 42};
-            res.json(test);
-        }); */
-
-        app.use(`${api.version}riders/`, riderRouter);
+        app.use(`${api().version}/riders`, riderRouter);
         // ... others routes components here
 
         this.listen();
@@ -43,13 +42,12 @@ class Server {
     static listen() {
         // Listen
 
-        app.listen(api.port, (err) => {
+        app.listen(api().port, (err) => {
             if (err) throw err;
 
-            console.log(`Hi! Server is listening on ${api.port}`);
+            log.success(`Hi! Server is listening on ${api().port}`);
         });
     }
 }
 
 export default Server;
-
