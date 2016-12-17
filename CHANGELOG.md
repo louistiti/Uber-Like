@@ -1,3 +1,12 @@
+## 0.0.5 (2016-12-17)
+
+### App
+- Angular 2 structure
+- Core done
+- Home view
+- Register a rider view
+- *[coming] send the request to the API with data*
+
 ## 0.0.4 (2016-11-23)
 
 ### Api

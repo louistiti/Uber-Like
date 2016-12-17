@@ -1,0 +1,15 @@
+/**
+ * @author Louis Grenard <louis.grenard@gmail.com>
+ *
+ * Notif message style
+ */
+
+.notif {
+    border-radius: $border-radius;
+    padding: $small-space;
+
+    &.notif-error {
+        background-color: red;
+        color: #FFF;
+    }
+}

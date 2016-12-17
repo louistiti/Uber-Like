@@ -40,6 +40,8 @@ riderController.add = (req, res) => {
             }
 
             if (errors.length === 0) {
+                // We could use promises here, but I prefer this option
+
                 const phoneCheck = () => {
                     Rider.doesThisExist(['phone', phone], (result) => {
                         if (result) {

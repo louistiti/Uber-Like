@@ -1,0 +1,39 @@
+/**
+ * @author Louis Grenard <louis.grenard@gmail.com>
+ *
+ * Buttons style
+ */
+
+.button, button {
+    cursor: pointer;
+    border-radius: $border-radius;
+    text-transform: uppercase;
+    border: 2px solid #FFF;
+    padding: $small-space / 3 $small-space / 1.5;
+    font-weight: 600;
+    font-size: .95em;
+    background-color: $pink;
+    color: #FFF;
+    transition: background-color $animation-duration;
+
+    &.button-full {
+        width: 100%;
+    }
+
+    &:focus {
+        background-color: $light-pink !important;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        background-color: #DDD;
+    }
+}
+
+.button-empty {
+    background-color: transparent;
+
+    &:hover {
+        background-color: $pink;
+    }
+}

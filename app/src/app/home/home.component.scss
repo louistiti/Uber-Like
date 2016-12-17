@@ -1,0 +1,25 @@
+@import "../../assets/scss/_includes/helpers/variable";
+
+#background {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: $light-blue;
+}
+
+#logo {
+    margin: $medium-space auto;
+    width: 164px;
+    height: 164px;
+    background: url(/assets/images/logo.png);
+}
+
+h1 {
+    color: #FFF;
+}
+
+.button-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}

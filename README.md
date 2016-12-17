@@ -1,5 +1,9 @@
 Uber-Like
-==============================
+=========
+
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/Louistiti/Uber-Like/blob/master/LICENSE.md)
+
+![Uber-Like Logo](http://img11.hostingpics.net/pics/669038logosmall.png "Uber-Like Logo")
 
 Juste un projet perso' pour se familiariser avec d'autres technos en créant un petit prototype Uber, serveur et client.
 
@@ -11,6 +15,9 @@ Ci-dessous mes notes / idées permettant de structurer cette série de vidéos.
 Courant juillet 2016, Uber a communiqué sur les technologies utilisées au seins de son service :
 https://eng.uber.com/tech-stack-part-one/
 https://eng.uber.com/tech-stack-part-two/
+
+**/!\ Le code actuel de l'app est réalisé en tant que web app, plus tard je passerais en mobile via une techno ci-dessous.**
+Par la suite, peut-être voir pour une PWA ? https://github.com/angular/mobile-toolkit
 
 - Code de prototypage, ne pas utiliser en production
 - Juste un "Let's Play" donc pour le fun, c'est souvent fait dans les jeux vidéos,
@@ -27,7 +34,8 @@ pourquoi pas le faire avec le dev Web
     - Finalisation de la course (Calcule du coût en fonction du nombre de km)
     - **peut-être faire schéma ?**
 - Les technologies qui seront utilisées :
-    - Ionic Framework (app hybrid), donc derrière ce sera du JavaScript avec AngularJS côté front,
+    - ~~Ionic Framework (app hybrid), donc derrière ce sera du JavaScript avec AngularJS côté front~~
+    - Angular 2 côté front et NativeScript ou React Native pour profiter des performances native du mobile
     - Node.js côté back avec le micro-framework Express
     - ~~MongoDB pour des data nécessitant du temps réel (temporaire)~~
     - Redis pour des data nécessitant du temps réel (temporaire ; queue à dépiler au fur et à mesure)
@@ -81,9 +89,11 @@ Solution
 8. Désactiver certaines règles par défaut d'ESLint via .eslintrc et ajouter env node et mocha (mocha on verra par la suite
 mais en gros ce sera l'outil nous permettant de faire nos tests)
 
-9. Ajouter "check": "node_modules/.bin/eslint src/**/*.js" à package.json pour check toutes les sources et modifier "build"
+9. Ajouter "lint": "node_modules/.bin/eslint src/**/*.js" à package.json pour check toutes les sources et modifier "build"
 
-10. Ajouter start dans scripts pour le développement ; Ajouter serve pour la production ; Le package.json devrait être similaire à
+10. IDE Settings > rechercher ESLint > Activer ESLint + renseigner package dans node_modules
+
+11. Ajouter start dans scripts pour le développement ; Ajouter serve pour la production ; Le package.json devrait être similaire à
     ```json
     {
       "name": "u-like",
@@ -93,8 +103,8 @@ mais en gros ce sera l'outil nous permettant de faire nos tests)
       "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "nodemon --use_strict ./src/index.js --exec babel-node",
-        "check": "./node_modules/.bin/eslint ./src/**/*.js",
-        "build": "npm run check && babel ./src -d ./dist",
+        "lint": "./node_modules/.bin/eslint ./src/**/*.js",
+        "build": "npm run lint && babel ./src -d ./dist",
         "serve": "node ./dist/index.js"
       },
       "author": "Louistiti",
@@ -114,12 +124,12 @@ mais en gros ce sera l'outil nous permettant de faire nos tests)
     }
     ```
 
-11. Fichier de configuration Babel ".babelrc", on indique que l'on utilisera le preset es2015
-```json
-{
-  "presets": ["es2015"]
-}
-```
+12. Fichier de configuration Babel ".babelrc", on indique que l'on utilisera le preset es2015
+    ```json
+    {
+      "presets": ["es2015"]
+    }
+    ```
 
 Car pas de nodemon, ni de Babel en production, donc il suffira de faire
 ```sh
@@ -182,43 +192,98 @@ Le code transpilé (à passer en production) est dans le répertoire dist/.
 - index.js point d'entrée (chargement des confs, appel du serveur)
 - server.js (initialisation et conf du serveur)
 
-### Frontend
+### Frontend (faire nouvelle vidéo ici)
 
 #### Installation
-http://ionicframework.com/docs/guide/installation.html (réindenter code)
+On va utiliser Angular CLI qui va nous permettre de générer divers ressources pour notre projet tout en respectant le style guide que l'équipe d'Angular recommande
+(Par la suite on utilisera : https://www.npmjs.com/package/react-native-cli ou : https://github.com/NathanWalker/nativescript-ng2-magic)
+
+Bien expliquer ce que fais un "generate", etc. d'Angular-CLI pour ne pas perdre les viewers
+
+1. Installer Angular CLI :
+    ```sh
+    $ npm install -g angular-cli
+    ```
+
+2. Modifier "spec" object dans angular-cli.json en passant tout à "false", car nous ne voulons pas faire de tests côté app (pas bien)
+
+3. Créer un nouveau projet Angular :
+    ```sh
+    $ ng new u-like --style=sass
+    ```
+(réindenter)
+(modifier le sélecteur du composant root par "uber-like" et ajouter dans les custom tags de l'IDE, de même pour les composants futures)
+
+4. Modifier attribue préfix par "uber-like" dans "tslint.json" (+ "angular-cli.json" (si utilisé))
+
+5. Renommer dossier "u-like" par "app"
+
+6. Supprimer app/README.md
+
+7. Activer TSLint dans l'IDE
+Settings > TSLint > Enable + renseigner dossier tslint dans node_modules
+
+8. Créer "config.ts" pour les constantes utiles à notre projet
+
+9. Editer app.component.html avec le nécessaire pour commencer
+
+10. Créer nouveau composant "home" :
+$ ng g c home
+(réindenter)
+(delete home.component.spec.ts)
+
+11. Importer le router d'Angular dans app.module.ts
+
+12. Importer le style des composants "globaux" / shared SCSS (que j'ai déjà dev' en amont)
+
+13. Importer "assets/scss/_includes/base/all" et styliser le "body" dans styles.scss
 
 #### Structure
+A REDEFINIR APRES AVOIR CHOISI ENTRE NATIVESCRIPT ET REACT NATIVE (mais toujours en respectant une structure recommandée par la team Angular)
+
 - app/
-    - www/
-        - components/
-            - component-name.directive.js
-            - component-name.directive.html
+    - dist/
+    - node_modules/
+    - src/
+        - app/
+            - home/
+                - home.component.html
+                - home.component.scss
+                - home.component.ts
+            - register/
+                - register-rider/
+                    - register-rider.component.html
+                    - register-rider.component.scss
+                    - register-rider.component.ts
+                - register.component.html
+                - register.component.scss
+                - register.component.ts
+            - users/
+                - rider-detail/
+                    - rider-detail.component.html
+                    - rider-detail.component.scss
+                    - rider-detail.component.ts
+                - rider.model.ts
+                - riders-routing.module.ts
+                - riders.module.ts
+            - app-routing.module.ts
+            - app.component.html
+            - app.component.scss
+            - app.component.ts
+            - app.module.ts
+            - config.ts
+            - index.ts
             - ...
-        - layout/
-            - header.html
-            - footer.html
-            - header.controller.js
-            - footer.controller.js
-        - services/
-            - localstorage.service.js
-            - loader.service.js
-        - users/
-            - rider.controller.js
-            - driver.controller.js
-            - rider.html
-            - rider-detail.html
-            - driver.html
-            - driver-detail.html
-            - user.routes.js
-            - feature.model.js ???
-        - feature-name/
-            - ...
-        - app.config.js
+        - assets/
+            - images/
+            - scss/
+        - index.html
+        - main.ts
+        - polyfills.ts
+        - styles.scss
         - ...
-    - index.html
-
-**angular-ui-router est déjà inclu dans Ionic, pas besoin d'injecter le module.**
-
+    - ...
+    
 ## 3- Création du serveur
 1. Installer Express (--save car c'est une dépendance pour faire tourner notre application)
     ```sh
@@ -331,8 +396,8 @@ L'env' de dev étant celui par défaut.
         "clone-db-test": "mysql -h localhost -u root < ./sql/reset-test-db.sql && mysqldump --no-data uberlike -h localhost -u root > ./sql/uberlike_test.sql && mysql uberlike_test -h localhost -u root < ./sql/uberlike_test.sql",
         "test": "set NODE_ENV=test&& npm run clone-db-test && node ./dist/index.js",
         "start": "nodemon --use_strict ./src/index.js --exec babel-node",
-        "check": "./node_modules/.bin/eslint ./src/**/*.js",
-        "build": "npm run check && babel ./src -d ./dist && npm test",
+        "lint": "./node_modules/.bin/eslint ./src/**/*.js",
+        "build": "npm run lint && babel ./src -d ./dist && npm test",
         "serve": "set NODE_ENV=prod&& node ./dist/index.js"
       }
     ```
@@ -389,13 +454,33 @@ avant de pouvoir être utilisé. Après ce sont les goûts et les couleurs.
 
 3. Remplir "rider.spec.js" pour POST /v1/riders
 
+Here we go
+
+![alt text](http://img11.hostingpics.net/pics/792410nyan.gif "Tests POST /v1/riders")
+
 ## 10- Vue d'inscription
+
+1. Faire le squelette de l'application, avec un routing enfant (riders), composant "register", riders
+Car on aura un routing spécifique à chaque feature / composant "métier" de notre application.
+
+2. Editer le composant (rendu + style) Home et Register, tout ce dont on a besoin pour inscrire un utilisateur (voir pour faire rider + driver, pas sûr)
+
+3. Logique métier (validations de form, avec patterns, maxlength, minlength), créer model "users/rider.model.ts" et binder les données formulaire avec [(ngModel)]
+Utiliser variable locale (#foo) pour faire les validations, styliser les validations.
+
+![Home + Register Rider](http://img11.hostingpics.net/pics/410636homeregisterrider.gif "Home + Register Rider")
+
+## 11- Envoyer la requête d'inscription
+
+Maintenant que le formulaire est prêt, il ne nous manque plus qu'à envoyer les données à notre API. Pour ce faire on utilisera le client HTTP d'Angular.
+
+1. Structurer comme il faut le client HTTP dans le projet
+
+2. Faire requête d'inscription
 
 [*En cours*]
 
 # Notes
-VOIR POUR UTILISER WEBPACK POUR ANGULARJS POUR NE PAS CHARGER PLEINS DE SCRIPT VIA L'INDEX.HTML
-
 FIXER PROBLEMATIQUE : "La boucle qui controle le temps d’annulation tourne bien sur le serveur et n’attend pas la mise à jour de la webapp ? parceque la il ne s’est rien passé pendant 20 min, jusqu’a ce que le Majordome relance son navigateur"
 Rendre le serveur autonomme. Node.js corrige déjà ça ? Passer par les websockets (socket.io) ?
 
@@ -407,12 +492,46 @@ FAIRE BARRE DE PROGRESSION ANIME (PLUS LE DRIVER APPROCHE, PLUS LA COULEUR DEVIE
 ## Dev tips
 - Utiliser "export default" lorsqu'il n'y a seulement qu'un export dans le fichier
 - Ne pas exporter des entités mutables (var, let)
+- Préciser que l'on utilisera SCSS si projet déjà créé avec Angular-CLI
+    ```sh
+    $ ng set defaults.styleExt scss
+    ```
+    - Ceci ajoute une règle à la config Angular-CLI dans le fichier angular-cli.json. Dans angular-cli.json préciser styles.scss et le créer)
+
+- Compiler pour la prod' avec Angular-CLI
+    ```sh
+    $ ng build -prod
+    ```
+- Package pour comparer et mettre à jour les dépendances d'un projet
+    ```sh
+    $ npm install -g npm-check-updates
+    ```
+    - Comparer les version actuelles (fait un "npm outdated" en gros)
+        ```sh
+        $ ncu
+        ```
+    - Upgrade les versions actuelles
+        ```sh
+        $ ncu -u
+        ```
+- Problème, en production lorsque l'on tente d'accèder à une route qui n'est pas la racine, on tombe sur une 404 car le Web server ne connaît que la racine. Il faut donc préciser que si une ressource n'existe pas, alors rediriger sur index.html qui s'occupera de charger le nécessaire.
+Générer fichier .htaccess :
+    ```apache
+    RewriteEngine On  
+    # If an existing asset or directory is requested go to it as it is
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
+    RewriteRule ^ - [L]
+    
+    # If the requested resource doesn't exist, use index.html
+    RewriteRule ^ /index.html
+    ```
 
 # Liens utiles
 ## Arborescence
 - https://code.tutsplus.com/tutorials/build-a-complete-mvc-website-with-expressjs--net-34168
 - https://blog.risingstack.com/node-hero-node-js-project-structure-tutorial/
-- https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md
+- https://angular.io/styleguide#!#app-structure-and-angular-modules
 
 ## Bases de données
 - https://www.linkedin.com/pulse/brief-introduction-mongodb-mysql-mohammadreza-faramarzi
@@ -424,6 +543,14 @@ FAIRE BARRE DE PROGRESSION ANIME (PLUS LE DRIVER APPROCHE, PLUS LA COULEUR DEVIE
 ## Map
 - https://www.mapbox.com/
 - http://leafletjs.com/
+
+## Angular 2
+### Routing
+https://angular.io/docs/ts/latest/guide/router.html#the-heroes-app-code
+https://angular.io/docs/ts/latest/guide/router.html#add-heroes-functionality
+https://scotch.io/tutorials/routing-angular-2-single-page-apps-with-the-component-router
+### Auth
+http://jasonwatmore.com/post/2016/09/29/angular-2-user-registration-and-login-example-tutorial
 
 ## A savoir
 - http://node.green/
@@ -457,6 +584,7 @@ http://ngcordova.com/docs/install/ (bower install ngCordova)
 
 # Auteur
 **Louis Grenard** : https://www.louistiti.fr
+[![twitter](https://img.shields.io/twitter/follow/louistiti_fr.svg?style=social)](https://twitter.com/intent/follow?screen_name=louistiti_fr)
 
 # Licence
 MIT License
@@ -480,3 +608,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+# Cheers !
+![Cheers !](https://assets-cdn.github.com/images/icons/emoji/unicode/1f37b.png?v6 "Cheers !")

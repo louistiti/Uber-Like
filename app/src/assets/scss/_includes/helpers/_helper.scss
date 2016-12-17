@@ -1,0 +1,105 @@
+/**
+ * @author Louis Grenard <louis.grenard@gmail.com>
+ *
+ * Useful classes and others great stuffs
+ */
+
+.radius {
+ 	border-radius: $border-radius;
+}
+
+.left {
+	float: left !important;
+}
+
+.right {
+	float: right !important;
+}
+
+.center {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.clear {
+	clear: both;
+}
+
+.animatable {
+    visibility: hidden;
+    animation-play-state: paused;
+}
+
+.animate {
+    transition-duration: $animation-duration;
+}
+
+.block {
+    display: block !important;
+}
+.inline-block {
+    display: inline-block !important;
+}
+.inline {
+    display: inline !important;
+}
+
+.small-space-x {
+    margin: 0 $small-space !important;
+}
+.medium-space-x {
+    margin: 0 $medium-space !important;
+}
+.large-space-x {
+    margin: 0 $large-space !important;
+}
+
+.small-space-y {
+    margin: $small-space 0 !important;
+}
+.medium-space-y {
+    margin: $medium-space 0 !important;
+}
+.large-space-y {
+    margin: $large-space 0 !important;
+}
+
+.small-space-right {
+    margin-right: $small-space !important;
+}
+.medium-space-right {
+    margin-right: $medium-space !important;
+}
+.large-space-right {
+    margin-right: $large-space !important;
+}
+
+.small-space-left {
+    margin-left: $small-space !important;
+}
+.medium-space-left {
+    margin-left: $medium-space !important;
+}
+.large-space-left {
+    margin-left: $large-space !important;
+}
+
+.small-space-top {
+    margin-top: $small-space !important;
+}
+.medium-space-top {
+    margin-top: $medium-space !important;
+}
+.large-space-top {
+    margin-top: $large-space !important;
+}
+
+.small-space-bottom {
+    margin-bottom: $small-space !important;
+}
+.medium-space-bottom {
+    margin-bottom: $medium-space !important;
+}
+.large-space-bottom {
+    margin-bottom: $large-space !important;
+}

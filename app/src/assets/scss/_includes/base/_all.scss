@@ -1,0 +1,26 @@
+/**
+ * @author Louis Grenard <louis.grenard@gmail.com>
+ *
+ * Include our Sass files
+ */
+
+/* Variables */
+@import "assets/scss/_includes/helpers/variable";
+
+/* Base */
+@import "assets/scss/_includes/base/reset";
+@import "assets/scss/_includes/base/typography";
+@import "assets/scss/_includes/base/base";
+
+/* Helpers */
+@import "assets/scss/_includes/helpers/function";
+@import "assets/scss/_includes/helpers/mixin";
+@import "assets/scss/_includes/helpers/helper";
+
+/* Components */
+@import "assets/scss/_includes/components/mask";
+@import "assets/scss/_includes/components/button";
+@import "assets/scss/_includes/components/notif";
+@import "assets/scss/_includes/components/form";
+@import "assets/scss/_includes/components/icon";
+@import "assets/scss/_includes/components/modal";
