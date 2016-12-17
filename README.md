@@ -12,7 +12,7 @@ Ce projet fera l'objet d'une série longue sur [ma chaîne YouTube](https://www.
 Ci-dessous mes notes / idées permettant de structurer cette série de vidéos.
 
 ## 1- Introduction
-Courant juillet 2016, Uber a communiqué sur les technologies utilisées au seins de son service :
+Courant juillet 2016, Uber a communiqué sur les technologies utilisées au sein de son service :
 https://eng.uber.com/tech-stack-part-one/
 https://eng.uber.com/tech-stack-part-two/
 
@@ -41,7 +41,6 @@ pourquoi pas le faire avec le dev Web
     - Redis pour des data nécessitant du temps réel (temporaire ; queue à dépiler au fur et à mesure)
     - Socket.io pour la MàJ de la position du rider par exemple et la boucle globale d'une commande en cours (le tout saved dans Redis le temps de la course)
     - MySQL pour la persistence à la fin de la commande pour préserver les données
-    - J'ai hésité à partir sur Ionic 2 / Angular 2, mais il y a déjà Node.js à prendre en compte, donc c'est pas pour tout de suite. Ici c'est l'apprentissage de Node.js qui sera mis en avant pour ce "let's play".
 
 ## 2- Installation & Pré-requis
 
@@ -584,6 +583,7 @@ http://ngcordova.com/docs/install/ (bower install ngCordova)
 
 # Auteur
 **Louis Grenard** : https://www.louistiti.fr
+
 [![twitter](https://img.shields.io/twitter/follow/louistiti_fr.svg?style=social)](https://twitter.com/intent/follow?screen_name=louistiti_fr)
 
 # Licence
