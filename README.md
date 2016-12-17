@@ -584,6 +584,7 @@ http://ngcordova.com/docs/install/ (bower install ngCordova)
 
 # Auteur
 **Louis Grenard** : https://www.louistiti.fr
+
 [![twitter](https://img.shields.io/twitter/follow/louistiti_fr.svg?style=social)](https://twitter.com/intent/follow?screen_name=louistiti_fr)
 
 # Licence
