@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
     selector: 'uber-like-register',
-    templateUrl: './register.component.html',
-    styleUrls: ['./register.component.scss']
+    templateUrl: './register.component.html'
 })
 export class RegisterComponent implements OnInit {
 

@@ -1,0 +1,51 @@
+/**
+ * @author Louis Grenard <louis.grenard@gmail.com>
+ *
+ * Notif message style
+ */
+
+.notice {
+
+    &:after {
+        content: '.';
+    }
+
+    &.notice-success {
+
+        font-size: 1em;
+        color: $green;
+
+        &:before {
+            display: inline-block;
+            content: '✓';
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            border-radius: 50%;
+            background-color: $green;
+            margin-right: 10px;
+            color: #FFF;
+        }
+    }
+
+    &.notice-error {
+
+        color: $pink;
+        font-size: .75em;
+
+        &:before {
+            display: inline-block;
+            content: '!';
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            text-align: center;
+            border-radius: 50%;
+            background-color: $pink;
+            color: #FFF;
+            margin-right: 8px;
+        }
+
+    }
+}

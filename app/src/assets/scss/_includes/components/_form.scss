@@ -55,29 +55,4 @@ form {
 
     }
 
-    .form-message {
-
-        font-size: .75em;
-
-        &.form-message-error {
-
-            color: $pink;
-
-            &:before {
-                display: inline-block;
-                content: '!';
-                width: 16px;
-                height: 16px;
-                line-height: 16px;
-                text-align: center;
-                border-radius: 50%;
-                background-color: $pink;
-                color: #FFF;
-                margin-right: 8px;
-            }
-
-        }
-
-    }
-
 }

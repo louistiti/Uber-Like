@@ -1,4 +1,5 @@
 /**
+ * no-trailing-spaces:off: do not care about whitespaces
  * linebreak-style:off: do not care about empty spaces, depending of OS platform
  * indent:off: do not care about indent size (how many space(s) in one tab)
  * strict:off: do not care about strict mode is important or not (always here cause I force it)
@@ -21,6 +22,7 @@
         "import"
     ],
     "rules": {
+        "no-trailing-spaces": "off",
         "linebreak-style": "off",
         "indent": "off",
         "strict": "off",

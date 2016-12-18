@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { BrowserModule, Title } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { RidersModule } from './users/riders.module';
+
+import { ResponseMessageComponent } from './core/response-message.component';
 
 import { HomeComponent } from './home/home.component';
 
@@ -22,12 +23,12 @@ import { SignInComponent } from './sign-in/sign-in.component';
     imports: [
         BrowserModule,
         FormsModule,
-        HttpModule,
         RidersModule,
         AppRoutingModule
     ],
     declarations: [
         AppComponent,
+        ResponseMessageComponent,
         HomeComponent,
         RegisterComponent,
         RegisterRiderComponent,

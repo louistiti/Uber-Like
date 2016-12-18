@@ -7,6 +7,25 @@ if (typeof process.env.NODE_ENV !== 'undefined') {
     process.env.NODE_ENV = 'dev';
 }
 
+const app = () => {
+    const conf = {
+        test: {
+            host: 'localhost',
+            port: 4200
+        },
+        dev: {
+            host: 'localhost',
+            port: 4200
+        },
+        prod: {
+            host: 'localhost',
+            port: 4200
+        }
+    };
+
+    return conf[process.env.NODE_ENV];
+};
+
 const api = () => {
     const conf = {
         test: {
@@ -58,6 +77,7 @@ const db = () => {
 };
 
 export {
+    app,
     api,
     db
 };

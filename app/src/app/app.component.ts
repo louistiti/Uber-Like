@@ -6,7 +6,7 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 
-import { config } from './config';
+import { config } from './core/config';
 
 @Component({
     selector: 'uber-like',
@@ -26,17 +26,18 @@ export class AppComponent implements OnInit {
          * We'll use reactive programming to set our title documents
          */
         this.router.events
-            .filter((event) => event instanceof NavigationEnd)
+            .filter(event => event instanceof NavigationEnd)
             .map(() => this.activatedRoute)
-            .map((route) => {
+            .map(route => {
                 while (route.firstChild) {
                     route = route.firstChild;
                 }
+
                 return route;
             })
-            .filter((route) => route.outlet === 'primary')
-            .mergeMap((route) => route.data)
-            .subscribe((event) => {
+            .filter(route => route.outlet === 'primary')
+            .mergeMap(route => route.data)
+            .subscribe(event => {
                 this.titleService.setTitle(event['title'] + config.suffixTitle);
             });
     }

@@ -3,7 +3,7 @@ Uber-Like
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/Louistiti/Uber-Like/blob/master/LICENSE.md)
 
-![Uber-Like Logo](http://img11.hostingpics.net/pics/669038logosmall.png "Uber-Like Logo")
+![Uber-Like Logo](http://image.noelshack.com/fichiers/2016/50/1482054576-logo-small.png "Uber-Like Logo")
 
 Juste un projet perso' pour se familiariser avec d'autres technos en créant un petit prototype Uber, serveur et client.
 
@@ -17,7 +17,7 @@ https://eng.uber.com/tech-stack-part-one/
 https://eng.uber.com/tech-stack-part-two/
 
 **/!\ Le code actuel de l'app est réalisé en tant que web app, plus tard je passerais en mobile via une techno ci-dessous.**
-Par la suite, peut-être voir pour une PWA ? https://github.com/angular/mobile-toolkit
+Par la suite, peut-être voir pour une PWA ? https://github.com/angular/mobile-toolkit ; https://www.youtube.com/watch?v=vAb-2d1vcg8
 
 - Code de prototypage, ne pas utiliser en production
 - Juste un "Let's Play" donc pour le fun, c'est souvent fait dans les jeux vidéos,
@@ -90,7 +90,7 @@ mais en gros ce sera l'outil nous permettant de faire nos tests)
 
 9. Ajouter "lint": "node_modules/.bin/eslint src/**/*.js" à package.json pour check toutes les sources et modifier "build"
 
-10. IDE Settings > rechercher ESLint > Activer ESLint + renseigner package dans node_modules
+10. IDE Settings > rechercher ESLint > Activer ESLint + renseigner package dans node_modules + ajouter config ESLint de notre projet et non de node_modules/
 
 11. Ajouter start dans scripts pour le développement ; Ajouter serve pour la production ; Le package.json devrait être similaire à
     ```json
@@ -222,7 +222,7 @@ Bien expliquer ce que fais un "generate", etc. d'Angular-CLI pour ne pas perdre 
 7. Activer TSLint dans l'IDE
 Settings > TSLint > Enable + renseigner dossier tslint dans node_modules
 
-8. Créer "config.ts" pour les constantes utiles à notre projet
+8. Créer "core/config.ts" pour les constantes utiles à notre projet
 
 9. Editer app.component.html avec le nécessaire pour commencer
 
@@ -245,6 +245,9 @@ A REDEFINIR APRES AVOIR CHOISI ENTRE NATIVESCRIPT ET REACT NATIVE (mais toujours
     - node_modules/
     - src/
         - app/
+            - core/
+                - config.ts
+                - http.service.ts
             - home/
                 - home.component.html
                 - home.component.scss
@@ -270,7 +273,6 @@ A REDEFINIR APRES AVOIR CHOISI ENTRE NATIVESCRIPT ET REACT NATIVE (mais toujours
             - app.component.scss
             - app.component.ts
             - app.module.ts
-            - config.ts
             - index.ts
             - ...
         - assets/
@@ -467,15 +469,28 @@ Car on aura un routing spécifique à chaque feature / composant "métier" de no
 3. Logique métier (validations de form, avec patterns, maxlength, minlength), créer model "users/rider.model.ts" et binder les données formulaire avec [(ngModel)]
 Utiliser variable locale (#foo) pour faire les validations, styliser les validations.
 
-![Home + Register Rider](http://img11.hostingpics.net/pics/410636homeregisterrider.gif "Home + Register Rider")
-
 ## 11- Envoyer la requête d'inscription
 
 Maintenant que le formulaire est prêt, il ne nous manque plus qu'à envoyer les données à notre API. Pour ce faire on utilisera le client HTTP d'Angular.
 
-1. Structurer comme il faut le client HTTP dans le projet
+1. Créer un client HTTP custom qui va surcharger celui fournis par Angular, de cette façon on n'aura pas à répéter notre code pour le catch d'erreur, authentification, etc.
+(étant abstrait, le type de "backend" est un XHRBackend et non ConnectionBackend pour le constructeur parent de notre client HTTP custom)
 
-2. Faire requête d'inscription
+2. Structurer comme il faut le client HTTP dans le projet en utilisant un service dédié à chaque "feature" / modèle
+
+3. Faire requête d'inscription
+
+4. Back : créer nouvel objet literal "app" dans la config api
+
+5. Back : configurer le CORS dans un middleware en fonction de l'environnement actuel
+
+6. Afficher messages retournés par le serveur en créant le composant "ResponseMessageComponent"
+
+7. Styliser le nouveau composant
+
+![Home + Register Rider](http://image.noelshack.com/fichiers/2016/50/1482094900-home-register-rider.gif "Home + Register Rider")
+
+## 12- Composant Loader
 
 [*En cours*]
 
