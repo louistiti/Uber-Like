@@ -494,6 +494,8 @@ Maintenant que le formulaire est prêt, il ne nous manque plus qu'à envoyer les
 
 2. Faire composant "Loader" et binder "isLoading" quand nécessaire, ici avec le composant parent "RegisterRider"
 
+Loader : http://image.noelshack.com/fichiers/2016/51/1482167158-button-loader.gif
+
 ![Home + Register Rider](http://image.noelshack.com/fichiers/2016/51/1482165749-home-register-rider.gif "Home + Register Rider")
 
 ## 13- Authentification
