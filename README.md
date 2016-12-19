@@ -211,9 +211,9 @@ Bien expliquer ce que fais un "generate", etc. d'Angular-CLI pour ne pas perdre 
     $ ng new u-like --style=sass
     ```
 (réindenter)
-(modifier le sélecteur du composant root par "uber-like" et ajouter dans les custom tags de l'IDE, de même pour les composants futures)
+(modifier le sélecteur du composant root par "uberlike" et ajouter dans les custom tags de l'IDE, de même pour les composants futures)
 
-4. Modifier attribue préfix par "uber-like" dans "tslint.json" (+ "angular-cli.json" (si utilisé))
+4. Modifier attribue préfix par "uberlike" dans "tslint.json" (+ "angular-cli.json" (si utilisé))
 
 5. Renommer dossier "u-like" par "app"
 
@@ -490,9 +490,17 @@ Maintenant que le formulaire est prêt, il ne nous manque plus qu'à envoyer les
 
 ![Home + Register Rider](http://image.noelshack.com/fichiers/2016/50/1482094900-home-register-rider.gif "Home + Register Rider")
 
-## 12- Composant Loader
+## 12- Composant Loader + page 404
 
-[*En cours*]
+- Faire composant "NotFound" + styliser un peu avec des GIFs random
+
+- Faire composant "Loader" et binder "isLoading" quand nécessaire, ici avec le composant parent "RegisterRider"
+
+![Home + Register Rider](http://image.noelshack.com/fichiers/2016/51/1482165749-home-register-rider.gif "Home + Register Rider")
+
+## 13- Authentification
+
+*[En cours]*
 
 # Notes
 FIXER PROBLEMATIQUE : "La boucle qui controle le temps d’annulation tourne bien sur le serveur et n’attend pas la mise à jour de la webapp ? parceque la il ne s’est rien passé pendant 20 min, jusqu’a ce que le Majordome relance son navigateur"
@@ -514,7 +522,7 @@ FAIRE BARRE DE PROGRESSION ANIME (PLUS LE DRIVER APPROCHE, PLUS LA COULEUR DEVIE
 
 - Compiler pour la prod' avec Angular-CLI
     ```sh
-    $ ng build -prod
+    $ ng build --prod
     ```
 - Package pour comparer et mettre à jour les dépendances d'un projet
     ```sh

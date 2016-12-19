@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'uber-like-register',
+    selector: 'uberlike-register',
     templateUrl: './register.component.html'
 })
 export class RegisterComponent implements OnInit {

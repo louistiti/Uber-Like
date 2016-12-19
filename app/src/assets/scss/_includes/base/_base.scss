@@ -37,4 +37,10 @@ strong {
 }
 
 a, a:focus {
+    color: $pink;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
 }

@@ -9,7 +9,7 @@ import 'rxjs/add/operator/mergeMap';
 import { config } from './core/config';
 
 @Component({
-    selector: 'uber-like',
+    selector: 'uberlike-app',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })

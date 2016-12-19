@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-    selector: 'uber-like-error',
+    selector: 'uberlike-response-message',
     template: `
         <div *ngIf="data.success === false" class="error">
             <p>Il semblerait qu'il y ait des erreurs :</p>

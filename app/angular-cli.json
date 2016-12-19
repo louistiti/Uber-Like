@@ -15,7 +15,7 @@
       "main": "main.ts",
       "test": "test.ts",
       "tsconfig": "tsconfig.json",
-      "prefix": "uber-like",
+      "prefix": "uberlike",
       "mobile": false,
       "styles": [
         "styles.scss"

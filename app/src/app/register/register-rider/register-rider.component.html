@@ -30,6 +30,9 @@
         <div class="notice notice-error" *ngIf="password.dirty && password.hasError('required')">Un mot de passe est requis</div>
         <div class="notice notice-error" *ngIf="password.dirty && password.hasError('minlength')">6 caractères minimum. Actuellement : {{ rider.password.length }}</div>
     </div>
-    <uber-like-error [data]="data"></uber-like-error>
-    <button type="submit" class="button-full small-space-top center" [disabled]="!riderForm.valid || isLoading">S'inscrire</button>
+    <uberlike-response-message [data]="data"></uberlike-response-message>
+    <button type="submit" class="button-full small-space-top center" [disabled]="!riderForm.valid || isLoading">
+        <span *ngIf="!isLoading">S'inscrire</span>
+        <uberlike-loader [isLoading]="isLoading"></uberlike-loader>
+    </button>
 </form>

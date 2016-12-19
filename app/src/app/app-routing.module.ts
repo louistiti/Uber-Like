@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { NotFoundComponent } from './not-found.component';
+
 import { HomeComponent } from './home/home.component';
 
 import { SignInComponent} from './sign-in/sign-in.component';
@@ -31,7 +33,10 @@ const appRoutes: Routes = [
     },
     {
         path: '**',
-        component: HomeComponent
+        component: NotFoundComponent,
+        data: {
+            title: 'Ressource introuvable'
+        }
     }
 ];
 

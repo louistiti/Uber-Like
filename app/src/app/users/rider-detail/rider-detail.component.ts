@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'uber-like-rider-detail',
+    selector: 'uberlike-rider-detail',
     templateUrl: 'rider-detail.component.html',
     styleUrls: ['rider-detail.component.scss']
 })

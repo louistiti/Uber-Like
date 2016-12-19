@@ -6,7 +6,7 @@ import { RiderService } from '../../users/rider.service';
 import { Rider } from '../../users/rider.model';
 
 @Component({
-    selector: 'uber-like-register-rider',
+    selector: 'uberlike-register-rider',
     templateUrl: 'register-rider.component.html'
 })
 export class RegisterRiderComponent implements OnInit {
