@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "assets/scss/_includes/base/all";
+
+body {
+    font-family: $font;
+    font-size: $font-size;
+    font-weight: 400;
+    background-color: #FFF;
+}

@@ -15,11 +15,11 @@ const riderController = {};
 riderController.add = (req, res) => {
     log.info('Hi! Adding a rider...');
 
-    const lastname = req.body.lastname;
     const firstname = req.body.firstname;
-    const phone = req.body.phone;
+    const lastname = req.body.lastname;
     const email = req.body.email;
     const password = req.body.password;
+    let phone = req.body.phone;
 
     // Split to avoid callbacks hell
     const checkEvent = new EventEmitter();
@@ -31,6 +31,8 @@ riderController.add = (req, res) => {
             !email || !password) {
             errors.push('missing_fields');
         } else {
+            phone = `+33${req.body.phone.substr(1)}`;
+
             if (!isMobilePhone(phone, 'fr-FR')) {
                 errors.push('incorrect_phone_number');
             } if (!isEmail(email)) {
@@ -40,16 +42,7 @@ riderController.add = (req, res) => {
             }
 
             if (errors.length === 0) {
-                const phoneCheck = () => {
-                    Rider.doesThisExist(['phone', phone], (result) => {
-                        if (result) {
-                            errors.push('phone_number_already_taken');
-                            checkEvent.emit('error', errors);
-                        } else {
-                            checkEvent.emit('success');
-                        }
-                    });
-                };
+                // We could use promises here, but I prefer this option
 
                 const emailCheck = () => {
                     Rider.doesThisExist(['email', email], (result) => {
@@ -57,12 +50,23 @@ riderController.add = (req, res) => {
                             errors.push('email_address_already_taken');
                             checkEvent.emit('error', errors);
                         } else {
-                            phoneCheck();
+                            checkEvent.emit('success');
                         }
                     });
                 };
 
-                emailCheck();
+                const phoneCheck = () => {
+                    Rider.doesThisExist(['phone', phone], (result) => {
+                        if (result) {
+                            errors.push('phone_number_already_taken');
+                            checkEvent.emit('error', errors);
+                        } else {
+                            emailCheck();
+                        }
+                    });
+                };
+
+                phoneCheck();
             }
         }
 
@@ -85,7 +89,7 @@ riderController.add = (req, res) => {
         * It will take more time during matching process, then more time to reverse it
         */
         bcrypt.hash(password, 12, (err, hash) => {
-            const rider = {
+            const newRider = {
                 lastname,
                 firstname,
                 phone,
@@ -95,8 +99,10 @@ riderController.add = (req, res) => {
                 created_at: datetime()
             };
 
-            Rider.add(rider, () => {
-                response.successAdd(res, 'rider_added', '/authenticate/login');
+            Rider.add(newRider, () => {
+                response.successAdd(res, 'rider_added', `/riders/${newRider.uuid}`,
+                    { rider: { uuid: newRider.uuid } }
+                );
             });
         });
     });

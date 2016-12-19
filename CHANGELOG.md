@@ -1,3 +1,19 @@
+## 0.0.5 (2016-12-19)
+
+### Api
+- CORS settings depending of the current env
+
+### App
+- Angular 2 structure
+- Core done
+- Home view
+- Register view with checking
+- Overload HTTP client to have a custom HTTP client and to not duplicate code
+- Send the request to the API with data
+- Display messages from server with a new component
+- 404 component
+- Loader component
+
 ## 0.0.4 (2016-11-23)
 
 ### Api

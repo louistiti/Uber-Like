@@ -9,8 +9,6 @@ response.success = (res, status = 200, code, ...data) => {
 
     if (code === 'rider_added') message = 'Le rider a été ajouté avec succès';
 
-    message = `${message}.`;
-
     const success = {
         success: true,
         status,
@@ -27,10 +25,10 @@ response.success = (res, status = 200, code, ...data) => {
     res.json(success);
 };
 
-response.successAdd = (res, code, location) => {
+response.successAdd = (res, code, location, data) => {
     res.location(api().version + location);
 
-    response.success(res, 201, code);
+    response.success(res, 201, code, data);
 };
 
 response.error = (res, status = 400, errors = []) => {
@@ -47,10 +45,6 @@ response.error = (res, status = 400, errors = []) => {
         });
 
         errors = tab;
-
-        errors.forEach((error) => {
-            error.message = `${error.message}.`;
-        });
     }
 
     const error = {

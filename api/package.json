@@ -7,11 +7,12 @@
     "clone-db-test": "mysql -h localhost -u root < ./sql/reset-test-db.sql && mysqldump --no-data uberlike -h localhost -u root > ./sql/uberlike.sql && mysql uberlike_test -h localhost -u root < ./sql/uberlike.sql",
     "test": "set NODE_ENV=test&& npm run clone-db-test && mocha --compilers js:babel-register --reporter nyan ./src/**/*.spec.js",
     "start": "nodemon --use_strict ./src/index.js --exec babel-node",
-    "check": "./node_modules/.bin/eslint ./src/**/*.js",
-    "build": "npm run check && babel ./src -d ./dist && npm test",
+    "lint": "./node_modules/.bin/eslint ./src/**/*.js",
+    "build": "npm run lint && babel ./src -d ./dist && npm test",
     "serve": "set NODE_ENV=prod&& node ./dist/index.js"
   },
   "author": "Louistiti",
+  "homepage": "https://github.com/Louistiti/Uber-Like",
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^0.8.7",

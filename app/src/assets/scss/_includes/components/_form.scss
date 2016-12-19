@@ -1,0 +1,58 @@
+/**
+ * @author Louis Grenard <louis.grenard@gmail.com>
+ *
+ * Inputs style
+ */
+
+form {
+
+    width: 383px;
+
+    label {
+        display: block;
+    }
+
+    input {
+        display: block;
+        outline: none;
+        border: none;
+        font-size: inherit;
+        border-bottom: 1px solid $border-color;
+        transition: border-bottom $animation-duration;
+        margin: $small-space / 2 0;
+        width: 100%;
+
+        &:focus {
+            border-bottom-color: $light-blue;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        /**
+         * When validators are invalid and the user have already edited the field
+         */
+        &.ng-invalid.ng-dirty {
+            border-bottom-color: $pink;
+        }
+
+        &.ng-valid {
+            border-bottom-color: $green;
+        }
+    }
+
+    &.form-center {
+        margin: 0 auto;
+    }
+
+    .form-group {
+        margin-bottom: $small-space / 2;
+
+        .form-group-2 {
+            width: 46%;
+        }
+
+    }
+
+}

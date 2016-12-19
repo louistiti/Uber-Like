@@ -1,0 +1,9 @@
+<div class="center">
+    <h1 class="title-border">Inscription</h1>
+    <p class="small-space-y">En tant que :</p>
+    <button (click)="userType = 'rider'" class="small-space-right">Rider</button>
+    <button (click)="userType = 'driver'" disabled>Driver (non dispo)</button>
+</div>
+<div class="medium-space-y">
+    <uberlike-register-rider *ngIf="_userType === 'rider'"></uberlike-register-rider>
+</div>

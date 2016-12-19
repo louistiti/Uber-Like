@@ -1,0 +1,32 @@
+@import "../../assets/scss/_includes/helpers/variable";
+
+:host {
+
+    display: block;
+
+    .success {
+        text-align: center;
+        margin-top: $small-space;
+    }
+
+    .error {
+
+        color: $pink;
+
+        p {
+            margin: $small-space / 2 0;
+        }
+
+        ul {
+            list-style: none;
+
+            li {
+                margin-bottom: $small-space / 2;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}

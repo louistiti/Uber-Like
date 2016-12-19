@@ -1,0 +1,38 @@
+<form (ngSubmit)="addRider()" #riderForm="ngForm" autocomplete="off" class="form-center">
+    <div class="form-group">
+        <div class="left form-group-2">
+            <label for="firstname">Prénom</label>
+            <input type="text" id="firstname" class="inline-block" name="firstname" placeholder="Votre prénom" required #input [(ngModel)]="rider.firstname" #firstname="ngModel">
+            <div class="notice notice-error" *ngIf="firstname.dirty && firstname.hasError('required')">Le prénom est requis</div>
+        </div>
+        <div class="right form-group-2">
+            <label for="lastname">Nom</label>
+            <input type="text" id="lastname" class="inline-block" name="lastname" placeholder="Votre nom" required [(ngModel)]="rider.lastname" #lastname="ngModel">
+            <div class="notice notice-error" *ngIf="lastname.dirty && lastname.hasError('required')">Le nom est requis</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form-group">
+        <label for="phone">Téléphone mobile</label>
+        <input type="tel" id="phone" name="phone" placeholder="Votre numéro de téléphone mobile" required pattern="^0[67]\d{8}$" maxlength="10" [(ngModel)]="rider.phone" #phone="ngModel">
+        <div class="notice notice-error" *ngIf="phone.dirty && phone.hasError('required')">Un numéro de téléphone mobile est requis</div>
+        <div class="notice notice-error" *ngIf="phone.dirty && phone.hasError('pattern')">Ce numéro de téléphone mobile est invalide</div>
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Votre adresse email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" [(ngModel)]="rider.email" #email="ngModel">
+        <div class="notice notice-error" *ngIf="email.dirty && email.hasError('required')">Une adresse email est requise</div>
+        <div class="notice notice-error" *ngIf="email.dirty && email.hasError('pattern')">Cette adresse email est invalide</div>
+    </div>
+    <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="password" placeholder="Un mot de passe" required minlength="6" [(ngModel)]="rider.password" #password="ngModel">
+        <div class="notice notice-error" *ngIf="password.dirty && password.hasError('required')">Un mot de passe est requis</div>
+        <div class="notice notice-error" *ngIf="password.dirty && password.hasError('minlength')">6 caractères minimum. Actuellement : {{ rider.password.length }}</div>
+    </div>
+    <uberlike-response-message [data]="data"></uberlike-response-message>
+    <button type="submit" class="button-full small-space-top center" [disabled]="!riderForm.valid || isLoading">
+        <span *ngIf="!isLoading">S'inscrire</span>
+        <uberlike-loader [isLoading]="isLoading"></uberlike-loader>
+    </button>
+</form>

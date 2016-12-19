@@ -1,0 +1,46 @@
+/**
+ * @author Louis Grenard <louis.grenard@gmail.com>
+ *
+ * Rules for elements over all of the project
+ */
+
+h1 {
+    font-size: 1.8em;
+    margin: $medium-space 0;
+
+    &.title-border {
+
+        &:before, &:after {
+            display: inline-block;
+            vertical-align: middle;
+            content: ' ';
+            height: 1px;
+            width: 156px;
+            background-color: $border-color;
+        }
+
+        &:before {
+            margin-right: $small-space;
+        }
+
+        &:after {
+            margin-left: $small-space;
+        }
+
+    }
+}
+
+h2 {
+}
+
+strong {
+}
+
+a, a:focus {
+    color: $pink;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
