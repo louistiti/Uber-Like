@@ -530,6 +530,8 @@ Ce chunk correspond à notre "RegisterModule" qui lui va s'occuper de charger le
 
 ## 13- Authentification
 
+Commit : https://github.com/Louistiti/Uber-Like/tree/d1be1a36634bab1a3cbf26faf13e2e669646e17d
+
 *[En cours]*
 
 # Notes
