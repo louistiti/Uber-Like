@@ -1,3 +1,8 @@
+## 0.0.5 (2016-12-20)
+
+### App
+- Lazy loading architecture (load chunks when needed)
+
 ## 0.0.5 (2016-12-19)
 
 ### Api

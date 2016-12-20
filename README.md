@@ -461,13 +461,13 @@ Here we go
 
 ## 10- Vue d'inscription
 
-1. Faire le squelette de l'application, avec un routing enfant (riders), composant "register", riders
-Car on aura un routing spécifique à chaque feature / composant "métier" de notre application.
+1. Faire le squelette de l'application, avec un routing enfant (riders), composant "register", "register-rider", "riders" dans dossier "users"
+Car on aura un module routing spécifique et un module de chargement à chaque feature / composant "métier" de notre application.
 
 2. Editer le composant (rendu + style) Home et Register, tout ce dont on a besoin pour inscrire un utilisateur (voir pour faire rider + driver, pas sûr)
 
-3. Logique métier (validations de form, avec patterns, maxlength, minlength), créer model "users/rider.model.ts" et binder les données formulaire avec [(ngModel)]
-Utiliser variable locale (#foo) pour faire les validations, styliser les validations.
+3. Logique métier (validations de form, avec patterns, maxlength, minlength) + créer model "users/rider.model.ts" et binder les données formulaire avec [(ngModel)]
+Utiliser variable locale (#foo) pour faire les validations + styliser les validations.
 
 ## 11- Envoyer la requête d'inscription
 
@@ -497,6 +497,36 @@ Maintenant que le formulaire est prêt, il ne nous manque plus qu'à envoyer les
 Loader : http://image.noelshack.com/fichiers/2016/51/1482167158-button-loader.gif
 
 ![Home + Register Rider](http://image.noelshack.com/fichiers/2016/51/1482165749-home-register-rider.gif "Home + Register Rider")
+
+## 13- Lazy loading
+
+Commit : https://github.com/Louistiti/Uber-Like/tree/7f54794826c90ef9887ba8b090e8cdf9d3c5375a
+
+(si problème de chargement de module durant cette partie, alors refaire un "ng serve" car Webpack peut avoir des conflits
+pour charger des modules Angular "on the fly")
+
+1. A l'avenir l'application va devenir plus importante, Angular-CLI utilise Webpack pour séparer notre code en "bundle", lors du premier
+chargement de page nous avons pour le moment 3.6MB de chargé (non minifié) : https://i.gyazo.com/f9ed604aad00451f50c9dca3f0941b88.png
+
+2. On va séparer notre composant "Register" de notre application, car actuellement il est chargé via "app.module".
+Dans "app.module" on ne charge seulement ce dont on a besoin pour nos composants "racine". On va créer un module de chargement +
+un module routing pour chaque feature métiers de notre application. De cette façon, notre code sera bien séparé et 
+via le lazy loading on piochera seulement le nécessaire au moment du changement de route. Ce qui donnera un premier chargement
+de l'application (sans cache) plus performant.
+
+3. Déroulement : app.module > app-routing.module (indique quelles routes doient être lazy loaded) > feature.module > feature-routing.module
+
+4. Pour info', la team Angular a vraiment vraiment bien pensée les choses car nous pouvons également faire du pre-loading,
+cf https://angular.io/docs/ts/latest/guide/router.html#!#preloading. De cette façon les ressources qui tendent à être
+lazy loaded seront chargées en fond directement après le chargement des ressources nécessaires pour la route actuellement demandée.
+Pour ça il suffit simplement d'importer le module "PreloadAllModules" à notre routing principal et d'y spécifier la stratégie.
+Mais on va seulement faire du lazy loading, c'est déjà pas mal. :)
+
+Maintenant voici un screenshot avec le lazy loading lors du premier chargement de page : https://i.gyazo.com/d1c1f22606ec1a6a8867d98ece16c436.png.
+Remarquons la différence de taille des données transferées, ici on est à 3.4MB au lieu de 3.6MB.
+
+Lorsque l'on appel notre route "register" : https://i.gyazo.com/d426d391b73b32461d6570000fecf9a5.png on peut voir qu'un chunk est chargé.
+Ce chunk correspond à notre "RegisterModule" qui lui va s'occuper de charger les dépendances nécessaires à ses composants.
 
 ## 13- Authentification
 

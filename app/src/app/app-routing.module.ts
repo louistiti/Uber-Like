@@ -7,8 +7,6 @@ import { HomeComponent } from './home/home.component';
 
 import { SignInComponent} from './sign-in/sign-in.component';
 
-import { RegisterComponent } from './register/register.component';
-
 const appRoutes: Routes = [
     {
         path: '',
@@ -18,17 +16,14 @@ const appRoutes: Routes = [
         }
     },
     {
+        path: 'register',
+        loadChildren: 'app/register/register.module#RegisterModule'
+    },
+    {
         path: 'signin',
         component: SignInComponent,
         data: {
             title: 'Connexion'
-        }
-    },
-    {
-        path: 'register',
-        component: RegisterComponent,
-        data: {
-            title: 'Inscription'
         }
     },
     {
