@@ -8,6 +8,7 @@ response.success = (res, status = 200, code, ...data) => {
     let message = '';
 
     if (code === 'rider_added') message = 'Le rider a été ajouté avec succès';
+    if (code === 'rider_authenticated') message = 'Le rider est maintenant authentifié';
 
     const success = {
         success: true,
@@ -42,6 +43,8 @@ response.error = (res, status = 400, errors = []) => {
             if (error === 'password_too_short') tab.push({ message: 'Mot de passe trop court (6 caractères minimum)', code: error });
             if (error === 'phone_number_already_taken') tab.push({ message: 'Ce numéro de téléphone est déjà existant', code: error });
             if (error === 'email_address_already_taken') tab.push({ message: 'Cette adresse email est déjà existante', code: error });
+            if (error === 'incorrect_credentials') tab.push({ message: 'Identifiants incorrects', code: error });
+            if (error === 'invalid_token') tab.push({ message: 'Token d\'authentification invalide', code: error });
         });
 
         errors = tab;

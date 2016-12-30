@@ -21,13 +21,28 @@ class Rider {
         conn.query(`
         SELECT id
         FROM ${this.table}
-        WHERE ?? = ?`, data, (err, results) => {
+        WHERE ?? = ?`, data, (err, rows) => {
             if (err) throw err;
 
-            if (results.length === 0) {
+            if (rows.length === 0) {
                 cb(false);
             } else {
                 cb(true);
+            }
+        });
+    }
+
+    getDataForAuth(data, cb) {
+        conn.query(`
+        SELECT uuid, password
+        FROM ${this.table}
+        WHERE email = ?`, data, (err, rows) => {
+            if (err) throw err;
+
+            if (rows.length === 0) {
+                cb([]);
+            } else {
+                cb(rows[0]);
             }
         });
     }

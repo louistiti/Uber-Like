@@ -31,17 +31,29 @@ const api = () => {
         test: {
             host: 'localhost',
             port: 1337,
-            version: '/v1'
+            version: '/v1',
+            token: {
+                secret: '7a)Kn(#8',
+                exp: ((3600 * 24) * 7)
+            }
         },
         dev: {
             host: 'localhost',
             port: 1337,
-            version: '/v1'
+            version: '/v1',
+            token: {
+                secret: '7a)Kn(#8',
+                exp: ((3600 * 24) * 7) // Token valid for 7 days
+            }
         },
         prod: {
             host: 'localhost',
             port: 1337,
-            version: '/v1'
+            version: '/v1',
+            token: {
+                secret: '7a)Kn(#8',
+                exp: ((3600 * 24) * 7)
+            }
         }
     };
 

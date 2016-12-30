@@ -9,4 +9,10 @@ const datetime = () => {
     return `${date} ${time}`;
 };
 
-export default datetime;
+// Have to convert from milliseconds to seconds
+const timestamp = () => new Date().getTime() / 1000;
+
+export {
+    datetime,
+    timestamp
+};

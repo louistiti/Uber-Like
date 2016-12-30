@@ -1,3 +1,21 @@
+## 0.0.7 (2016-12-30)
+
+### Api
+- *[coming] Update token duration*
+- *[coming] Revoke JWT (jti claim) when logout or refresh token*
+
+### App
+- *[coming] Auth*
+
+## 0.0.6 (2016-12-30)
+
+### Api
+- Authentication middleware with Json Web Tokens
+- Create and return a JWT when credentials are OK
+- Helper timestamp()
+- Reorganize some middlewares
+- Authentication specs done
+
 ## 0.0.5 (2016-12-20)
 
 ### App

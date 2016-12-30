@@ -44,7 +44,7 @@ pourquoi pas le faire avec le dev Web
 
 ## 2- Installation & Pré-requis
 
-### Backend
+### Back-End
 
 #### Installation
 1. Installer Node.js en allant sur : https://nodejs.org/
@@ -191,7 +191,7 @@ Le code transpilé (à passer en production) est dans le répertoire dist/.
 - index.js point d'entrée (chargement des confs, appel du serveur)
 - server.js (initialisation et conf du serveur)
 
-### Frontend (faire nouvelle vidéo ici)
+### Front-End (faire nouvelle vidéo ici)
 
 #### Installation
 On va utiliser Angular CLI qui va nous permettre de générer divers ressources pour notre projet tout en respectant le style guide que l'équipe d'Angular recommande
@@ -227,7 +227,9 @@ Settings > TSLint > Enable + renseigner dossier tslint dans node_modules
 9. Editer app.component.html avec le nécessaire pour commencer
 
 10. Créer nouveau composant "home" :
-$ ng g c home
+    ```sh
+    $ ng g c home
+    ```
 (réindenter)
 (delete home.component.spec.ts)
 
@@ -474,7 +476,7 @@ Utiliser variable locale (#foo) pour faire les validations + styliser les valida
 Maintenant que le formulaire est prêt, il ne nous manque plus qu'à envoyer les données à notre API. Pour ce faire on utilisera le client HTTP d'Angular.
 
 1. Créer un client HTTP custom qui va surcharger celui fournis par Angular, de cette façon on n'aura pas à répéter notre code pour le catch d'erreur, authentification, etc.
-(étant abstrait, le type de "backend" est un XHRBackend et non ConnectionBackend pour le constructeur parent de notre client HTTP custom)
+(étant abstrait, le type de "back-end" est un XHRBackend et non ConnectionBackend pour le constructeur parent de notre client HTTP custom)
 
 2. Structurer comme il faut le client HTTP dans le projet en utilisant un service dédié à chaque "feature" / modèle
 
@@ -528,13 +530,55 @@ Remarquons la différence de taille des données transferées, ici on est à 3.4
 Lorsque l'on appel notre route "register" : https://i.gyazo.com/d426d391b73b32461d6570000fecf9a5.png on peut voir qu'un chunk est chargé.
 Ce chunk correspond à notre "RegisterModule" qui lui va s'occuper de charger les dépendances nécessaires à ses composants.
 
-## 13- Authentification
+## 14- Authentification
 
 Commit : https://github.com/Louistiti/Uber-Like/tree/d1be1a36634bab1a3cbf26faf13e2e669646e17d
+
+On utilisera un JWT (Json Web Token) pour authentifier nos utilisateurs.
+Grâce à une clé secrète, seulement connue par le serveur, on va pouvoir décoder le token via la valeur du token + la clé secrète.
+Les JWT protègent directement contre les failles CSRF étant stateless (pas de sessions, mais un token).
+
+1. Expliquer ce qu'est un JWT (composé de 3 parties, https://jwt.io, etc.)
+
+2. Expliquer le processus d'authentification + d'accès à des routes protégées
+
+3. Package express-jwt (middleware pour décoder les JWT)
+    ```
+    $ npm install express-jwt --save
+    ```
+
+4. Package jsonwebtoken (générer les JWT)
+    ```
+    $ npm install jsonwebtoken --save
+    ```
+
+5. Ajouter objet "token" et attribues "secret", "exp" dans config.js
+
+6. Créer "timestamp()" (time.js) helper pour la validité du JWT dans le temps
+
+7. Faire authentification avec middleware (decode) + middleware pour capturer les erreurs liées
+à l'authentification + création du JWT si tout est OK à la connexion
+
+8. Faire les specs liées à l'authentification
+
+Authentification d'un rider : https://i.gyazo.com/bc1fd7dc2832d359ab033f86b893fec6.png
+Accès à une route protégée avec un JWT invalide : https://i.gyazo.com/d5ed7e12ce1e71e1f6a07c2ae1526986.png
+
+## 15- Mise à jour d'un token d'authentification
+
+Révoquer les anciens tokens (à la déconnexion, MàJ du token, ...)
+
+*[En cours]*
+
+## 16- Vue de connexion
+
+METTRE A JOUR ANGULAR + ANGULAR-CLI SUR L'APP
 
 *[En cours]*
 
 # Notes
+Différencier les riders des drivers à l'inscription et à l'authentification.
+
 FIXER PROBLEMATIQUE : "La boucle qui controle le temps d’annulation tourne bien sur le serveur et n’attend pas la mise à jour de la webapp ? parceque la il ne s’est rien passé pendant 20 min, jusqu’a ce que le Majordome relance son navigateur"
 Rendre le serveur autonomme. Node.js corrige déjà ça ? Passer par les websockets (socket.io) ?
 
@@ -635,6 +679,8 @@ http://ngcordova.com/docs/install/ (bower install ngCordova)
 - Package chai : https://www.npmjs.com/package/chai
 - Package chai-http : https://www.npmjs.com/package/chai-http
 - Package chai-things : https://www.npmjs.com/package/chai-things
+- Package express-jwt : https://www.npmjs.com/package/express-jwt
+- Package jsonwebtoken : https://www.npmjs.com/package/jsonwebtoken
 
 # Auteur
 **Louis Grenard** : https://www.louistiti.fr

@@ -4,9 +4,11 @@ import uuid from 'uuid';
 import { isMobilePhone, isEmail } from 'validator';
 import bcrypt from 'bcrypt';
 import EventEmitter from 'events';
+import jwt from 'jsonwebtoken';
 
 import Rider from './rider.model';
-import datetime from '../helpers/time';
+import { datetime, timestamp } from '../helpers/time';
+import { api } from '../config/config';
 import response from '../helpers/response';
 import log from '../helpers/log';
 
@@ -75,19 +77,19 @@ riderController.add = (req, res) => {
         }
     };
 
-    checkEvent.on('error', (errors) => {
-        response.error(res, 400, errors);
+    checkEvent.on('error', (err) => {
+        response.error(res, 400, err);
     });
 
     checking();
 
     checkEvent.on('success', () => {
         /**
-        * Generate password with 2^12 (4096) iterations for the algo.
-        * Safety is priority here, performance on the side in this case
-        * Become slower, but this is to "prevent" more about brute force attacks.
-        * It will take more time during matching process, then more time to reverse it
-        */
+         * Generate password with 2^12 (4096) iterations for the algo.
+         * Safety is priority here, performance on the side in this case
+         * Become slower, but this is to "prevent" more about brute force attacks.
+         * It will take more time during matching process, then more time to reverse it
+         */
         bcrypt.hash(password, 12, (err, hash) => {
             const newRider = {
                 lastname,
@@ -100,11 +102,78 @@ riderController.add = (req, res) => {
             };
 
             Rider.add(newRider, () => {
-                response.successAdd(res, 'rider_added', `/riders/${newRider.uuid}`,
+                /*
+                 * Use Location header to redirect here
+                 * For next 201 code, we should have the URL relatives to the new ressource
+                 * Ex: /riders/:uuid
+                 */
+                response.successAdd(res, 'rider_added', '/signin',
                     { rider: { uuid: newRider.uuid } }
                 );
             });
         });
+    });
+};
+
+riderController.authenticate = (req, res) => {
+    log.info('Hi! Authenticating a rider...');
+
+    const email = req.body.email;
+    const password = req.body.password;
+
+    const checkEvent = new EventEmitter();
+
+    const checking = () => {
+        const errors = [];
+
+        if (!email || !password) {
+            errors.push('missing_fields');
+        } else {
+            Rider.getDataForAuth([email], (result) => {
+                if (result.length !== 0) {
+                    bcrypt.compare(password, result.password, (err, isMatch) => {
+                        if (err) throw err;
+
+                        if (isMatch) {
+                            checkEvent.emit('success', result);
+                        } else {
+                            errors.push('incorrect_credentials');
+                            checkEvent.emit('error', errors);
+                        }
+                    });
+                } else {
+                    errors.push('incorrect_credentials');
+                    checkEvent.emit('error', errors);
+                }
+            });
+        }
+
+        if (errors.length > 0) {
+            checkEvent.emit('error', errors);
+        }
+    };
+
+    checkEvent.on('error', (err) => {
+        let code = 400;
+
+        if (err[0] === 'incorrect_credentials') {
+            code = 401;
+        }
+
+        response.error(res, code, err);
+    });
+
+    checking();
+
+    checkEvent.on('success', (data) => {
+        const currentTimestamp = timestamp();
+        const futureTimestamp = currentTimestamp + api().token.exp;
+
+        const token = jwt.sign({ uuid: data.uuid, exp: futureTimestamp }, api().token.secret);
+
+        response.success(res, 200, 'rider_authenticated',
+            { token }
+        );
     });
 };
 
