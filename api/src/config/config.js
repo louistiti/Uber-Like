@@ -33,7 +33,7 @@ const api = () => {
             port: 1337,
             version: '/v1',
             token: {
-                secret: '7a)Kn(#8',
+                secret: 'my-secret-key',
                 exp: ((3600 * 24) * 7)
             }
         },
@@ -42,7 +42,7 @@ const api = () => {
             port: 1337,
             version: '/v1',
             token: {
-                secret: '7a)Kn(#8',
+                secret: 'my-secret-key',
                 exp: ((3600 * 24) * 7) // Token valid for 7 days
             }
         },
@@ -51,7 +51,7 @@ const api = () => {
             port: 1337,
             version: '/v1',
             token: {
-                secret: '7a)Kn(#8',
+                secret: 'my-secret-key',
                 exp: ((3600 * 24) * 7)
             }
         }

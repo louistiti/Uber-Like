@@ -562,6 +562,7 @@ Les JWT protègent directement contre les failles CSRF étant stateless (pas de 
 8. Faire les specs liées à l'authentification
 
 Authentification d'un rider : https://i.gyazo.com/bc1fd7dc2832d359ab033f86b893fec6.png
+
 Accès à une route protégée avec un JWT invalide : https://i.gyazo.com/d5ed7e12ce1e71e1f6a07c2ae1526986.png
 
 ## 15- Mise à jour d'un token d'authentification
