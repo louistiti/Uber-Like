@@ -1,7 +1,12 @@
-### 0.0.8 (2017-01-04)
+### 0.0.9 (2017-01-04)
 
 ### Api
 - *[En cours]* Integrations tests for authentication / authorization and revocation
+
+### 0.0.8 (2017-01-04)
+
+### Api
+- Upgrade database from utf8 to utf8mb4 (thanks to @ptondereau)
 
 ## 0.0.7 (2017-01-04)
 

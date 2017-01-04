@@ -11,7 +11,8 @@ const conn = mysql.createConnection({
     user: db().user,
     password: db().password,
     database: db().database,
-    port: db().port
+    port: db().port,
+    charset: 'utf8mb4'
 });
 
 conn.connect((err) => {

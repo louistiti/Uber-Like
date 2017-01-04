@@ -171,6 +171,8 @@ Le code transpilé (à passer en production) est dans le répertoire dist/.
             - ...
         - feature-name/
             - ...
+        - helpers/
+            - ...
         - rides/
             - ride.controller.js
             - ride.model.js
@@ -185,6 +187,8 @@ Le code transpilé (à passer en production) est dans le répertoire dist/.
             - driver.model.js
             - driver.routes.js
             - driver.spec.js
+        - validators/
+            - ...
         - index.js
         - ...
     - package.json
@@ -252,6 +256,7 @@ A REDEFINIR APRES AVOIR CHOISI ENTRE NATIVESCRIPT ET REACT NATIVE (mais toujours
             - core/
                 - config.ts
                 - http.service.ts
+                - ...
             - home/
                 - home.component.html
                 - home.component.scss
@@ -259,17 +264,18 @@ A REDEFINIR APRES AVOIR CHOISI ENTRE NATIVESCRIPT ET REACT NATIVE (mais toujours
             - register/
                 - register-rider/
                     - register-rider.component.html
-                    - register-rider.component.scss
                     - register-rider.component.ts
+                - register-routing.module.ts 
                 - register.component.html
-                - register.component.scss
                 - register.component.ts
+                - register.module.ts
             - users/
                 - rider-detail/
                     - rider-detail.component.html
                     - rider-detail.component.scss
                     - rider-detail.component.ts
                 - rider.model.ts
+                - rider.service.ts
                 - riders-routing.module.ts
                 - riders.module.ts
             - app-routing.module.ts
@@ -278,6 +284,7 @@ A REDEFINIR APRES AVOIR CHOISI ENTRE NATIVESCRIPT ET REACT NATIVE (mais toujours
             - app.component.ts
             - app.module.ts
             - index.ts
+            - not-found.component.ts
             - ...
         - assets/
             - images/
@@ -314,16 +321,15 @@ Plus performant, on a une mémoire plus libre.
     $ mysql -h localhost -u root
     ```
     
-3. Créer la BDD (UTF-8 Unicode)
+3. Créer la BDD (utf8mb4_unicode_ci)
     ```sql
-    > CREATE DATABASE uberlike COLLATE utf8_unicode_ci;
+    > CREATE DATABASE uberlike COLLATE utf8mb4_unicode_ci;
     > exit
     ```
 
 ### Structure
 1. Connexion via PhpStorm (ou autre database manager)
-2. Création de la table "rider" (passagers)
-    ![alt text](https://i.gyazo.com/c4f6f2de6431b9387ea53946c7c64e4d.png "Table Rider")
+2. Création de la table "rider" (passagers) https://i.gyazo.com/c4f6f2de6431b9387ea53946c7c64e4d.png
 
 ### Code
 1. Installer MySQL dans le projet
@@ -611,7 +617,7 @@ Voilà nous avons posté nos gardiens devant notre château, maintenant on va vo
 
 - Faire process avec grant_type=refresh_token
 Donc créer nouvelle table "device" qui contiendra nos clients, donc les différents appareils que pourraient utiliser l'utilisateur
-https://i.gyazo.com/e37671a0007dcc67163aaf4fa4489941.png
+https://i.gyazo.com/619f1fe6058e924de1a40cd4dea051e0.png
 Faire nouveau helper "validator" pour checker si le refresh_token est bien un SHA-1, car le package "Validator" ne gère pas se cas
 
 ## 17- Renommer et révoquer un appareil
@@ -625,7 +631,7 @@ Comme on l'a dit, l'utilisateur peut révoquer l'accès d'un appareil spécifiqu
 
 3. Retour révocation d'un appareil : https://i.gyazo.com/a2e9c539ce33a987a9df242f1bfe349e.png
 
-4. Retour édition du nom d'un appareil : https://i.gyazo.com/64409e2995eff95e18f03ba1c0a7db3f.png
+4. Retour édition du nom d'un appareil : https://i.gyazo.com/67a67005eae2ce82e0eb0dc8c63f034c.png
 
 ## 18- Tests d'intégration liés à l'authentification
 
