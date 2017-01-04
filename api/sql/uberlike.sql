@@ -21,21 +21,21 @@
 
 DROP TABLE IF EXISTS `rider`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `rider` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(36) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `lastname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `firstname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `phone` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `uuid` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lastname` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `firstname` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` datetime DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   UNIQUE KEY `rider_uuid_uindex` (`uuid`),
   UNIQUE KEY `rider_phone_uindex` (`phone`),
   UNIQUE KEY `rider_email_uindex` (`email`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
