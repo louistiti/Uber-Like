@@ -11,6 +11,8 @@ Ce projet fera l'objet d'une série longue sur [ma chaîne YouTube](https://www.
 
 Ci-dessous mes notes / idées permettant de structurer cette série de vidéos.
 
+**/!\\** Je ne merge pas les pull requests pour le moment. :)
+
 ## 1- Introduction
 Courant juillet 2016, Uber a communiqué sur les technologies utilisées au sein de son service :
 https://eng.uber.com/tech-stack-part-one/

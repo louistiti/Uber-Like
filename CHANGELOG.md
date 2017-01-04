@@ -12,6 +12,7 @@
 - Refresh token implemented
 - Guards middleware implemented
 - Generate a new access token when it expires
+- Log helper syntax reviewed (thanks to @Gynidark)
 
 ## 0.0.6 (2016-12-30)
 
