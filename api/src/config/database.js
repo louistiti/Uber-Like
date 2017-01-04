@@ -3,6 +3,7 @@
 import mysql from 'mysql';
 
 import { db } from './config';
+
 import log from '../helpers/log';
 
 const conn = mysql.createConnection({

@@ -21,10 +21,11 @@ class Rider {
         conn.query(`
         SELECT id
         FROM ${this.table}
-        WHERE ?? = ?`, data, (err, rows) => {
+        WHERE ?? = ?
+        LIMIT 1`, data, (err, result) => {
             if (err) throw err;
 
-            if (rows.length === 0) {
+            if (result.length === 0) {
                 cb(false);
             } else {
                 cb(true);
@@ -32,17 +33,18 @@ class Rider {
         });
     }
 
-    getDataForAuth(data, cb) {
+    findOneByEmail(data, cb) {
         conn.query(`
         SELECT uuid, password
         FROM ${this.table}
-        WHERE email = ?`, data, (err, rows) => {
+        WHERE email = ?
+        LIMIT 1`, data, (err, result) => {
             if (err) throw err;
 
-            if (rows.length === 0) {
+            if (result.length === 0) {
                 cb([]);
             } else {
-                cb(rows[0]);
+                cb(result);
             }
         });
     }
@@ -50,10 +52,10 @@ class Rider {
     getAll(cb) {
         conn.query(`
         SELECT *
-        FROM ${this.table}`, (err, rows) => {
+        FROM ${this.table}`, (err, result) => {
             if (err) throw err;
 
-            cb(rows);
+            cb(result);
         });
     }
 }

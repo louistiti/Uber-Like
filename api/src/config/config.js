@@ -32,8 +32,12 @@ const api = () => {
             host: 'localhost',
             port: 1337,
             version: '/v1',
-            token: {
+            access_token: {
                 secret: 'my-secret-key',
+                exp: 3600
+            },
+            refresh_token: {
+                salt: 'another-secret-key',
                 exp: ((3600 * 24) * 7)
             }
         },
@@ -41,8 +45,12 @@ const api = () => {
             host: 'localhost',
             port: 1337,
             version: '/v1',
-            token: {
+            access_token: {
                 secret: 'my-secret-key',
+                exp: 3600 // Token valid for 1 hour
+            },
+            refresh_token: {
+                salt: 'another-secret-key',
                 exp: ((3600 * 24) * 7) // Token valid for 7 days
             }
         },
@@ -50,8 +58,12 @@ const api = () => {
             host: 'localhost',
             port: 1337,
             version: '/v1',
-            token: {
+            access_token: {
                 secret: 'my-secret-key',
+                exp: 3600
+            },
+            refresh_token: {
+                salt: 'another-secret-key',
                 exp: ((3600 * 24) * 7)
             }
         }

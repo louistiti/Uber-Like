@@ -1,11 +1,17 @@
-## 0.0.7 (2016-12-30)
+### 0.0.8 (2017-01-04)
 
 ### Api
-- *[coming] Update token duration*
-- *[coming] Revoke JWT (jti claim) when logout or refresh token*
+- *[En cours]* Integrations tests for authentication / authorization and revocation
 
-### App
-- *[coming] Auth*
+## 0.0.7 (2017-01-04)
+
+### Api
+- Multi-devices authentication
+- Revoke the access of a specific device
+- Change the name of a specific device
+- Refresh token implemented
+- Guards middleware implemented
+- Generate a new access token when it expires
 
 ## 0.0.6 (2016-12-30)
 

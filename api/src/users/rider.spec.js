@@ -17,14 +17,14 @@ chai.use(chaiThings);
 let token = '';
 
 describe('POST /riders', () => {
-    it('should return error fields missing', (done) => {
+    it('should return error params missing', (done) => {
         chai.request(url).post('/riders').end((err, res) => {
             expect(res).to.have.status(400);
             expect(res).to.have.header('content-type', 'application/json; charset=utf-8');
             expect(res.body.success).equal(false);
             expect(res.body.status).equal(400);
             expect(res.body.errors).all.include.keys('message', 'code');
-            expect(res.body.errors).contain.a.thing.with.property('code', 'missing_fields');
+            expect(res.body.errors).contain.a.thing.with.property('code', 'missing_params');
 
             done();
         });
@@ -43,8 +43,8 @@ describe('POST /riders', () => {
             expect(res.body.success).equal(false);
             expect(res.body.status).equal(400);
             expect(res.body.errors).all.include.keys('message', 'code');
-            expect(res.body.errors).contain.a.thing.with.property('code', 'incorrect_phone_number');
-            expect(res.body.errors).contain.a.thing.with.property('code', 'incorrect_email_address');
+            expect(res.body.errors).contain.a.thing.with.property('code', 'invalid_phone_number');
+            expect(res.body.errors).contain.a.thing.with.property('code', 'invalid_email_address');
             expect(res.body.errors).contain.a.thing.with.property('code', 'password_too_short');
 
             done();
@@ -112,20 +112,20 @@ describe('POST /riders', () => {
 });
 
 describe('POST /riders/authenticate', () => {
-    it('should return error fields missing', (done) => {
+    it('should return error params missing', (done) => {
         chai.request(url).post('/riders/authenticate').end((err, res) => {
             expect(res).to.have.status(400);
             expect(res).to.have.header('content-type', 'application/json; charset=utf-8');
             expect(res.body.success).equal(false);
             expect(res.body.status).equal(400);
             expect(res.body.errors).all.include.keys('message', 'code');
-            expect(res.body.errors).contain.a.thing.with.property('code', 'missing_fields');
+            expect(res.body.errors).contain.a.thing.with.property('code', 'missing_params');
 
             done();
         });
     });
 
-    it('should return error incorrect credentials', (done) => {
+    it('should return error invalid credentials', (done) => {
         chai.request(url).post('/riders/authenticate').send({
             email: 'john@doe.fr',
             password: '123456'
@@ -135,13 +135,13 @@ describe('POST /riders/authenticate', () => {
             expect(res.body.success).equal(false);
             expect(res.body.status).equal(401);
             expect(res.body.errors).all.include.keys('message', 'code');
-            expect(res.body.errors).contain.a.thing.with.property('code', 'incorrect_credentials');
+            expect(res.body.errors).contain.a.thing.with.property('code', 'invalid_credentials');
 
             done();
         });
     });
 
-    it('should return error incorrect credentials', (done) => {
+    it('should return error invalid credentials', (done) => {
         chai.request(url).post('/riders/authenticate').send({
             email: 'john@doe.com',
             password: '1234567'
@@ -151,7 +151,7 @@ describe('POST /riders/authenticate', () => {
             expect(res.body.success).equal(false);
             expect(res.body.status).equal(401);
             expect(res.body.errors).all.include.keys('message', 'code');
-            expect(res.body.errors).contain.a.thing.with.property('code', 'incorrect_credentials');
+            expect(res.body.errors).contain.a.thing.with.property('code', 'invalid_credentials');
 
             done();
         });

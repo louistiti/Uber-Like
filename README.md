@@ -530,17 +530,50 @@ Remarquons la différence de taille des données transferées, ici on est à 3.4
 Lorsque l'on appel notre route "register" : https://i.gyazo.com/d426d391b73b32461d6570000fecf9a5.png on peut voir qu'un chunk est chargé.
 Ce chunk correspond à notre "RegisterModule" qui lui va s'occuper de charger les dépendances nécessaires à ses composants.
 
-## 14- Authentification
+## 14- Préparation à l'authentification
 
 Commit : https://github.com/Louistiti/Uber-Like/tree/d1be1a36634bab1a3cbf26faf13e2e669646e17d
 
-On utilisera un JWT (Json Web Token) pour authentifier nos utilisateurs.
-Grâce à une clé secrète, seulement connue par le serveur, on va pouvoir décoder le token via la valeur du token + la clé secrète.
-Les JWT protègent directement contre les failles CSRF étant stateless (pas de sessions, mais un token).
+On retourne maintenant côté back.
+
+- On utilisera un JWT (Json Web Token) pour authentifier nos utilisateurs.
+- Grâce à une clé secrète (donc seulement connue par le serveur), on va pouvoir signer ce token, voyez-y comme un certificat.
+- Les JWT protègent directement contre les failles CSRF étant stateless (pas de sessions, mais un token).
+- Permet de ne pas stocker les identifiants en local (donc pas de mot de passe, etc.), et le token a une durée de vie (ici 1 heure).
+- Si désactivation de compte : clear tokens de l'app + révoquer tous les devices de l'utilisateur
+- Si déconnexion : clear tokens de l'app + révoquer device courant de l'utilisateur
+- Si changement de mot de passe : révoquer tous les devices de l'utilisateur excepté le device courant
+
+- Imaginez un refresh token comme étant l'option "se souvenir de moi" dans une SPA.
+- Un refresh token réduira le champs d'action sur la durée pour un attaquant. En effet l'access_token est valide 1h, le refresh_token peut être valide bcp plus longtemps, même "à vie". J'ai tout de même préféré lui donner une durée de vie de 7 jours.
+- On pourra révoquer un refresh token, donc l'accès à un device spécifique.
+- Notre système d'authentification est multi-devices, il est possible d'être connecté sur un même compte via plusieurs clients car chaque device a son propre refresh_token
 
 1. Expliquer ce qu'est un JWT (composé de 3 parties, https://jwt.io, etc.)
+ Par conséquent on pourra créer des "gardes" (sous forme de middleware) pour dire "t'es un rider, donc tu peux ou ne peux pas accèder à cette ressource" sans tapper dans la BDD
+ On pourra aussi connaître l'utilisateur qui demande l'accès à la ressource (via l'uuid)
+ Et par convention, quel device (via client_id / deviceId) via le claim "sub" pour "Subject"
+Générer access_token et refresh_token, donc créer table "device"
 
-2. Expliquer le processus d'authentification + d'accès à des routes protégées
+2. Expliquer comment fonctionne l'authentification pour notre projet.
+ On va utiliser le même process que le protocol OAuth 2.0 (cf "Figure 2" : https://tools.ietf.org/html/rfc6749#section-1.5)
+ On veut que notre projet soit multi-devices, donc possibilité d'être authentifié sur plusieurs appareils en même temps.
+ Par conséquent on par du principe qu'un utilisateur peut avoir plusieurs devices, qui eux vont être authentifié
+    1. Requête : /auth/token (email=xxx&password=xxx&user_typer=rider|driver&grant_type=password)
+    2. Réponse : https://i.gyazo.com/2f697fb402116b23c9a8f128982ba6c4.png
+    3. Requête : /ressource-protégée (Authorization: Bearer access_token)
+    4. Réponse : infos de la ressource protégée
+    5. Reproduire étape 3 et 4 jusqu'à ce que access_token expire (ou anticiper l'expiration avec expires_in retournée dans l'étape 2, à l'heure actuelle je ne sais pas encore ce que je vais faire ici)
+    6. Dans le cas où il n'y a pas d'anticipation, et que access_token a expiré. Réponse : https://i.gyazo.com/c18dc14c932b271a7f1c9eebd6a04f13.png
+    7. Requête : /auth/token (refresh_token=xxx&grant_type=refresh_token&client_id=xxx)
+    8. Réponse : pareil que l'étape 2 avec un nouveau access_token et refresh_token
+   
+- Il est primordial d'utiliser HTTPS pour les échanges client / serveurs.
+- Sauvegarder access_token et refresh_token dans un cookie "Secure", "HttpOnly" et "path".
+- Secure : HTTPS
+- HttpOnly : Contre les XSS par exemple (pas d'accès au cookie via un script par exemple),
+- accès au cookie seulement via le protocol HTTP.
+- Path: "/auth/token" pour restreindre le cookie à ce path
 
 3. Package express-jwt (middleware pour décoder les JWT)
     ```
@@ -552,28 +585,70 @@ Les JWT protègent directement contre les failles CSRF étant stateless (pas de 
     $ npm install jsonwebtoken --save
     ```
 
-5. Ajouter objet "token" et attribues "secret", "exp" dans config.js
+5. Ajouter objet "access_token" et attribues "secret", "exp" dans config.js
 
-6. Créer "timestamp()" (time.js) helper pour la validité du JWT dans le temps
+6. Créer "timestamp()" (time.js) helper pour la validité du JWT dans le temps et "string" helper
 
-7. Faire authentification avec middleware (decode) + middleware pour capturer les erreurs liées
-à l'authentification + création du JWT si tout est OK à la connexion
+7. Faire middleware JWT dans config/server.js, celui qui va s'occuper de décoder et de dire si l'access_token est valide ou non
 
-8. Faire les specs liées à l'authentification
+8. Faire middleware pour traiter les erreurs erreurs liés au JWT (middlewares/authError.js) https://i.gyazo.com/c18dc14c932b271a7f1c9eebd6a04f13.png
 
-Authentification d'un rider : https://i.gyazo.com/bc1fd7dc2832d359ab033f86b893fec6.png
+9. Faire rider guard middleware et l'associer aux ressources /riders concernées (middlewares/riderGuard.js) https://i.gyazo.com/85ad07c0a7b5939776415822e118dade.png (tenter d'accèder à une ressource rider quand on est driver par exemple)
 
-Accès à une route protégée avec un JWT invalide : https://i.gyazo.com/d5ed7e12ce1e71e1f6a07c2ae1526986.png
+Voilà nous avons posté nos gardiens devant notre château, maintenant on va voir comment créer notre JWT via le package "jsonwebtoken" que l'on a installé.
 
-## 15- Mise à jour d'un token d'authentification
+## 15- Authentification
 
-Révoquer les anciens tokens (à la déconnexion, MàJ du token, ...)
+1. Faire route racine /auth dans "server.js" + créer dossier "auth" comprenant "auth.routes.js" et faire la route "/auth/token" (possibiltié de décenralisé le tout sur un serveur différent)
+
+2. Faire "auth/auth.controller.js" avec action "create"
+
+3. Ecrire code pour le grant_type=password jusqu'à avoir le retour https://i.gyazo.com/2f697fb402116b23c9a8f128982ba6c4.png (besoin de créer devices/device.model.js)
+
+## 16- Mise à jour d'un token d'authentification
+
+- Faire process avec grant_type=refresh_token
+Donc créer nouvelle table "device" qui contiendra nos clients, donc les différents appareils que pourraient utiliser l'utilisateur
+https://i.gyazo.com/e37671a0007dcc67163aaf4fa4489941.png
+Faire nouveau helper "validator" pour checker si le refresh_token est bien un SHA-1, car le package "Validator" ne gère pas se cas
+
+## 17- Renommer et révoquer un appareil
+
+Comme on l'a dit, l'utilisateur peut révoquer l'accès d'un appareil spécifique à son compte. Il peut aussi renommer le nom de cet appareil pour que ce soit plus "user friendly".
+/devices/:uuid (refresh_token|name)
+
+1. Créer routes nécessaires /devices
+
+2. Faire devices/device.controller.js + créer action "edit"
+
+3. Retour révocation d'un appareil : https://i.gyazo.com/a2e9c539ce33a987a9df242f1bfe349e.png
+
+4. Retour édition du nom d'un appareil : https://i.gyazo.com/64409e2995eff95e18f03ba1c0a7db3f.png
+
+## 18- Tests d'intégration liés à l'authentification
+
+- Faire les specs couvrant l'authentification / autorisation / révocation
 
 *[En cours]*
 
-## 16- Vue de connexion
+## 19- Vue de connexion
 
 METTRE A JOUR ANGULAR + ANGULAR-CLI SUR L'APP
+
+Voici le déroulement général de l'authentification :
+
+1. Rediriger le rider sur la vue de connexion après inscription
+
+2. Se connecter
+
+3. Récupérer le JWT + refresh_token + client_id et stocker les trois entités dans trois cookies différents en répondant bien aux spécificités du dessus à ce sujet
+(au choix : possibilité de récupérer "expires_in", set date d'expiration et enregistrer le tout en local storage pour anticiper à chaque requête / changement de vue la MàJ du JWT (access_token). L'idéale serait de faire ça avec les sockets)
+
+4. Envoyer le JWT à chaque requête, si JWT non trouvé alors vérifier si refresh_token et client_id existent sont présent, si oui, demander nouveau JWT, si un des deux derniers manquent, alors rediriger sur vue de connexion
+
+5. Si 401 retourné, alors vérifier si refresh_token et client_id existent sont présent, si oui, demander nouveau JWT, si un des deux derniers manquent, alors rediriger sur vue de connexion
+
+6. A chaque changement de vue, vérifier si JWT présent, si non rediriger sur vue de connexion
 
 *[En cours]*
 
@@ -638,6 +713,15 @@ Générer fichier .htaccess :
 - https://www.quora.com/Why-does-Quora-use-MySQL-as-the-data-store-instead-of-NoSQLs-such-as-Cassandra-MongoDB-or-CouchDB
 - http://gotocon.com/dl/goto-aar-2014/slides/MartyWeiner_ScalingPinterest.pdf
 - http://stackoverflow.com/questions/7888880/what-is-redis-and-what-do-i-use-it-for
+
+## Authentification
+- https://tools.ietf.org/html/rfc6749
+- https://tools.ietf.org/html/rfc7519
+- https://blog.hyphe.me/using-refresh-tokens-for-permanent-user-sessions-in-node/
+- https://auth0.com/forum/t/can-i-change-a-jwts-expiration-field-in-order-to-invalidate-it/1198
+- http://security.stackexchange.com/questions/91116/is-my-jwt-refresh-plan-secure
+- https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/
+- http://stackoverflow.com/questions/26739167/jwt-json-web-token-automatic-prolongation-of-expiration/26834685#26834685
 
 ## Map
 - https://www.mapbox.com/

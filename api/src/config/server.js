@@ -5,10 +5,15 @@ import bodyParser from 'body-parser';
 import expressJwt from 'express-jwt';
 
 import { api } from './config';
+
 import corsMidd from '../middlewares/cors';
 import otherMidd from '../middlewares/other';
 import authErrorMidd from '../middlewares/authError';
+
+import deviceRouter from '../devices/device.routes';
 import riderRouter from '../users/rider.routes';
+import authRouter from '../auth/auth.routes';
+
 import log from '../helpers/log';
 
 const app = express();
@@ -32,11 +37,12 @@ class Server {
 
         // Auth middleware
         app.use(expressJwt({
-            secret: api().token.secret
+            secret: api().access_token.secret
         }).unless({
             path: [
                 { url: `${api().version}/riders`, methods: ['POST'] },
-                `${api().version}/riders/authenticate`
+                `${api().version}/auth`,
+                `${api().version}/auth/token`
             ]
         }));
 
@@ -52,8 +58,11 @@ class Server {
     static bootstrap() {
         // Routes
 
+        app.use(`${api().version}/devices`, deviceRouter);
         app.use(`${api().version}/riders`, riderRouter);
-        // ... others routes components here
+        // TODO: driver guard when drivers needed
+        // Could use decentralized authorization server
+        app.use(`${api().version}/auth`, authRouter);
 
         this.listen();
     }

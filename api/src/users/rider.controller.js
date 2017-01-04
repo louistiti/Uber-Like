@@ -4,17 +4,16 @@ import uuid from 'uuid';
 import { isMobilePhone, isEmail } from 'validator';
 import bcrypt from 'bcrypt';
 import EventEmitter from 'events';
-import jwt from 'jsonwebtoken';
 
 import Rider from './rider.model';
-import { datetime, timestamp } from '../helpers/time';
-import { api } from '../config/config';
+
+import { datetime } from '../helpers/time';
 import response from '../helpers/response';
 import log from '../helpers/log';
 
 const riderController = {};
 
-riderController.add = (req, res) => {
+riderController.create = (req, res) => {
     log.info('Hi! Adding a rider...');
 
     const firstname = req.body.firstname;
@@ -31,14 +30,14 @@ riderController.add = (req, res) => {
 
         if (!lastname || !firstname || !phone ||
             !email || !password) {
-            errors.push('missing_fields');
+            errors.push('missing_params');
         } else {
             phone = `+33${req.body.phone.substr(1)}`;
 
             if (!isMobilePhone(phone, 'fr-FR')) {
-                errors.push('incorrect_phone_number');
+                errors.push('invalid_phone_number');
             } if (!isEmail(email)) {
-                errors.push('incorrect_email_address');
+                errors.push('invalid_email_address');
             } if (password.length < 6) {
                 errors.push('password_too_short');
             }
@@ -115,72 +114,10 @@ riderController.add = (req, res) => {
     });
 };
 
-riderController.authenticate = (req, res) => {
-    log.info('Hi! Authenticating a rider...');
-
-    const email = req.body.email;
-    const password = req.body.password;
-
-    const checkEvent = new EventEmitter();
-
-    const checking = () => {
-        const errors = [];
-
-        if (!email || !password) {
-            errors.push('missing_fields');
-        } else {
-            Rider.getDataForAuth([email], (result) => {
-                if (result.length !== 0) {
-                    bcrypt.compare(password, result.password, (err, isMatch) => {
-                        if (err) throw err;
-
-                        if (isMatch) {
-                            checkEvent.emit('success', result);
-                        } else {
-                            errors.push('incorrect_credentials');
-                            checkEvent.emit('error', errors);
-                        }
-                    });
-                } else {
-                    errors.push('incorrect_credentials');
-                    checkEvent.emit('error', errors);
-                }
-            });
-        }
-
-        if (errors.length > 0) {
-            checkEvent.emit('error', errors);
-        }
-    };
-
-    checkEvent.on('error', (err) => {
-        let code = 400;
-
-        if (err[0] === 'incorrect_credentials') {
-            code = 401;
-        }
-
-        response.error(res, code, err);
-    });
-
-    checking();
-
-    checkEvent.on('success', (data) => {
-        const currentTimestamp = timestamp();
-        const futureTimestamp = currentTimestamp + api().token.exp;
-
-        const token = jwt.sign({ uuid: data.uuid, exp: futureTimestamp }, api().token.secret);
-
-        response.success(res, 200, 'rider_authenticated',
-            { token }
-        );
-    });
-};
-
 riderController.getAll = (req, res) => {
     console.log('Hi! Getting all of the riders...');
-    Rider.getAll((rows) => {
-        res.json(rows);
+    Rider.getAll((result) => {
+        res.json(result);
     });
 };
 
