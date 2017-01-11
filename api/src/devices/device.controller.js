@@ -59,7 +59,13 @@ deviceController.patch = (req, res) => {
     };
 
     checkEvent.on('error', (err) => {
-        response.error(res, 400, err);
+        let status = 400;
+
+        if (err[0] === 'the_device_does_not_belong_to_the_user') {
+            status = 404;
+        }
+
+        response.error(res, status, err);
     });
 
     checking();

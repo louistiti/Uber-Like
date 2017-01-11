@@ -447,12 +447,12 @@ Libre à vous de les ajouter. ;)
     
 5. Modifier règle "import/no-extraneous-dependencies" dans .eslintrc seulement pour les tests
 
-6. Modifier le script de test dans "package.json" en exécutant Mocha, en précisant que l'on est sur de l'ES6 et parce qu'on aime les chats alors avoir le reporter Nyan Cat
+6. Modifier le script de test dans "package.json" en exécutant Mocha, en précisant que l'on est sur de l'ES6 et parce qu'on aime les chats alors avoir le reporter Nyan Cat (on exécute init et riders en priorité)
     ```json
-    "test": "set NODE_ENV=test&& npm run clone-db-test && mocha --compilers js:babel-register --reporter nyan ./src/**/*.spec.js",
+    "test": "set NODE_ENV=test&& npm run clone-db-test && mocha --compilers js:babel-register --reporter nyan ./src/init.spec.js ./src/users/rider.spec.js ./src/**/*.spec.js",
     ```
 
-7. Nous allons donc découper nos tests par composant, ici on va commencer par "rider.spec.js" (seulement créer le fichier)
+7. Nous allons donc découper nos tests par feature, ici on va commencer par "init.spec.js" et "rider.spec.js" (seulement créer les fichiers)
 
 ## 9- Notre premier test
 
@@ -463,7 +463,9 @@ avant de pouvoir être utilisé. Après ce sont les goûts et les couleurs.
 
 2. Remplacer tous les console.log()
 
-3. Remplir "rider.spec.js" pour POST /v1/riders
+3. Remplir "init.spec.js"
+
+4. Remplir "rider.spec.js" pour POST /v1/riders
 
 Here we go
 
@@ -635,9 +637,7 @@ Comme on l'a dit, l'utilisateur peut révoquer l'accès d'un appareil spécifiqu
 
 ## 18- Tests d'intégration liés à l'authentification
 
-- Faire les specs couvrant l'authentification / autorisation / révocation
-
-*[En cours]*
+- Faire les specs couvrant l'authentification / autorisation / révocation (auth.spec.js + device.spec.js)
 
 ## 19- Vue de connexion
 

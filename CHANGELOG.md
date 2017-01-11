@@ -1,9 +1,14 @@
-### 0.0.9 (2017-01-04)
+## 0.0.10 (2017-01-11)
+
+### App
+- [*coming*] Login view
+
+## 0.0.9 (2017-01-11)
 
 ### Api
-- *[En cours]* Integrations tests for authentication / authorization and revocation
+- Integrations tests for authentication / authorization and revocation
 
-### 0.0.8 (2017-01-04)
+## 0.0.8 (2017-01-04)
 
 ### Api
 - Upgrade database from utf8 to utf8mb4 (thanks to @ptondereau)
