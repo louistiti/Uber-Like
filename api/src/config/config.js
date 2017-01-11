@@ -30,7 +30,7 @@ const api = () => {
     const conf = {
         test: {
             host: 'localhost',
-            port: 1337,
+            port: 1336,
             version: '/v1',
             access_token: {
                 secret: 'my-secret-key',

@@ -10,6 +10,6 @@ const deviceRouter = Router();
 
 // Middlewares dedicated to these routes here
 
-deviceRouter.patch(`/:uuid(${regex.uuid})`, deviceController.edit);
+deviceRouter.patch(`/:uuid(${regex.uuid})`, deviceController.patch);
 
 export default deviceRouter;

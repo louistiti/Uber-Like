@@ -18,7 +18,7 @@ import log from '../helpers/log';
 
 const authController = {};
 
-authController.create = (req, res) => {
+authController.post = (req, res) => {
     // TODO: deal with it when mobile is coming (by taking device name as default)
     const deviceName = 'Ordinateur principal';
 

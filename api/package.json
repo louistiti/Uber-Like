@@ -5,7 +5,7 @@
   "main": "./src/index.js",
   "scripts": {
     "clone-db-test": "mysql -h localhost -u root < ./sql/reset-test-db.sql && mysqldump --no-data uberlike -h localhost -u root > ./sql/uberlike.sql && mysql uberlike_test -h localhost -u root < ./sql/uberlike.sql",
-    "test": "set NODE_ENV=test&& npm run clone-db-test && mocha --compilers js:babel-register --reporter nyan ./src/**/*.spec.js",
+    "test": "set NODE_ENV=test&& npm run clone-db-test && mocha --compilers js:babel-register --reporter nyan ./src/init.spec.js ./src/users/rider.spec.js ./src/**/*.spec.js",
     "start": "nodemon --use_strict ./src/index.js --exec babel-node",
     "lint": "./node_modules/.bin/eslint ./src/**/*.js",
     "build": "npm run lint && babel ./src -d ./dist && npm test",

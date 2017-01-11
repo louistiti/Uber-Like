@@ -9,7 +9,7 @@ import log from '../helpers/log';
 
 const deviceController = {};
 
-deviceController.edit = (req, res) => {
+deviceController.patch = (req, res) => {
     log.info('Hi! Editing a device...');
 
     const revoked = req.body.revoked;

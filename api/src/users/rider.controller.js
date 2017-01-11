@@ -13,7 +13,7 @@ import log from '../helpers/log';
 
 const riderController = {};
 
-riderController.create = (req, res) => {
+riderController.post = (req, res) => {
     log.info('Hi! Adding a rider...');
 
     const firstname = req.body.firstname;
@@ -106,7 +106,7 @@ riderController.create = (req, res) => {
                  * For next 201 code, we should have the URL relatives to the new ressource
                  * Ex: /riders/:uuid
                  */
-                response.successAdd(res, 'rider_added', '/signin',
+                response.successAdd(res, 'rider_added', '/auth/token',
                     { rider: { uuid: newRider.uuid } }
                 );
             });

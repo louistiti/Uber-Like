@@ -10,7 +10,7 @@ const riderRouter = Router();
 
 // Middlewares dedicated to these routes here
 
-riderRouter.post('/', riderController.create);
+riderRouter.post('/', riderController.post);
 riderRouter.get('/', riderGuardMidd, riderController.getAll);
 
 export default riderRouter;
