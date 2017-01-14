@@ -94,7 +94,12 @@ mais en gros ce sera l'outil nous permettant de faire nos tests)
 
 10. IDE Settings > rechercher ESLint > Activer ESLint + renseigner package dans node_modules + ajouter config ESLint de notre projet et non de node_modules/
 
-11. Ajouter start dans scripts pour le développement ; Ajouter serve pour la production ; Le package.json devrait être similaire à
+11. Installation de del-cli pour clean "dist/" avant de build
+    ```sh
+    $ npm install --save-dev del-cli
+    ```
+
+12. Ajouter start dans scripts pour le développement ; Ajouter serve pour la production ; Le package.json devrait être similaire à
     ```json
     {
       "name": "u-like",
@@ -105,7 +110,8 @@ mais en gros ce sera l'outil nous permettant de faire nos tests)
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "nodemon --use_strict ./src/index.js --exec babel-node",
         "lint": "./node_modules/.bin/eslint ./src/**/*.js",
-        "build": "npm run lint && babel ./src -d ./dist",
+        "delete-dist": "./node_modules/.bin/del-cli -f ./dist",
+        "build": "npm run lint && npm run delete-dist && babel ./src -d ./dist",
         "serve": "node ./dist/index.js"
       },
       "author": "Louistiti",
@@ -125,7 +131,7 @@ mais en gros ce sera l'outil nous permettant de faire nos tests)
     }
     ```
 
-12. Fichier de configuration Babel ".babelrc", on indique que l'on utilisera le preset es2015
+13. Fichier de configuration Babel ".babelrc", on indique que l'on utilisera le preset es2015
     ```json
     {
       "presets": ["es2015"]
@@ -134,8 +140,8 @@ mais en gros ce sera l'outil nous permettant de faire nos tests)
 
 Car pas de nodemon, ni de Babel en production, donc il suffira de faire
 ```sh
-$ node run build
-$ node run serve
+$ npm run build
+$ npm run serve
 ```
 
 De cette façon on transpile notre code ES6 en ES5, et on lance le serveur avec le code transpilé de la même manière que sur le serveur de production.
