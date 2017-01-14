@@ -647,8 +647,6 @@ Comme on l'a dit, l'utilisateur peut révoquer l'accès d'un appareil spécifiqu
 
 ## 19- Vue de connexion
 
-METTRE A JOUR ANGULAR + ANGULAR-CLI SUR L'APP
-
 Voici le déroulement général de l'authentification :
 
 1. Rediriger le rider sur la vue de connexion après inscription
@@ -780,6 +778,7 @@ http://ngcordova.com/docs/install/ (bower install ngCordova)
 - Package chai-things : https://www.npmjs.com/package/chai-things
 - Package express-jwt : https://www.npmjs.com/package/express-jwt
 - Package jsonwebtoken : https://www.npmjs.com/package/jsonwebtoken
+- Package del-cli : https://www.npmjs.com/package/del-cli
 
 # Auteur
 **Louis Grenard** : https://www.louistiti.fr

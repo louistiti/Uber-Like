@@ -40,7 +40,7 @@ class Server {
             secret: api().access_token.secret
         }).unless({
             path: [
-                { url: `${api().version}/riders`, methods: ['POST'] },
+                { url: `${api().version}/riders`, methods: ['OPTIONS', 'POST'] },
                 `${api().version}/auth`,
                 `${api().version}/auth/token`
             ]

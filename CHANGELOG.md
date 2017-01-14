@@ -1,13 +1,16 @@
 ## 0.0.10 (2017-01-14)
 
 ### App
-- [*coming*] Upgrade to Angular 2.4.3
-- [*coming*] Upgrade to Angular-CLI 1.0.0-beta.25
+- Upgrade to Angular 2.4.3
+- Upgrade to Angular-CLI 1.0.0-beta.25
+- Upgrade others dependencies
 - [*coming*] Login view
 
 ### Api
 - Use /index.js to init the server for testing
 - Clean "dist/" before building
+- Allow OPTIONS verb for /riders ressource
+- Fix CORS middleware
 
 ## 0.0.9 (2017-01-11)
 

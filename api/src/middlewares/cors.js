@@ -2,7 +2,7 @@
 
 import { app } from '../config/config';
 
-const corsMidd = (err, req, res, next) => {
+const corsMidd = (req, res, next) => {
     // Allow only a specific client to request to the API (depending of the env)
     res.header('Access-Control-Allow-Origin', `http://${app().host}:${app().port}`);
 
