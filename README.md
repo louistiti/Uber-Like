@@ -481,6 +481,7 @@ Here we go
 
 1. Faire le squelette de l'application, avec un routing enfant (riders), composant "register", "register-rider", "riders" dans dossier "users"
 Car on aura un module routing spécifique et un module de chargement à chaque feature / composant "métier" de notre application.
+Préparer module "core/core.module.ts" pour les ressources que l'on utilise souvent (loader, ...)
 
 2. Editer le composant (rendu + style) Home et Register, tout ce dont on a besoin pour inscrire un utilisateur (voir pour faire rider + driver, pas sûr)
 
@@ -534,11 +535,11 @@ de l'application (sans cache) plus performant.
 
 3. Déroulement : app.module > app-routing.module (indique quelles routes doient être lazy loaded) > feature.module > feature-routing.module
 
-4. Pour info', la team Angular a vraiment vraiment bien pensée les choses car nous pouvons également faire du pre-loading,
-cf https://angular.io/docs/ts/latest/guide/router.html#!#preloading. De cette façon les ressources qui tendent à être
-lazy loaded seront chargées en fond directement après le chargement des ressources nécessaires pour la route actuellement demandée.
-Pour ça il suffit simplement d'importer le module "PreloadAllModules" à notre routing principal et d'y spécifier la stratégie.
-Mais on va seulement faire du lazy loading, c'est déjà pas mal. :)
+4. Pour info', la team Angular a vraiment bien pensée les choses car nous pouvons également faire du pre-loading,
+cf https://angular.io/docs/ts/latest/guide/router.html#!#preloading. En fonction de la stratégie choisie, il est possible
+de preloaded les modules lorsque les modules nécessaires pour la feature ou route en cours ont correctement été chargés.
+Mais on verra ça plus tard.
+
 
 Maintenant voici un screenshot avec le lazy loading lors du premier chargement de page : https://i.gyazo.com/d1c1f22606ec1a6a8867d98ece16c436.png.
 Remarquons la différence de taille des données transferées, ici on est à 3.4MB au lieu de 3.6MB.
@@ -645,7 +646,34 @@ Comme on l'a dit, l'utilisateur peut révoquer l'accès d'un appareil spécifiqu
 
 - Faire les specs couvrant l'authentification / autorisation / révocation (auth.spec.js + device.spec.js)
 
-## 19- Vue de connexion
+## 19- Preloading
+
+Comme dit dans un épisode précédent : "En fonction de la stratégie choisie, il est possible
+de preloaded les modules lorsque les modules nécessaires pour la feature ou route en cours ont correctement été chargés.
+Mais on verra ça plus tard."
+
+
+Avec la stratégie "PreloadAllModules", tous les modules qui tendent à être lazy loaded seront chargés.
+Pour ça il suffit simplement d'importer le module "PreloadAllModules" à notre routing principal et d'y spécifier la stratégie.
+
+
+Il est également possible d'utiliser une stratégie personnalisée qui nous laissera le choix sur les modules que l'on
+veut preloaded, sans dépendre du lazy loading, c'est la stratégie que l'on va utiliser pour une meilleure souplesse.
+
+1. Créer "core/selective-preloading-strategy", cf https://angular.io/docs/ts/latest/guide/router.html#custom-preloading-strategy
+
+2. Ajouter la stratégie dans "app-routing.module.ts"
+
+3. Ajouter "preload: true" à la route "register"
+
+
+Maintenant, en plus d'être lazy loaded, nos routes peuvent être preloaded. Attention tout de même de ne pas en abuser,
+ici on sait que si l'utilisateur n'est pas authentifié, il a de grande chose chance d'attérir sur l'inscription,
+c'est pour ça que l'on peut se permettre de preloaded.
+
+## 20- Vue de connexion
+
+Pour connecter l'utilisateur, on va créer un service "core/auth.service.ts".
 
 Voici le déroulement général de l'authentification :
 
@@ -661,6 +689,22 @@ Voici le déroulement général de l'authentification :
 5. Si 401 retourné, alors vérifier si refresh_token et client_id existent sont présent, si oui, demander nouveau JWT, si un des deux derniers manquent, alors rediriger sur vue de connexion
 
 6. A chaque changement de vue, vérifier si JWT présent, si non rediriger sur vue de connexion
+
+*[En cours]*
+
+## 21- Tableau de bord
+
+1. Créer feature "dashboard"
+
+2. Une fois connecté l'utilisateur sera redirigé vers le "dashboard", l'accès à cette feature doit être protégée via un garde
+(de la même façon que pour le backend), ici on utilisera "CanActivate" qui sera en fait un service que l'on va créer
+dans core/auth-guard.service.ts, cf https://angular.io/docs/ts/latest/guide/router.html#!#guard-the-admin-feature.
+
+3. Cependant, le "dashboard" sera toujours preloaded, même si l'utilisateur n'est pas connecté. Pour pallier à ça
+il faut ajouter un nouveau garde : "CanLoad" qui utilisera la même logique que "CanActivate" mais pour vérifier
+si il faut charger ou non le module adéquat, cf https://angular.io/docs/ts/latest/guide/router.html#!#can-load-guard.
+
+4. Les gardes "CanActivate" et "CanLoad" seront ajoutés devant les portes de chaque feature nécessitant l'authentification.
 
 *[En cours]*
 

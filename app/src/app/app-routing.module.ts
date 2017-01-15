@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { SelectivePreloadingStrategy } from './core/selective-preloading-strategy';
+
 import { NotFoundComponent } from './not-found.component';
 
 import { HomeComponent } from './home/home.component';
-
-import { SignInComponent} from './sign-in/sign-in.component';
 
 const appRoutes: Routes = [
     {
@@ -17,13 +17,16 @@ const appRoutes: Routes = [
     },
     {
         path: 'register',
-        loadChildren: 'app/register/register.module#RegisterModule'
+        loadChildren: 'app/register/register.module#RegisterModule',
+        data: {
+            preload: true
+        }
     },
     {
         path: 'signin',
-        component: SignInComponent,
+        loadChildren: 'app/sign-in/sign-in.module#SignInModule',
         data: {
-            title: 'Connexion'
+            preload: true
         }
     },
     {
@@ -37,11 +40,15 @@ const appRoutes: Routes = [
 
 @NgModule({
     imports: [
-        RouterModule.forRoot(appRoutes)
+        RouterModule.forRoot(
+            appRoutes,
+            { preloadingStrategy: SelectivePreloadingStrategy }
+        )
     ],
     exports: [
         RouterModule
-    ]
+    ],
+    providers: [SelectivePreloadingStrategy]
 })
 
 export class AppRoutingModule { }

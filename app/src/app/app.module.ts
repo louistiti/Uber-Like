@@ -9,8 +9,6 @@ import { NotFoundComponent } from './not-found.component';
 
 import { HomeComponent } from './home/home.component';
 
-import { SignInComponent } from './sign-in/sign-in.component';
-
 @NgModule({
     /**
      * Must import children routes first
@@ -23,8 +21,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
     declarations: [
         AppComponent,
         NotFoundComponent,
-        HomeComponent,
-        SignInComponent
+        HomeComponent
     ],
     providers: [Title],
     bootstrap: [AppComponent]

@@ -1,10 +1,17 @@
-## 0.0.10 (2017-01-14)
+## 0.0.11 (2017-01-15)
+
+### App
+- [*coming*] Signin view
+
+## 0.0.10 (2017-01-15)
 
 ### App
 - Upgrade to Angular 2.4.3
 - Upgrade to Angular-CLI 1.0.0-beta.25
 - Upgrade others dependencies
-- [*coming*] Login view
+- Preloading
+- Core module
+- Signin feature prepared
 
 ### Api
 - Use /index.js to init the server for testing
