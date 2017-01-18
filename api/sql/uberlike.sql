@@ -57,7 +57,7 @@ CREATE TABLE `rider` (
   UNIQUE KEY `rider_uuid_uindex` (`uuid`),
   UNIQUE KEY `rider_phone_uindex` (`phone`),
   UNIQUE KEY `rider_email_uindex` (`email`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -69,4 +69,4 @@ CREATE TABLE `rider` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-14 17:57:38
+-- Dump completed on 2017-01-18 11:06:15

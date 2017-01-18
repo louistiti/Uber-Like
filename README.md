@@ -46,6 +46,9 @@ pourquoi pas le faire avec le dev Web
 
 ## 2- Installation & Pré-requis
 
+**/!\ [Yarn](https://yarnpkg.com) sera utilisé à la place d'npm durant la série.** Son système de caching n'est pas négligeable, ainsi que
+son système de version matching utilisé par défaut (yarn.lock)
+
 ### Back-End
 
 #### Installation
@@ -755,6 +758,22 @@ Générer fichier .htaccess :
     
     # If the requested resource doesn't exist, use index.html
     RewriteRule ^ /index.html
+    ```
+
+### Yarn
+- Ajouter une dépendance
+    ```sh
+    $ yarn add [package]
+    ```
+    
+ - Ajouter dépendance de développement
+    ```sh
+    $ yarn add [package] [--dev/-D]
+    ```
+     
+ - Mettre à jour les dépendances
+    ```sh
+    $ yarn upgrade
     ```
 
 # Liens utiles
