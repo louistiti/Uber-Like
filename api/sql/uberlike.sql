@@ -31,10 +31,9 @@ CREATE TABLE `device` (
   `revoked` tinyint(1) DEFAULT '0',
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` datetime DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `device_uuid_uindex` (`uuid`),
+  PRIMARY KEY (`id`, `uuid`),
   UNIQUE KEY `device_refresh_token_uindex` (`refresh_token`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -53,11 +52,10 @@ CREATE TABLE `rider` (
   `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` datetime DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `rider_uuid_uindex` (`uuid`),
+  PRIMARY KEY (`id`, `uuid`),
   UNIQUE KEY `rider_phone_uindex` (`phone`),
   UNIQUE KEY `rider_email_uindex` (`email`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
