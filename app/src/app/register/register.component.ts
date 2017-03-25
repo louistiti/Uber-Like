@@ -9,7 +9,7 @@ export class RegisterComponent implements OnInit {
     /**
      * Using "_" prefix for setter cf https://github.com/angular/angular.io/issues/1108#issuecomment-213580426
      */
-    private _userType: string = 'rider';
+    _userType: string = 'rider';
 
     constructor() { }
 

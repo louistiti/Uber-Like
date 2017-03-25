@@ -1,7 +1,9 @@
-## 0.0.11 (2017-01-18)
+## 0.0.11 (2017-03-25)
 
 ### App
 - [*coming*] Signin view
+- Upgrade to Angular 4
+- Upgrade Angular CLI to v1.0.0
 - yarn.lock
 
 ### Api

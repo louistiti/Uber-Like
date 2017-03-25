@@ -18,7 +18,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ResponseMessageComponent implements OnInit {
 
     // Reference the parent attribute with the render (html)
-    @Input() data: Object;
+    @Input() data: any;
 
     constructor() { }
 
