@@ -97,9 +97,9 @@ mais en gros ce sera l'outil nous permettant de faire nos tests)
 
 10. IDE Settings > rechercher ESLint > Activer ESLint + renseigner package dans node_modules + ajouter config ESLint de notre projet et non de node_modules/
 
-11. Installation de del-cli pour clean "dist/" avant de build
+11. Installation de shx pour clean "dist/" avant de build et pour d'autres commandes à venir
     ```sh
-    $ npm install --save-dev del-cli
+    $ npm install --save-dev shx
     ```
 
 12. Ajouter start dans scripts pour le développement ; Ajouter serve pour la production ; Le package.json devrait être similaire à
@@ -113,7 +113,7 @@ mais en gros ce sera l'outil nous permettant de faire nos tests)
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "nodemon --use_strict ./src/index.js --exec babel-node",
         "lint": "./node_modules/.bin/eslint ./src/**/*.js",
-        "delete-dist": "./node_modules/.bin/del-cli -f ./dist",
+        "delete-dist": "shx rm -rf ./dist",
         "build": "npm run lint && npm run delete-dist && babel ./src -d ./dist",
         "serve": "node ./dist/index.js"
       },
@@ -338,7 +338,7 @@ Plus performant, on a une mémoire plus libre.
 
 ### Structure
 1. Connexion via PhpStorm (ou autre database manager)
-2. Création de la table "rider" (passagers) https://i.gyazo.com/c4f6f2de6431b9387ea53946c7c64e4d.png
+2. Création de la table "rider" (passagers) https://i.gyazo.com/b484423d7fa08914cb473631b6f620d7.png
 
 ### Code
 1. Installer MySQL dans le projet
@@ -413,7 +413,7 @@ L'env' de dev étant celui par défaut.
 4. Modifier les scripts du package.json pour créer une BDD dédiée aux tests en clonant la structure de la BDD dev à la volée
     ```
     "scripts": {
-        "clone-db-test": "mysql -h localhost -u root < ./sql/reset-test-db.sql && mysqldump --no-data uberlike -h localhost -u root > ./sql/uberlike_test.sql && mysql uberlike_test -h localhost -u root < ./sql/uberlike_test.sql",
+        "clone-db-test": "mysql -h localhost -u root < ./sql/reset-test-db.sql && mysqldump --no-data uberlike -h localhost -u root > ./sql/uberlike.sql && shx sed -i AUTO_INCREMENT=[0-9] AUTO_INCREMENT=0 ./sql/uberlike.sql && mysql uberlike_test -h localhost -u root < ./sql/uberlike.sql",
         "test": "set NODE_ENV=test&& npm run clone-db-test && node ./dist/index.js",
         "start": "nodemon --use_strict ./src/index.js --exec babel-node",
         "lint": "./node_modules/.bin/eslint ./src/**/*.js",
@@ -629,7 +629,7 @@ Voilà nous avons posté nos gardiens devant notre château, maintenant on va vo
 
 - Faire process avec grant_type=refresh_token
 Donc créer nouvelle table "device" qui contiendra nos clients, donc les différents appareils que pourraient utiliser l'utilisateur
-https://i.gyazo.com/619f1fe6058e924de1a40cd4dea051e0.png
+https://i.gyazo.com/9292aab348d8b5056e2ebdc7a1a5ac68.png
 Faire nouveau helper "validator" pour checker si le refresh_token est bien un SHA-1, car le package "Validator" ne gère pas se cas
 
 ## 17- Renommer et révoquer un appareil
@@ -841,7 +841,7 @@ http://ngcordova.com/docs/install/ (bower install ngCordova)
 - Package chai-things : https://www.npmjs.com/package/chai-things
 - Package express-jwt : https://www.npmjs.com/package/express-jwt
 - Package jsonwebtoken : https://www.npmjs.com/package/jsonwebtoken
-- Package del-cli : https://www.npmjs.com/package/del-cli
+- Package shx : https://www.npmjs.com/package/shx
 
 # Auteur
 **Louis Grenard** : https://www.louistiti.fr

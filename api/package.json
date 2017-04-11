@@ -4,11 +4,11 @@
   "description": "Just a let's play!",
   "main": "./src/index.js",
   "scripts": {
-    "clone-db-test": "mysql -h localhost -u root < ./sql/reset-test-db.sql && mysqldump --no-data uberlike -h localhost -u root > ./sql/uberlike.sql && mysql uberlike_test -h localhost -u root < ./sql/uberlike.sql",
+    "clone-db-test": "mysql -h localhost -u root < ./sql/reset-test-db.sql && mysqldump --no-data uberlike -h localhost -u root > ./sql/uberlike.sql && shx sed -i AUTO_INCREMENT=[0-9] AUTO_INCREMENT=0 ./sql/uberlike.sql && mysql uberlike_test -h localhost -u root < ./sql/uberlike.sql",
     "test": "set NODE_ENV=test&& npm run clone-db-test && mocha --compilers js:babel-register --reporter nyan ./src/index.js ./src/users/rider.spec.js ./src/**/*.spec.js",
     "start": "nodemon --use_strict ./src/index.js --exec babel-node",
     "lint": "./node_modules/.bin/eslint ./src/**/*.js",
-    "delete-dist": "./node_modules/.bin/del-cli -f ./dist",
+    "delete-dist": "shx rm -rf ./dist",
     "build": "npm run lint && npm test && npm run delete-dist && babel ./src -d ./dist",
     "serve": "set NODE_ENV=prod&& node ./dist/index.js"
   },
@@ -31,12 +31,12 @@
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "chai-things": "^0.2.0",
-    "del-cli": "^0.2.1",
     "eslint": "^3.9.1",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-plugin-import": "^2.1.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.6.0",
-    "mocha": "^3.1.2"
+    "mocha": "^3.1.2",
+    "shx": "^0.2.2"
   }
 }

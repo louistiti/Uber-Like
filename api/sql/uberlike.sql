@@ -24,17 +24,18 @@ DROP TABLE IF EXISTS `device`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `device` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uuid` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_uuid` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_type` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `refresh_token` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `revoked` tinyint(1) DEFAULT '0',
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` datetime DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `device_uuid_uindex` (`uuid`),
-  UNIQUE KEY `device_refresh_token_uindex` (`refresh_token`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  PRIMARY KEY (`id`,`uuid`),
+  UNIQUE KEY `device_refresh_token_uindex` (`refresh_token`),
+  KEY `device_rider_uuid_fk` (`user_uuid`),
+  CONSTRAINT `device_rider_uuid_fk` FOREIGN KEY (`user_uuid`) REFERENCES `rider` (`uuid`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,18 +47,18 @@ DROP TABLE IF EXISTS `rider`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rider` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uuid` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
   `lastname` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `firstname` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `phone` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` datetime DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`,`uuid`),
   UNIQUE KEY `rider_uuid_uindex` (`uuid`),
   UNIQUE KEY `rider_phone_uindex` (`phone`),
   UNIQUE KEY `rider_email_uindex` (`email`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -69,4 +70,4 @@ CREATE TABLE `rider` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-18 11:06:15
+-- Dump completed on 2017-04-11 13:06:21

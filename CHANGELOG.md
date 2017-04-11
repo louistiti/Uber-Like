@@ -1,7 +1,18 @@
+- [*coming*] Signin view
+
+## 0.0.12 (2017-04-11)
+
+### Api
+- Switch MySQL engine from MyISAM to InnoDB (thanks to @Elhebert)
+- Set `AUTO_INCREMENT` value to 0 (thanks to @Elhebert)
+- Review data modeling
+- Add `sed` command in the `clone-db-test` script from the `package.json` file for testing
+- Delete del-cli dev dependency
+- Add shx dev dependency
+
 ## 0.0.11 (2017-03-25)
 
 ### App
-- [*coming*] Signin view
 - Upgrade to Angular 4
 - Upgrade Angular CLI to v1.0.0
 - yarn.lock
