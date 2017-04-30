@@ -41,7 +41,7 @@ pourquoi pas le faire avec le dev Web
     - Node.js côté back avec le micro-framework Express
     - ~~MongoDB pour des data nécessitant du temps réel (temporaire)~~
     - Redis pour des data nécessitant du temps réel (temporaire ; queue à dépiler au fur et à mesure)
-    - Socket.io pour la MàJ de la position du rider par exemple et la boucle globale d'une commande en cours (le tout saved dans Redis le temps de la course)
+    - Socket.io ou SSE (Server-Sent Events, cf http://stackoverflow.com/a/5326159/1768162) pour la MàJ de la position du rider par exemple et la boucle globale d'une commande en cours (le tout saved dans Redis le temps de la course)
     - MySQL pour la persistence à la fin de la commande pour préserver les données
 
 ## 2- Installation & Pré-requis
@@ -262,7 +262,7 @@ A REDEFINIR APRES AVOIR CHOISI ENTRE NATIVESCRIPT ET REACT NATIVE (mais toujours
     - node_modules/
     - src/
         - app/
-            - core/
+            - core/ (seulement singletons services ou items qui ont besoin d'être instanciés qu'une fois)
                 - config.ts
                 - http.service.ts
                 - ...
@@ -270,19 +270,32 @@ A REDEFINIR APRES AVOIR CHOISI ENTRE NATIVESCRIPT ET REACT NATIVE (mais toujours
                 - home.component.html
                 - home.component.scss
                 - home.component.ts
-            - register/
-                - register-rider/
-                    - register-rider.component.html
-                    - register-rider.component.ts
-                - register-routing.module.ts 
-                - register.component.html
-                - register.component.ts
-                - register.module.ts
+            - public/
+                - register/
+                    - register-rider/
+                        - register-rider.component.html
+                        - register-rider.component.ts
+                    - register.component.html
+                    - register.component.ts
+                - public.module.ts
+                - public-routing.ts
+                - ...
+            - shared/
+                - loader.component.ts
+                - response-message.component.scss
+                - response-message.component.ts
+                - ...
             - users/
-                - rider-detail/
-                    - rider-detail.component.html
-                    - rider-detail.component.scss
-                    - rider-detail.component.ts
+                - ? rider-list/ (seulement si besoin)
+                    - rider-list.component.html
+                    - rider-list.component.scss
+                    - rider-list.component.ts
+                - rider/
+                    - rider.component.html
+                    - rider.component.scss
+                    - rider.component.ts
+                - ? shared/ (si composants, directives, pipes propres à cette feature sont partagés ailleurs)
+                    ...
                 - rider.model.ts
                 - rider.service.ts
                 - riders-routing.module.ts
@@ -482,9 +495,15 @@ Here we go
 
 ## 10- Vue d'inscription
 
-1. Faire le squelette de l'application, avec un routing enfant (riders), composant "register", "register-rider", "riders" dans dossier "users"
+- Dans les dossiers shared/ devront figurer uniquement les composants, pipes et directives (voir aussi services si propre à la feature courante, mais à éviter) qui sont utilisés ailleurs que dans la feature courante (si relatif à aucune feature, alors mettre dans dossier shared/ à la racine)
+- Faire feature/shared/ quand un modèle et / ou un service par exemple sont utilisés ailleurs que dans la feature concernée
+- Dans core/ devront figurer uniquement les singletons services ou items qui ont besoin d'être instanciés qu'une fois
+- `core.module.ts` doit être importé seulement dans `app.module.ts`
+- Faire un garde dans `core.module.ts` et tous les modules étant dans core/ pour être sûr que ceux-ci ne soient pas importés dans d'autres modules (cf https://angular.io/styleguide#!#04-12)
+
+1. Faire le squelette de l'application, avec un routing enfant (riders), composant "public/register", "public/register/register-rider", "riders" dans dossier "users"
 Car on aura un module routing spécifique et un module de chargement à chaque feature / composant "métier" de notre application.
-Préparer module "core/core.module.ts" pour les ressources que l'on utilise souvent (loader, ...)
+Préparer module `core/core.module.ts` et `shared/shared.module.ts`.
 
 2. Editer le composant (rendu + style) Home et Register, tout ce dont on a besoin pour inscrire un utilisateur (voir pour faire rider + driver, pas sûr)
 
@@ -524,6 +543,7 @@ Loader : http://image.noelshack.com/fichiers/2016/51/1482167158-button-loader.gi
 
 Commit : https://github.com/Louistiti/Uber-Like/tree/7f54794826c90ef9887ba8b090e8cdf9d3c5375a
 
+(peut-etre à traiter plus tard pour les vidéos, car restructuration faite)
 (si problème de chargement de module durant cette partie, alors refaire un "ng serve" car Webpack peut avoir des conflits
 pour charger des modules Angular "on the fly")
 
@@ -651,6 +671,7 @@ Comme on l'a dit, l'utilisateur peut révoquer l'accès d'un appareil spécifiqu
 
 ## 19- Preloading
 
+(peut-etre à traiter plus tard pour les vidéos, car restruction faite)
 Comme dit dans un épisode précédent : "En fonction de la stratégie choisie, il est possible
 de preloaded les modules lorsque les modules nécessaires pour la feature ou route en cours ont correctement été chargés.
 Mais on verra ça plus tard."
@@ -671,7 +692,7 @@ veut preloaded, sans dépendre du lazy loading, c'est la stratégie que l'on va 
 
 
 Maintenant, en plus d'être lazy loaded, nos routes peuvent être preloaded. Attention tout de même de ne pas en abuser,
-ici on sait que si l'utilisateur n'est pas authentifié, il a de grande chose chance d'attérir sur l'inscription,
+ici on sait que si l'utilisateur n'est pas authentifié, il a de grande chance d'attérir sur l'inscription,
 c'est pour ça que l'on peut se permettre de preloaded.
 
 ## 20- Vue de connexion
@@ -802,7 +823,10 @@ Générer fichier .htaccess :
 - https://www.mapbox.com/
 - http://leafletjs.com/
 
-## Angular 2
+## Angular 2+
+### Modules
+https://angular.io/docs/ts/latest/cookbook/ngmodule-faq.html#!#q-module-recommendations
+http://stackoverflow.com/questions/42779871/angular-core-feature-shared-modules-what-goes-where
 ### Routing
 https://angular.io/docs/ts/latest/guide/router.html#the-heroes-app-code
 https://angular.io/docs/ts/latest/guide/router.html#add-heroes-functionality

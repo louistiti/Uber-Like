@@ -5,5 +5,5 @@
     <button (click)="userType = 'driver'" disabled>Driver (non dispo)</button>
 </div>
 <div class="medium-space-y">
-    <uberlike-register-rider *ngIf="_userType === 'rider'"></uberlike-register-rider>
+    <uberlike-rider-add *ngIf="_userType === 'rider'"></uberlike-rider-add>
 </div>

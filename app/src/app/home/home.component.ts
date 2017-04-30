@@ -12,7 +12,6 @@ export class HomeComponent implements OnInit {
     /**
      * When component have been initialized
      */
-    ngOnInit(): void {
-    }
+    ngOnInit(): void { }
 
 }

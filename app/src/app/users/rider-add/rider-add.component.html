@@ -2,7 +2,7 @@
     <div class="form-group">
         <div class="left form-group-2">
             <label for="firstname">Prénom</label>
-            <input type="text" id="firstname" class="inline-block" name="firstname" placeholder="Votre prénom" required #input [(ngModel)]="rider.firstname" #firstname="ngModel">
+            <input type="text" id="firstname" class="inline-block" name="firstname" placeholder="Votre prénom" required #input [(ngModel)]="rider.firstname" #firstname="ngModel" autofocus>
             <div class="notice notice-error" *ngIf="firstname.dirty && firstname.hasError('required')">Le prénom est requis</div>
         </div>
         <div class="right form-group-2">

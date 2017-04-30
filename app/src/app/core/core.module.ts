@@ -1,30 +1,28 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { HttpModule } from '@angular/http';
 
-import { LoaderComponent } from './loader.component';
-import { ResponseMessageComponent } from './response-message.component';
 import { HttpService } from './http.service';
 
 @NgModule({
     // Useful for component depending of this module
-    imports: [
-        CommonModule,
-        HttpModule
-    ],
+    imports: [],
     // What we want to export
     exports: [
-        CommonModule,
-        HttpModule,
-        LoaderComponent,
-        ResponseMessageComponent
+        HttpModule
     ],
     // What depend of this module
-    declarations: [
-        LoaderComponent,
-        ResponseMessageComponent
-    ],
+    declarations: [],
     // What we need to provide
     providers: [HttpService]
 })
-export class CoreModule { }
+export class CoreModule {
+    /**
+     * To avoid multiples "singletons" instances
+     * https://angular.io/docs/ts/latest/cookbook/ngmodule-faq.html#!#how-can-i-tell-if-a-module-or-service-was-previously-loaded-
+     */
+    constructor (@Optional() @SkipSelf() parentModule: CoreModule) {
+        if (parentModule) {
+            throw new Error('CoreModule is already loaded. Import it in the AppModule only.');
+        }
+    }
+}

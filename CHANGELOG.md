@@ -1,5 +1,18 @@
 - [*coming*] Signin view
 
+## 0.0.14
+
+### App
+- [*coming*] Switch template-driven forms to code-driven forms
+- [*coming*] Implement ngErrors module for reactives forms https://toddmotto.com/angular-ng-errors-form-validation
+
+## 0.0.13 (2017-04-30)
+
+### App
+- Structure reviewed (core/ and shared/ modifications)
+- Guard to prevent core's modules being instantiated more than one time
+- Stop using `Renderer` class (deprecated)
+
 ## 0.0.12 (2017-04-11)
 
 ### Api

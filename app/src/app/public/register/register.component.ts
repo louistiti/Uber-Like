@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
     selector: 'uberlike-register',
-    templateUrl: './register.component.html'
+    templateUrl: 'register.component.html'
 })
 export class RegisterComponent implements OnInit {
 
@@ -13,8 +13,7 @@ export class RegisterComponent implements OnInit {
 
     constructor() { }
 
-    ngOnInit(): void {
-    }
+    ngOnInit(): void { }
 
     set userType(newUserType: string) {
         this._userType = newUserType;

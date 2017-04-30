@@ -16,15 +16,8 @@ const appRoutes: Routes = [
         }
     },
     {
-        path: 'register',
-        loadChildren: 'app/register/register.module#RegisterModule',
-        data: {
-            preload: true
-        }
-    },
-    {
-        path: 'signin',
-        loadChildren: 'app/sign-in/sign-in.module#SignInModule',
+        path: '',
+        loadChildren: 'app/public/public.module#PublicModule',
         data: {
             preload: true
         }

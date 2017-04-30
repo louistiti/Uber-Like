@@ -22,7 +22,6 @@ export class ResponseMessageComponent implements OnInit {
 
     constructor() { }
 
-    ngOnInit() {
-    }
+    ngOnInit(): void { }
 
 }
