@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { NotFoundComponent } from './not-found.component';
 
 import { HomeComponent } from './home/home.component';
+import { NgxErrorsModule } from "@ultimate/ngxerrors";
 
 @NgModule({
     /**
@@ -17,6 +18,7 @@ import { HomeComponent } from './home/home.component';
     imports: [
         BrowserModule,
         CoreModule,
+        NgxErrorsModule,
         AppRoutingModule
     ],
     declarations: [

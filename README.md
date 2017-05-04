@@ -272,9 +272,6 @@ A REDEFINIR APRES AVOIR CHOISI ENTRE NATIVESCRIPT ET REACT NATIVE (mais toujours
                 - home.component.ts
             - public/
                 - register/
-                    - register-rider/
-                        - register-rider.component.html
-                        - register-rider.component.ts
                     - register.component.html
                     - register.component.ts
                 - public.module.ts
@@ -294,6 +291,9 @@ A REDEFINIR APRES AVOIR CHOISI ENTRE NATIVESCRIPT ET REACT NATIVE (mais toujours
                     - rider.component.html
                     - rider.component.scss
                     - rider.component.ts
+                - rider-add/
+                    - rider-add.component.html
+                    - rider-add.component.ts
                 - ? shared/ (si composants, directives, pipes propres à cette feature sont partagés ailleurs)
                     ...
                 - rider.model.ts
@@ -501,14 +501,15 @@ Here we go
 - `core.module.ts` doit être importé seulement dans `app.module.ts`
 - Faire un garde dans `core.module.ts` et tous les modules étant dans core/ pour être sûr que ceux-ci ne soient pas importés dans d'autres modules (cf https://angular.io/styleguide#!#04-12)
 
-1. Faire le squelette de l'application, avec un routing enfant (riders), composant "public/register", "public/register/register-rider", "riders" dans dossier "users"
+1. Faire le squelette de l'application, avec un routing enfant (riders), composant "public/register", "users/rider-add", "riders" dans dossier "users"
 Car on aura un module routing spécifique et un module de chargement à chaque feature / composant "métier" de notre application.
 Préparer module `core/core.module.ts` et `shared/shared.module.ts`.
 
 2. Editer le composant (rendu + style) Home et Register, tout ce dont on a besoin pour inscrire un utilisateur (voir pour faire rider + driver, pas sûr)
 
-3. Logique métier (validations de form, avec patterns, maxlength, minlength) + créer model "users/rider.model.ts" et binder les données formulaire avec [(ngModel)]
-Utiliser variable locale (#foo) pour faire les validations + styliser les validations.
+3. Logique métier (validations de form, avec patterns, maxlength, minlength) + créer model "users/rider.model.ts"
+(les modèles vont nous servir pour les data provenant d'un service, cf https://angular.io/docs/ts/latest/guide/reactive-forms.html#!#_reactive_-forms)
++ styliser les validations.
 
 ## 11- Envoyer la requête d'inscription
 

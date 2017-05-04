@@ -3,5 +3,4 @@ export class Rider {
     lastname: string;
     phone: string;
     email: string;
-    password: string;
 }

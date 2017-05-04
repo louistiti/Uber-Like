@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { LoaderComponent } from './loader.component';
 import { ResponseMessageComponent } from './response-message.component';
-import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
+import { NgxErrorsModule } from "@ultimate/ngxerrors";
 
 @NgModule({
     // Useful for component depending of this module
@@ -13,7 +14,8 @@ import { FormsModule } from "@angular/forms";
     // What we want to export
     exports: [
         CommonModule,
-        FormsModule,
+        ReactiveFormsModule,
+        NgxErrorsModule,
         LoaderComponent,
         ResponseMessageComponent
     ],

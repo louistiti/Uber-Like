@@ -1,10 +1,10 @@
 - [*coming*] Signin view
 
-## 0.0.14
+## 0.0.14 (2017-05-04)
 
 ### App
-- [*coming*] Switch template-driven forms to code-driven forms
-- [*coming*] Implement ngErrors module for reactives forms https://toddmotto.com/angular-ng-errors-form-validation
+- Switch template-driven forms to code-driven forms (reactive forms)
+- Implement ngxErrors module for reactives forms
 
 ## 0.0.13 (2017-04-30)
 

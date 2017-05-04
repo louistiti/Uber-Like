@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import 'rxjs/add/operator/finally';
 
+import { regex, rule } from '../../core/validator';
+
 import { RiderService } from '../rider.service';
-import { Rider } from '../rider.model';
 
 @Component({
     selector: 'uberlike-rider-add',
@@ -11,18 +13,38 @@ import { Rider } from '../rider.model';
 })
 export class RiderAddComponent implements OnInit {
 
-    rider: Rider = <Rider>{ };
+    @ViewChild('input') private elementRef: ElementRef;
+
+    riderForm: FormGroup;
+
     isLoading: boolean = false;
     data: Object = { };
 
-    constructor(private riderService: RiderService) { }
+    passwordMinLength: number = rule.password.minLength;
 
-    ngOnInit(): void { }
+    constructor(
+        private fb: FormBuilder,
+        private riderService: RiderService
+    ) { }
+
+    ngOnInit(): void {
+        this.riderForm = this.fb.group({
+            firstname: ['', [Validators.required]],
+            lastname: ['', [Validators.required]],
+            phone: ['', [Validators.required, Validators.pattern(regex.phone)]],
+            email: ['', [Validators.required, Validators.email]],
+            password: ['', [Validators.required, Validators.pattern(regex.password)]]
+        });
+    }
+
+    ngAfterViewInit(): void {
+        this.elementRef.nativeElement.focus();
+    }
 
     addRider(): void {
         this.isLoading = true;
 
-        this.riderService.addRider(this.rider)
+        this.riderService.addRider(this.riderForm.value)
             .finally(() => this.isLoading = false)
             .subscribe(
                 success => {
