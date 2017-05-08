@@ -237,11 +237,13 @@ Bien expliquer ce que fais un "generate", etc. d'Angular-CLI pour ne pas perdre 
 7. Activer TSLint dans l'IDE
 Settings > TSLint > Enable + renseigner dossier tslint dans node_modules
 
-8. Créer "core/config.ts" pour les constantes utiles à notre projet
+8. Gérer les environnements en créant les fichiers dans environments/ et en modifiant angular-cli.json / main.ts
 
-9. Editer app.component.html avec le nécessaire pour commencer
+9. Créer "core/config.ts" pour les constantes utiles à notre projet et gérer les environnements
 
-10. Créer nouveau composant "home" :
+10. Editer app.component.html avec le nécessaire pour commencer
+
+11. Créer nouveau composant "home" :
     ```sh
     $ ng g c home
     ```
@@ -708,6 +710,7 @@ Voici le déroulement général de l'authentification :
 
 3. Récupérer le JWT + refresh_token + client_id et stocker les trois entités dans trois cookies différents en répondant bien aux spécificités du dessus à ce sujet
 (au choix : possibilité de récupérer "expires_in", set date d'expiration et enregistrer le tout en local storage pour anticiper à chaque requête / changement de vue la MàJ du JWT (access_token). L'idéale serait de faire ça avec les sockets)
+Ici il faudra créer `core/utils.ts`.
 
 4. Envoyer le JWT à chaque requête, si JWT non trouvé alors vérifier si refresh_token et client_id existent sont présent, si oui, demander nouveau JWT, si un des deux derniers manquent, alors rediriger sur vue de connexion
 
@@ -819,6 +822,7 @@ Générer fichier .htaccess :
 - http://security.stackexchange.com/questions/91116/is-my-jwt-refresh-plan-secure
 - https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/
 - http://stackoverflow.com/questions/26739167/jwt-json-web-token-automatic-prolongation-of-expiration/26834685#26834685
+- https://stormpath.com/blog/where-to-store-your-jwts-cookies-vs-html5-web-storage#so-whats-the-difference
 
 ## Map
 - https://www.mapbox.com/
@@ -867,6 +871,8 @@ http://ngcordova.com/docs/install/ (bower install ngCordova)
 - Package express-jwt : https://www.npmjs.com/package/express-jwt
 - Package jsonwebtoken : https://www.npmjs.com/package/jsonwebtoken
 - Package shx : https://www.npmjs.com/package/shx
+- Package ngxerrirs : https://www.npmjs.com/package/@ultimate/ngxerrors
+- Package ng2-cookies : https://www.npmjs.com/package/ng2-cookies
 
 # Auteur
 **Louis Grenard** : https://www.louistiti.fr

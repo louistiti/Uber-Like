@@ -1,4 +1,18 @@
-- [*coming*] Signin view
+## 0.0.16
+
+### App
+- [*coming*] Authenticated resource/feature
+- [*coming*] Auth guard
+- ...
+
+## 0.0.15 (2017-05-08)
+
+### App
+- Signin view
+- Send authentication request
+- Clean TS lint warnings
+- Set access_token, refresh_token and client_id in cookies to deal with auth
+- [*coming*] Custom HTTP service for authenticated requests
 
 ## 0.0.14 (2017-05-04)
 

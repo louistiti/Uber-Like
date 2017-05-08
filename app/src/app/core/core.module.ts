@@ -2,6 +2,7 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { HttpModule } from '@angular/http';
 
 import { HttpService } from './http.service';
+import { AuthService } from './auth.service';
 
 @NgModule({
     // Useful for component depending of this module
@@ -13,7 +14,10 @@ import { HttpService } from './http.service';
     // What depend of this module
     declarations: [],
     // What we need to provide
-    providers: [HttpService]
+    providers: [
+        HttpService,
+        AuthService
+    ]
 })
 export class CoreModule {
     /**

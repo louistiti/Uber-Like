@@ -6,7 +6,7 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 
-import { config } from './core/config';
+import config from './core/config';
 
 @Component({
     selector: 'uberlike-app',

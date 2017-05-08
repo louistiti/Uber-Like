@@ -1,15 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'uberlike-sign-in',
-  templateUrl: 'sign-in.component.html',
-  styleUrls: ['sign-in.component.scss']
+    selector: 'uberlike-sign-in',
+    templateUrl: 'sign-in.component.html'
 })
 export class SignInComponent implements OnInit {
 
-  constructor() { }
+    _userType: string = 'rider';
 
-  ngOnInit(): void {
-  }
+    constructor() { }
+
+    ngOnInit(): void { }
+
+    set userType(newUserType: string) {
+        this._userType = newUserType;
+    }
 
 }

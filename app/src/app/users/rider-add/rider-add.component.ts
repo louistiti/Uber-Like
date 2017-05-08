@@ -1,5 +1,6 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import 'rxjs/add/operator/finally';
 
@@ -11,7 +12,7 @@ import { RiderService } from '../rider.service';
     selector: 'uberlike-rider-add',
     templateUrl: 'rider-add.component.html'
 })
-export class RiderAddComponent implements OnInit {
+export class RiderAddComponent implements OnInit, AfterViewInit {
 
     @ViewChild('input') private elementRef: ElementRef;
 
@@ -24,6 +25,7 @@ export class RiderAddComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
+        private router: Router,
         private riderService: RiderService
     ) { }
 
@@ -49,6 +51,9 @@ export class RiderAddComponent implements OnInit {
             .subscribe(
                 success => {
                     this.data = success;
+                    setTimeout(() => {
+                        this.router.navigate(['/signin']);
+                    }, 2000);
                 },
                 error => {
                     this.data = error;

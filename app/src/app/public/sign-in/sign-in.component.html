@@ -1,3 +1,9 @@
-<p>
-  sign-in works!
-</p>
+<div class="center">
+  <h1 class="title-border">Connexion</h1>
+  <p class="small-space-y">En tant que :</p>
+  <button (click)="userType = 'rider'" class="small-space-right">Rider</button>
+  <button (click)="userType = 'driver'" disabled>Driver (non dispo)</button>
+</div>
+<div class="medium-space-y">
+    <uberlike-rider-auth *ngIf="_userType === 'rider'"></uberlike-rider-auth>
+</div>

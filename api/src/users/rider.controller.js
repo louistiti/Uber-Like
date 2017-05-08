@@ -101,7 +101,7 @@ riderController.post = (req, res) => {
             };
 
             Rider.add(newRider, () => {
-                /*
+                /**
                  * Use Location header to redirect here
                  * For next 201 code, we should have the URL relatives to the new ressource
                  * Ex: /riders/:uuid

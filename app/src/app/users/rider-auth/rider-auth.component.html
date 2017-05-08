@@ -1,0 +1,21 @@
+<form (ngSubmit)="authRider()" [formGroup]="riderForm" autocomplete="off" class="form-center">
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Votre adresse email" formControlName="email" #input>
+        <div ngxErrors="email" #email="ngxErrors">
+            <div class="notice notice-error" ngxError="required" [when]="['dirty']">Adresse email requise</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" placeholder="Un mot de passe" formControlName="password">
+        <div ngxErrors="password" #password="ngxErrors">
+            <div class="notice notice-error" ngxError="required" [when]="['dirty']">Mot de passe est requis</div>
+        </div>
+    </div>
+    <uberlike-response-message [data]="data"></uberlike-response-message>
+    <button type="submit" class="button-full small-space-top center" [disabled]="!riderForm.valid || isLoading">
+        <span *ngIf="!isLoading">Se connecter</span>
+        <uberlike-loader [isLoading]="isLoading"></uberlike-loader>
+    </button>
+</form>

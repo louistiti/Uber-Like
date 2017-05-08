@@ -10,6 +10,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 
 import { RiderAddComponent } from '../users/rider-add/rider-add.component';
 import { RiderService } from '../users/rider.service';
+import { RiderAuthComponent } from '../users/rider-auth/rider-auth.component';
 
 @NgModule({
     imports: [
@@ -17,9 +18,10 @@ import { RiderService } from '../users/rider.service';
         SharedModule
     ],
     declarations: [
-        SignInComponent,
         RegisterComponent,
-        RiderAddComponent
+        RiderAddComponent,
+        SignInComponent,
+        RiderAuthComponent
     ],
     providers: [
         RiderService

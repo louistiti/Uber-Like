@@ -6,18 +6,16 @@ import 'rxjs/add/operator/map';
 import config from '../core/config';
 import { HttpService } from '../core/http.service';
 
-import { Rider } from './rider.model';
-
 @Injectable()
-export class RiderService {
+export class AuthService {
 
-    private ridersUrl: string = config.apiUrl + '/riders';
+    private authUrl: string = config.apiUrl + '/auth';
 
     constructor(private http: HttpService) { }
 
-    addRider(rider: Rider): Observable<any> {
+    authenticate(o: Object): Observable<any> {
         return this.http
-            .post(this.ridersUrl, rider)
+            .post(`${this.authUrl}/token`, o)
             .map(res => res.json());
     }
 

@@ -2,9 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { NgxErrorsModule } from '@ultimate/ngxerrors';
+
 import { LoaderComponent } from './loader.component';
 import { ResponseMessageComponent } from './response-message.component';
-import { NgxErrorsModule } from "@ultimate/ngxerrors";
 
 @NgModule({
     // Useful for component depending of this module
