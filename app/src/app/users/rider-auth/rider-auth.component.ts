@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { Cookie } from 'ng2-cookies';
 
@@ -27,7 +28,8 @@ export class RiderAuthComponent implements OnInit, AfterViewInit {
 
     constructor(
         private fb: FormBuilder,
-        private authService: AuthService
+        private authService: AuthService,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -69,6 +71,8 @@ export class RiderAuthComponent implements OnInit, AfterViewInit {
 
                     Cookie.set('client_id', clientId,
                         fromSecsToDate(config.refreshTokenExp), undefined, undefined, config.securedCookie);
+
+                    this.router.navigate(['/']);
                 },
                 error => {
                     this.data = error;

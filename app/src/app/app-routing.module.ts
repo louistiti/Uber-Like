@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { SelectivePreloadingStrategy } from './core/selective-preloading-strategy';
+import { UnauthGuard } from './core/unauth-guard.service';
+import { AuthGuard } from './core/auth-guard.service';
 
 import { NotFoundComponent } from './not-found.component';
 
@@ -20,7 +22,13 @@ const appRoutes: Routes = [
         loadChildren: 'app/public/public.module#PublicModule',
         data: {
             preload: true
-        }
+        },
+        canActivate: [UnauthGuard]
+    },
+    {
+        path: '',
+        loadChildren: 'app/protected/protected.module#ProtectedModule',
+        canActivate: [AuthGuard]
     },
     {
         path: '**',
@@ -41,7 +49,11 @@ const appRoutes: Routes = [
     exports: [
         RouterModule
     ],
-    providers: [SelectivePreloadingStrategy]
+    providers: [
+        SelectivePreloadingStrategy,
+        UnauthGuard,
+        AuthGuard
+    ]
 })
 
 export class AppRoutingModule { }

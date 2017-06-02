@@ -1,18 +1,28 @@
-## 0.0.16
+## 0.0.17 (2017-06-02)
 
 ### App
-- [*coming*] Authenticated resource/feature
-- [*coming*] Auth guard
-- ...
+- [*coming*] Setup map
 
-## 0.0.15 (2017-05-08)
+## 0.0.16 (2017-06-02)
+
+### App
+- [*coming*] Custom HTTP service for authenticated requests (JWT, ...)
+- [*coming*] Get basics user data
+- [*coming*] Header (logo, rides history, settings, logout)
+
+## 0.0.15 (2017-06-02)
 
 ### App
 - Signin view
 - Send authentication request
 - Clean TS lint warnings
 - Set access_token, refresh_token and client_id in cookies to deal with auth
-- [*coming*] Custom HTTP service for authenticated requests
+- protected/ path for authenticated resources/feature
+- Protected layout (header)
+- Auth guard
+- Unauth guard
+- Use angular2-jwt
+- Fix lint command
 
 ## 0.0.14 (2017-05-04)
 

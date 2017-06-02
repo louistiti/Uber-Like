@@ -700,8 +700,6 @@ c'est pour ça que l'on peut se permettre de preloaded.
 
 ## 20- Vue de connexion
 
-Pour connecter l'utilisateur, on va créer un service "core/auth.service.ts".
-
 Voici le déroulement général de l'authentification :
 
 1. Rediriger le rider sur la vue de connexion après inscription
@@ -716,23 +714,40 @@ Ici il faudra créer `core/utils.ts`.
 
 5. Si 401 retourné, alors vérifier si refresh_token et client_id existent sont présent, si oui, demander nouveau JWT, si un des deux derniers manquent, alors rediriger sur vue de connexion
 
-6. A chaque changement de vue, vérifier si JWT présent, si non rediriger sur vue de connexion
+6. A chaque changement de vue, vérifier si JWT présent (guards), si non rediriger sur vue de connexion
 
-*[En cours]*
+1. Créer composant de connexion dans `public/sign-in/`
 
-## 21- Tableau de bord
+2. Créer service `auth.service.ts`
 
-1. Créer feature "dashboard"
+3. Installer angular2-jwt
 
-2. Une fois connecté l'utilisateur sera redirigé vers le "dashboard", l'accès à cette feature doit être protégée via un garde
+4. Créer guard `auth-guard.service.ts`
+
+5. Créer guard `unauth-guard.service.ts`
+
+6. Créer `protected/` module
+
+7. Gérer les guards via `app-routing.module.ts`
+
+8. Faire conditions dans le header et sur la home
+
+## 21- Ressources protégées
+
+1. Récupérer données "basiques" de l'utilisateur
+
+2. Faire header
+
+3. Faire map
+
+OLD :
+~~Une fois connecté l'utilisateur sera redirigé vers le "dashboard", l'accès à cette feature doit être protégée via un garde
 (de la même façon que pour le backend), ici on utilisera "CanActivate" qui sera en fait un service que l'on va créer
 dans core/auth-guard.service.ts, cf https://angular.io/docs/ts/latest/guide/router.html#!#guard-the-admin-feature.
-
-3. Cependant, le "dashboard" sera toujours preloaded, même si l'utilisateur n'est pas connecté. Pour pallier à ça
+Cependant, le "dashboard" sera toujours preloaded, même si l'utilisateur n'est pas connecté. Pour pallier à ça
 il faut ajouter un nouveau garde : "CanLoad" qui utilisera la même logique que "CanActivate" mais pour vérifier
 si il faut charger ou non le module adéquat, cf https://angular.io/docs/ts/latest/guide/router.html#!#can-load-guard.
-
-4. Les gardes "CanActivate" et "CanLoad" seront ajoutés devant les portes de chaque feature nécessitant l'authentification.
+Les gardes "CanActivate" et "CanLoad" seront ajoutés devant les portes de chaque feature nécessitant l'authentification.~~
 
 *[En cours]*
 
@@ -838,6 +853,7 @@ https://angular.io/docs/ts/latest/guide/router.html#add-heroes-functionality
 https://scotch.io/tutorials/routing-angular-2-single-page-apps-with-the-component-router
 ### Auth
 http://jasonwatmore.com/post/2016/09/29/angular-2-user-registration-and-login-example-tutorial
+http://angularjs.blogspot.fr/2016/11/easy-angular-authentication-with-json.html
 
 ## A savoir
 - http://node.green/
@@ -871,8 +887,9 @@ http://ngcordova.com/docs/install/ (bower install ngCordova)
 - Package express-jwt : https://www.npmjs.com/package/express-jwt
 - Package jsonwebtoken : https://www.npmjs.com/package/jsonwebtoken
 - Package shx : https://www.npmjs.com/package/shx
-- Package ngxerrirs : https://www.npmjs.com/package/@ultimate/ngxerrors
+- Package ngxerrors : https://www.npmjs.com/package/@ultimate/ngxerrors
 - Package ng2-cookies : https://www.npmjs.com/package/ng2-cookies
+- Package angular2-jwt : https://github.com/auth0/angular2-jwt
 
 # Auteur
 **Louis Grenard** : https://www.louistiti.fr

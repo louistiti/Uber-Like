@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 
 import config from './core/config';
+import { AuthService } from './core/auth.service';
 
 @Component({
     selector: 'uberlike-app',
@@ -18,7 +19,8 @@ export class AppComponent implements OnInit {
     constructor(
         private router: Router,
         private activatedRoute: ActivatedRoute,
-        private titleService: Title
+        private titleService: Title,
+        private authService: AuthService
     ) { }
 
     ngOnInit(): void {

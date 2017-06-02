@@ -1,10 +1,13 @@
-<header>
+<header *ngIf="authService.isAuthenticated()">
+    Header
     <!--<nav>
         &lt;!&ndash; exact: true cause else it will consider others routes as "children" of "/" &ndash;&gt;
         <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
         <a routerLink="/signup" routerLinkActive="active">Inscription</a>
         <a routerLink="/riders/1" routerLinkActive="active">Rider 1</a>
     </nav>-->
+    <!-- If authenticated -->
+    <!-- Logo -> home ; "Firstname Lastname" -> dropdown : 1. Historique des courses 2. Paramètres 3. Déconnexion -->
 </header>
 <main>
     <!-- Where the router should display the view -->

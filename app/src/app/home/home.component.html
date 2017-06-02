@@ -1,4 +1,4 @@
-<div id="background">
+<div id="background" *ngIf="!authService.isAuthenticated(); else authenticated">
     <div id="logo"></div>
     <h1 class="center">Juste un prototype parce que c'est cool d'apprendre !</h1>
     <div class="button-container medium-space-y center">
@@ -7,3 +7,6 @@
         <button routerLink="/register" routerLinkActive="active">S'inscrire</button>
     </div>
 </div>
+<ng-template #authenticated>
+    Map
+</ng-template>

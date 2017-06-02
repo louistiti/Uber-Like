@@ -29,6 +29,12 @@
       }
     }
   ],
+  "lint": [
+    {
+      "files": "src/**/*.ts",
+      "project": "src/tsconfig.json"
+    }
+  ],
   "addons": [
   ],
   "packages": [

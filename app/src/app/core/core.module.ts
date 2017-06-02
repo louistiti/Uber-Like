@@ -1,6 +1,8 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { HttpModule } from '@angular/http';
 
+import { JwtHelper } from 'angular2-jwt';
+
 import { HttpService } from './http.service';
 import { AuthService } from './auth.service';
 
@@ -16,7 +18,8 @@ import { AuthService } from './auth.service';
     // What we need to provide
     providers: [
         HttpService,
-        AuthService
+        AuthService,
+        JwtHelper
     ]
 })
 export class CoreModule {
