@@ -920,4 +920,4 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 # Cheers !
-![Cheers !](https://assets-cdn.github.com/images/icons/emoji/unicode/1f37b.png?v6 "Cheers !")
+![Cheers !](https://github.githubassets.com/images/icons/emoji/unicode/1f37b.png "Cheers !")
